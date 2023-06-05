@@ -6,15 +6,13 @@ class QuestionsController < ApplicationController
     end
 
     def create
-        p "----------------------"
-        p params[:tags][:id].length
-        p "----------------------"
+        
         question_params = params.require(:question).permit(:title, :body)
         @question = Question.new question_params
         @question.user = current_user
 
         if @question.save
-            if params[:tags][:id].length
+            if params[:tags] && params[:tags][:dsdsdid].length
                 tag_ids = params[:tags][:id]
                 tag_ids.each do |tag_id|
                     tag = Tagging.create(tag_id: tag_id, question_id: @question.id)
@@ -22,6 +20,7 @@ class QuestionsController < ApplicationController
             end
             redirect_to question_path(@question)
         else
+            @tags = Tag.order("created_at desc")
             render :new
         end
     end
@@ -34,6 +33,11 @@ class QuestionsController < ApplicationController
 
     def index
         @questions = Question.order("created_at desc")
+
+        respond_to do |format|
+            format.html {render}
+            format.json {render json: @questions}
+        end
     end
 
     def edit
