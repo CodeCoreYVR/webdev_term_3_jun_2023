@@ -74,5 +74,23 @@ Rails.application.routes.draw do
   # product_reviews_path(product_id)    # returns the path to the create action of the ReviewsController for the product with the given product_id. This path helper is nested, meaning that it requires a product_id parameter to be passed in order to generate the correct URL.
   # new_product_review_path(product_id) # returns the path to the new action of the ReviewsController for the product with the given product_id. This path helper is also nested and requires a product_id parameter to be passed in order to generate the correct URL. Note that since we specified only: [:create] in the resources :reviews line, this is the only path helper generated for the ReviewsController.
 
+
+  # Routes for API
+  # In Rails the namespace method routes in the below code will make your 
+  # app look in a directory called api, in a sub directory called v1, for 
+  # a fill called products_controller.rb 
+  # i.e. <app_of_name>/app/controllers/api/v1/products_controller.rb
+
+  # The option 'defaults: { format: :json }' will set 'json' as
+  # the default response format for all routes contained within
+  # the block instead of rails regulare default format of HTML.
+
+  namespace :api, defaults: { format: :json } do # we can set default response format of the block
+    namespace :v1 do
+      resources :products, only:[:index]
+    end
+  end
+
+  
   default_url_options :host => "http://localhost:3000"
 end
