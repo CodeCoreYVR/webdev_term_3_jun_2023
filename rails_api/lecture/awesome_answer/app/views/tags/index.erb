@@ -1,0 +1,7 @@
+<h2>All Tags</h2>
+<%= button_to "New Tag", new_tag_path, :method => :get %>
+<% @tags.each do |tag| %>
+    <div>
+        <h3><%= link_to(tag.name,tag_path(tag)) %> </h3>
+    </div>
+<% end %>

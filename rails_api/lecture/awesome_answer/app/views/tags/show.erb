@@ -1,0 +1,6 @@
+<h2><%= @tag.name %></h2>
+
+<h3>Relevant Questions:<h3>
+<% @tag.questions.each do |question| %>
+    <h4><%= link_to(question.title,question_path(question)) %> </h4>
+<% end %>

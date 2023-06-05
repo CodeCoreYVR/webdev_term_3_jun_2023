@@ -1,0 +1,27 @@
+<h2>New Question</h2>
+<% if @question.errors.any? %>
+    <ul>
+        <% @question.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+        <% end %>
+    </ul>
+<% end %>
+<%= form_for @question do |f| %>
+    <div>
+        <%= f.label :title %>
+        <%= f.text_field :title %>
+    </div>
+    <div>
+        <%= f.label :body %>
+        <%= f.text_area :body %>
+    </div>
+    <% @tags.each do |tag| %>
+        <div>
+            <input id="<%= "tag_" + tag.id.to_s %>" name="tags[id][]" type="checkbox" value="<%=tag.id%>" />
+            <label for="<%= "tag_" + tag.id.to_s %>">
+                <%= tag.name %>
+            </label>
+        </div>
+    <% end %>
+    <%= f.submit %>
+<% end %>

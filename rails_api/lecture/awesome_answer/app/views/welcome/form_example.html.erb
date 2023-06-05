@@ -1,0 +1,10 @@
+<h1>Form Example</h1>
+
+
+<%= form_with do |form|%>
+    Form contents here
+    <br>
+    <%= form.label :name, "Name:" %>
+    <%= form.text_field :name %>
+    <%= form.submit "Submit" %>
+<% end %>
