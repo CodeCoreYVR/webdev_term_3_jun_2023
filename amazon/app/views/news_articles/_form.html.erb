@@ -1,0 +1,19 @@
+<%= form_for @news_article do |f| %>
+  <div class="form-group">
+    <strong><%= f.label 'title:' %></strong>
+    <%= f.text_field :title, class: 'form-control' %>
+  </div>
+  <hr>
+  <div class="form-group">
+    <strong><%= f.label 'description:' %></strong>
+    <%= f.text_area :description, class: 'form-control' %>
+  </div>
+  <hr>
+  <div class="form-group">
+    <strong><%= f.label 'published_at:' %></strong>
+    <%= f.date_field :published_at, class: 'form-control' %>
+  </div>
+  <div class="card-footer text-center">
+    <%= f.submit "Submit", class: 'btn btn-secondary' %>
+  </div>
+<% end %>

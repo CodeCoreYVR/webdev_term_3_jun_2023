@@ -1,0 +1,66 @@
+body {
+  background-color: black;
+  color: white;
+  // height: 100%;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
+nav {
+  border-bottom: 2px solid #868585;
+}
+
+.content-container {
+	max-width: 500px;
+	margin: 0 auto;
+}
+
+.text-field-wrap {
+	white-space: pre-wrap; /* or pre-line */
+}
+
+.welcome-message {
+  margin-right: 20px;
+}
+
+.hidden-review {
+  opacity: 0.6;
+  filter: alpha(opacity = 60);
+}
+
+.admin-red {
+  color: red;
+}
+
+.admin-width {
+  width: auto;
+}
+
+.wide-container {
+  width: max-content;
+}
+
+.no-underline {
+  text-decoration: none;
+  color: black;
+}
+
+.grey-footer-text {
+  color: #868585;
+}
+
+.card-footer {
+  background-color: transparent !important;
+}
+
+.footer {
+  border-top: 2px solid #868585;
+  margin-top: 8vh;
+  background-color: #0c0c0f;
+  color: #fff;
+  padding: 1rem;
+}

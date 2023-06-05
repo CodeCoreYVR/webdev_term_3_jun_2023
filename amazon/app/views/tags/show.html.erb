@@ -1,0 +1,18 @@
+<% if @products != [] %>
+  <div class="container mt-5">
+    <div class="card border-light mx-auto">
+      <div class="card-header bg-secondary text-white">
+        <h3 class="card-title">Products tagged with "<%= @tag.name %>"</h3>
+      </div>
+      <div class="card-body">
+        <ol class="list-group list-group-flush">
+          <% @products.each_with_index do |product, index| %>
+            <li class="list-group-item"><%= index + 1 %>. <%= link_to product.title, product_path(product), class: 'no-underline' %></li>
+          <% end %>
+        </ol>
+      </div>
+    </div>
+  </div>  
+<% else %>
+  <div>404 Page not found...</div>
+<% end %>
