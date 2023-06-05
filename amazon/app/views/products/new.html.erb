@@ -1,0 +1,33 @@
+<div class="container mt-5">
+  <div class="card border-light mx-auto">
+    <div class="card-header bg-secondary text-white">
+      <h1 class="card-title text-center">Product New</h1>
+    </div>
+    <div class="card-body">
+      <%= form_for @product do |f| %>
+        <div class="form-group">
+          <strong><%= f.label "title:" %></strong>
+          <%= f.text_field :title, class: 'form-control' %>
+        </div>
+        <hr>
+        <div class="form-group">
+          <strong><%= f.label "description:" %></strong>
+          <%= f.text_area :description, class: 'form-control' %>
+        </div>
+        <hr>
+        <div class="form-group">
+          <strong><%= f.label "price:" %></strong>
+          <%= f.number_field :price, class: 'form-control' %>
+        </div>
+        <hr>
+        <div class="form-group">
+          <strong><%= f.label :tag_names, "Tags (separated by commas)" %>:</strong>
+          <%= f.text_field :tag_names, class: 'form-control' %>
+        </div>
+        <div class="card-footer text-center">
+          <%= f.submit 'Send', class: 'btn btn-secondary' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

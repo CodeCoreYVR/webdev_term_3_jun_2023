@@ -1,0 +1,14 @@
+<div class="container mt-5">
+  <div class="card border-light mx-auto">
+    <div class="card-header bg-secondary text-white">
+      <h1 class="card-title text-center">News Articles</h1>
+    </div>
+    <div class="card-body">
+      <ol class="list-group list-group-flush">
+        <% @news_articles.each_with_index do |news_article, index| %>
+          <li class="list-group-item"><%= index + 1 %>. <%= link_to news_article.title, news_article_path(news_article), class: 'no-underline' %></li>
+        <% end %>
+      </ol>
+    </div>
+  </div>
+</div>

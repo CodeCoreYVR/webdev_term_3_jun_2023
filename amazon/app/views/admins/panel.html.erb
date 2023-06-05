@@ -1,0 +1,73 @@
+<div class="container mt-5">
+  <div class="card border-light mx-auto wide-container">
+    <% if current_user.admin %>
+      <div class="card-header bg-secondary text-white">
+        <h2 class="card-title text-center">Admin Panel</h2>
+      </div>
+      <div class="card-body">
+        <h4 class="card-text"><strong>Total <span class="admin-red">Products</span>: </strong><%= @total_products %></h4>
+      </div>
+      <hr>
+      <div class="card-body">
+        <h4 class="card-text"><strong>Total <span class="admin-red">Reviews</span>: </strong><%= @total_reviews %></h4>
+      </div>    
+      <hr>
+      <div class="card-body">
+        <h4 class="card-text"><strong>Total <span class="admin-red">Users</span>: </strong><%= @total_users %></h4>
+      </div>
+      <hr>
+      <div class="card-header bg-secondary text-white">
+        <h2 class="card-title text-center">Products</h2>
+      </div>
+      <div class="card-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @products.each do |product| %>
+              <tr>
+                <td><%= product.id %></td>
+                <td><%= link_to product.title, product_path(product) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card-header bg-secondary text-white">
+        <h2 class="card-title text-center">Users</h2>
+      </div>
+      <div class="card-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |user| %>
+              <tr>
+                <td><%= link_to user.id, edit_user_path(user) %></td>
+                <td><%= user.first_name %></td>
+                <td><%= user.last_name %></td>
+                <td><%= user.email %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <div class="card-header bg-secondary text-white">
+        <h2 class="card-title text-center">404 Page Not Found!</h2>
+      </div>
+    <% end %>
+  </div>
+</div>
+```

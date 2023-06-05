@@ -1,0 +1,18 @@
+<div class="container mt-5">
+  <div class="card border-light mx-auto">
+    <div class="card-header bg-secondary text-white">
+      <h1 class="card-title text-center">Tags Index</h1>
+    </div>
+    <div class="card-body">
+      <ol class="list-group list-group-flush">
+        <% if @tags != [] %>
+          <% @tags.each_with_index do |tag, index| %>
+            <li class="list-group-item"><%= index + 1 %>. <%= link_to tag.name, tag_path(tag), class: 'no-underline' %></li>
+          <% end %>
+        <% else %>
+          <li class="list-group-item">No tags ...yet</li>
+        <% end %>
+      </ol>
+    </div>
+  </div>
+</div>
