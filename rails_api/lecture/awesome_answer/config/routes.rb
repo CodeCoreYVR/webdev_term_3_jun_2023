@@ -41,4 +41,10 @@ Rails.application.routes.draw do
   resources :users, only: [:new, :create]
 
   resources :tags, only: [:new, :create, :show, :index]
+
+  namespace :api, defaults: {format: :json} do
+    namespace :v1 do
+      resources :questions
+    end
+  end
 end

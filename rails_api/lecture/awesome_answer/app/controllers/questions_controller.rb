@@ -34,6 +34,11 @@ class QuestionsController < ApplicationController
 
     def index
         @questions = Question.order("created_at desc")
+
+        respond_to do |format|
+            format.html { render }
+            format.json { render json: @questions }
+        end
     end
 
     def edit
