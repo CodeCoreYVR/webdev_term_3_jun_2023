@@ -7,7 +7,6 @@ class Api::V1::QuestionsController < Api::ApplicationController
     end
 
     def show
-        # question = Question.find(params[:id])
         render json: @question
     end
 
@@ -17,7 +16,7 @@ class Api::V1::QuestionsController < Api::ApplicationController
         if question.save
             render json: question
         else
-            render json: @question.errors, status: :unprocessable_entity
+            render json: question.errors, status: :unprocessable_entity
         end
     end
 

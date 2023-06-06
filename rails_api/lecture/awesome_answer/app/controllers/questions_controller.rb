@@ -12,7 +12,7 @@ class QuestionsController < ApplicationController
         @question.user = current_user
 
         if @question.save
-            if params[:tags] && params[:tags][:dsdsdid].length
+            if params[:tags] && params[:tags][:id].length
                 tag_ids = params[:tags][:id]
                 tag_ids.each do |tag_id|
                     tag = Tagging.create(tag_id: tag_id, question_id: @question.id)
