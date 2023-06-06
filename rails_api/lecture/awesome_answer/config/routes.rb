@@ -44,7 +44,9 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: {format: :json} do
     namespace :v1 do
-      resources :questions, only: [:create, :index, :show, :update, :destroy]
+      resources :questions, only: [:create, :index, :show, :update, :destroy] do
+        resources :answers, only: [:create, :destroy]
+      end
       resource :session, only: [:create, :destroy]
       resources :users, only: [:create]
     end
