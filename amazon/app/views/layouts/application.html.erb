@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Amazon</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= javascript_include_tag 'application' %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <div class="grid-container">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <%= link_to 'Amazon', home_path, class: 'navbar-brand' %>
+          <ul class="navbar-nav">
+            <li class="nav-item"><%= link_to 'Products', products_path, class: 'nav-link' %></li>
+            <li class="nav-item"><%= link_to 'New Product', new_product_path, class: 'nav-link' %></li>
+            <li class="nav-item"><%= link_to 'Articles', news_articles_path, class: 'nav-link' %></li>
+            <li class="nav-item"><%= link_to 'New Article', new_news_article_path, class: 'nav-link' %></li>
+            <li class="nav-item"><%= link_to 'Tags', tags_path, class: 'nav-link' %></li>
+            <% if current_user.present? %>
+              <li class="nav-item"><%= link_to 'Favorites', favorites_user_path(current_user), class: 'nav-link' %></li>
+              <% if current_user.admin %>
+                <li class="nav-item"><%= link_to 'Admin', admin_panel_path, class: 'nav-link' %></li>
+              <% end %>
+            <% end %>
+          </ul>
+          <ul class="navbar-nav ms-auto align-items-center">
+            <% if current_user %>
+              <li class="nav-item welcome-message">Welcome<%= current_user ? " #{current_user.full_name}" : "" %>!</li>
+              <li class="nav-item"><%= link_to 'Edit Profile', edit_user_path(current_user), class: 'nav-link' %></li>
+              <li class="nav-item"><%= button_to 'Logout', session_path(current_user), method: :delete, class: 'nav-link' %></li>
+            <% else %>
+              <li class="nav-item"><%= link_to 'Sign up', new_user_path, class: 'nav-link' %></li>
+              <li class="nav-item"><%= link_to 'Login', new_session_path, class: 'nav-link' %></li>
+            <% end %>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="container mt-2">
+        <div class="content-container">
+          <%= yield %>
+        </div>
+      </div>
+
+      <footer class="footer text-center">
+        <div class="container">
+          <ul class="nav justify-content-center">
+            <li class="nav-item"><%= link_to 'Home', home_path, class: 'nav-link grey-footer-text' %></li>
+            <li class="nav-item"><%= link_to 'About', about_path, class: 'nav-link grey-footer-text' %></li>
+            <li class="nav-item"><%= link_to 'Contact Us', contact_us_path, class: 'nav-link grey-footer-text' %></li>
+          </ul>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

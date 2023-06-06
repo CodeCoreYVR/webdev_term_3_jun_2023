@@ -1,0 +1,19 @@
+<div class="container mt-5">
+  <div class="card border-light mx-auto">
+    <div class="card-header bg-secondary text-white">
+      <h1 class="card-title text-center">Products Index</h1>
+    </div>
+    <div class="card-body">
+      <ol class="list-group list-group-flush">
+        <% if @products != [] %>
+          <% @products.each_with_index do |product, index| %>
+            <li class="list-group-item"><%= index + 1 %>. <%= link_to product.title, product_path(product), class: 'no-underline' %></li>
+          <% end %>
+        <% else %>
+          <li class="list-group-item">No products ...yet</li>
+        <% end %>
+      </ol>
+    </div>
+  </div>
+</div>
+

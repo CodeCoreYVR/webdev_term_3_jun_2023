@@ -1,0 +1,11 @@
+<div class="container mt-5">
+  <h1 class="text-center">Edit News Article</h1>
+  <div class="card border-light mx-auto">
+    <div class="card-header bg-secondary text-white">
+      <h3 class="card-title"><%= @news_article.title %></h3>
+    </div>
+    <div class="card-body">
+      <%= render 'form', news_article: @news_article %>
+    </div>
+  </div>
+</div>
