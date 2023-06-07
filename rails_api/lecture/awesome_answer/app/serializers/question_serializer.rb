@@ -18,4 +18,9 @@ class QuestionSerializer < ActiveModel::Serializer
     end
   end
 
+  has_many :tags
+  class TagSerializer < ActiveModel::Serializer
+    attributes :id, :name
+  end
+
 end
