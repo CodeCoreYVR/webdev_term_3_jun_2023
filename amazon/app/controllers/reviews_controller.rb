@@ -39,7 +39,7 @@ class ReviewsController < ApplicationController
 
     @review = @product.reviews.find(params[:id])
     
-    if !(can? :delete, @review)
+    if !(can? :crud, @review)
       redirect_to @product, error: "Not authorized!"
     end
 

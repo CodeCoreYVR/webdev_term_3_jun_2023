@@ -48,7 +48,7 @@ class ProductsController < ApplicationController
     # @product = Product.find(params[:id]) # @product is already declaired by the before_action :find_product
     
     # bellow if can? statment prevents a hacker from typing the destroy command in the url to see if passes.
-    if !(can? :delete, @product)
+    if !(can? :crud, @product)
       redirect_to @product, error: "Not authorized!"
       # redirect_to product_path(@product), error: "not authorized" -- also works
     end
@@ -72,15 +72,16 @@ class ProductsController < ApplicationController
     # @product = Product.find(params[:id]) # @product is already declaired by the before_action :find_product
 
     # bellow if can? statment prevents a hacker from typing the update command in the url to see if passes.
-    if !(can? :update, @product)
+    if !(can? :crud, @product)
       redirect_to @product, error: "Not authorized!"
       # redirect_to product_path(@product), error: "not authorized" -- also works
     end
 
     # Update the product with the given params
     if @product.update(product_params)
-      # Create a new tagging for each tag that was entered and delete the taggings for each tag that was removed from text field
-      handle_tags(@product)
+      # # One of our params is tag_names, so it's technically performing "product.tag_names = params[:product][:tag_names]", and using the model attr_accessor method
+      # # Create a new tagging for each tag that was entered and delete the taggings for each tag that was removed from text field
+      # handle_tags(@product)
 
       redirect_to @product
     else
@@ -108,12 +109,12 @@ class ProductsController < ApplicationController
     end
   end
 
-  # Method to create a new tagging for each tag that was entered and delete the taggings for each tag that was removed from text field
-  def handle_tags(product)
-    tag_names = params[:product][:tag_names].split(",").map(&:strip)
-    tags = tag_names.map { |name| Tag.find_or_create_by(name: name.titleize) }
+  # # Alternate solution to the attr_accessor method in the product model
+  # def handle_tags(product)
+  #   tag_names = params[:product][:tag_names].split(",").map(&:strip)
+  #   tags = tag_names.map { |name| Tag.find_or_create_by(name: name.titleize) }
   
-    @product.tags = tags
-  end
+  #   @product.tags = tags
+  # end
   
 end

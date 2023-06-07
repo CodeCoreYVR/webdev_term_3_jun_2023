@@ -63,6 +63,8 @@ gem 'delayed_job_active_record'
 # Use daemons for running background jobs
 gem 'daemons'
 
+# Use Active Model Serializers for JSON output
+gem 'active_model_serializers', '~> 0.10.2'
 
 
 group :development, :test do
