@@ -152,6 +152,35 @@
     * DELETE request to ```http://localhost:3000/api/v1/session```
       * You should see a 200 response which means session was deleted successfully
       * Save the request within the amazon-api collection
+#### <p style="color:lightblue;">Rails HTTP API: API - Product Create & Authentication</p>
+([Back to Lab](#lab-amazon-api-product-create--authentication))
+* ./app/controllers/api/v1/application_controller.rb
+  * Add under private: ``` def require_login ```
+* ./app/controllers/api/v1/products_controller.rb
+  * Add: 
+    * ``` before_action :require_login, only: [:create] ```
+    * ``` def product_params ```
+    * ``` def create ```  
+* ./config/routes.rb
+  * Add create action: ``` resources :products, only: [:index, :show, :create] ```
+* Postman:
+  * POST request to ```http://localhost:3000/api/v1/products```
+    * Add a body with raw JSON
+      ```json
+      {
+        "product": {
+          "title": "New Product",
+          "description": "New Product Description",
+          "price": 100,
+          "tag_names": ["tag1", "tag2", "tag3"]
+        }
+      }
+      ```
+    * You should see the new product id in JSON format
+    * Save the request within the amazon-api collection
+  * Send session delete request to log out
+  * Send product create request again
+    * You should see a 401 response which means you are not authorized to create a product
 
 
 ---
@@ -196,4 +225,9 @@
     * Verify the user's password (i.e. params[:password].)
     * If verified, set the user_id in the session.
     * If not verified, respond with a :not_found or 404 status code.
+
+
+### [Lab] Amazon API: Product Create & Authentication
+([Back to Steps](#rails-http-api-api---product-create--authentication))
+* Add support for creating Products in the Api::V1::ProductsController. Creating products requires a current_user. Require authorization to access JSON routes. You will need to create a version of authenticated_user! in the Api::ApplicationController for all Api controllers.
 

@@ -5,7 +5,6 @@ class Api::V1::SessionsController < Api::ApplicationController
   before_action :find_user, only: [:create]
 
   def create
-    p params
     if @user&.authenticate(params[:password])
       session[:user_id] = @user.id
       render json:{ id: @user.id }
