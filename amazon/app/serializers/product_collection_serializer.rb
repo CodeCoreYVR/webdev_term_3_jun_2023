@@ -3,5 +3,5 @@ class ProductCollectionSerializer < ActiveModel::Serializer
 
   # This serializer is used to serialize a collection of products
 
-  attributes :id, :title, :description, :price, :created_at, :updated_at
+  attributes :id, :title, :description, :price, :tag_names, :created_at, :updated_at
 end

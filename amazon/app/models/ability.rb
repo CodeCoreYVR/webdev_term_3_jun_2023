@@ -30,6 +30,7 @@ class Ability
     # https://github.com/CanCanCommunity/cancancan/blob/develop/docs/define_check_abilities.md
     
     user ||= User.new # guest user (not logged in)
+    alias_action :create, :update, :destroy, :read, to: :crud
     
     if user.admin?
       # This allows the admin to do anything
@@ -40,7 +41,7 @@ class Ability
       # alias_action :create, :update, :destroy, :read, to: :crud
 
       # This addes the ability to update and delete products and reviews to the user who created them all in one line
-      can [:update, :delete], [Product, Review], user_id: user.id
+      can :crud, [Product, Review], user_id: user.id
       # bellow two lines are the same as the above line
       # can [:update, :delete], Product, user_id: user.id
       # can [:update, :delete], Review, user_id: user.id

@@ -26,8 +26,8 @@
 ---
 
 ## <u style="color:lightgreen;">Steps/Commands Used to Create App From Scratch</u>
-### <u style="color:coral;">Rails HTTP API</u>
-#### <p style="color:lightblue;">Rails HTTP API: API - Product Index</p>
+### <u style="color:coral;">Rails HTTP API 1 & 2:</u>
+### Rails HTTP API: API - Product Index
 ([Back to Lab](#lab-amazon-api-product-index))
 * $ ``` rails g controller api/v1/products ```
 * $ ``` code ./app/controllers/api/v1/products_controller.rb ```
@@ -39,7 +39,7 @@
 * Make sure you have some products in the database and check the route in the browser:
   * [```localhost:3000/api/v1/products```](http://localhost:3000/api/v1/products)
   * You should see all products in JSON format
-#### <p style="color:lightblue;">Rails HTTP API: Amazon API - Product Show & The Serializer</p>
+### Rails HTTP API: Amazon API - Product Show & The Serializer
 ([Back to Lab](#lab-amazon-api-product-show--the-serializer))
 * Gemfile
   * Add: ``` gem 'active_model_serializers', '~> 0.10.2' ```
@@ -74,7 +74,7 @@
 * Make sure you have some products in the database and check the route in the browser:
   * [```localhost:3000/api/v1/products/1```](http://localhost:3000/api/v1/products1)
   * You should see all products in JSON format
-#### <p style="color:lightblue;">Rails HTTP API: API - Sessions Controller</p>
+### Rails HTTP API: API - Sessions Controller
 ([Back to Lab](#lab-amazon-api-sessions-controller))
 * $ ``` rails g controller Api::Application --no-assets --no-helper --skip-template-engine  ```
 * ./app/controllers/api/application_controller.rb
@@ -152,7 +152,7 @@
     * DELETE request to ```http://localhost:3000/api/v1/session```
       * You should see a 200 response which means session was deleted successfully
       * Save the request within the amazon-api collection
-#### <p style="color:lightblue;">Rails HTTP API: API - Product Create & Authentication</p>
+### Rails HTTP API: API - Product Create & Authentication
 ([Back to Lab](#lab-amazon-api-product-create--authentication))
 * ./app/controllers/api/v1/application_controller.rb
   * Add under private: ``` def require_login ```
@@ -181,6 +181,81 @@
   * Send session delete request to log out
   * Send product create request again
     * You should see a 401 response which means you are not authorized to create a product
+### Rails HTTP API: API - Destroy & Update
+([Back to Lab](#lab-amazon-api-destroy--update))
+* ./app/controllers/api/v1/products_controller.rb
+  * Add: 
+    * ``` before_action :require_login, only: [:create, :update] ```
+    * ``` def update ```
+* ./config/routes.rb
+  * Add update action: ``` resources :products, only: [:index, :show, :create, :update] ```
+* Postman:
+  * PATCH request to ```http://localhost:3000/api/v1/products/26```
+    * Add a body with raw JSON
+      ```json
+      {
+        "product": {
+          "title": "New Product ~ Updated ~",
+          "description": "New Product Description",
+          "price": 100,
+          "tag_names": ["tag1", "tag2", "tag4"]
+        }
+      }
+      ```
+    * You should see the updated product in JSON format
+    * Save the request within the amazon-api collection
+* ./app/controllers/api/v1/products_controller.rb
+  * Add: 
+    * ``` before_action :require_login, only: [:create, :update, :destroy] ```
+    * ``` def destroy ```
+* ./config/routes.rb
+  * Add destroy action: ``` resources :products ```
+* Postman:
+  * DELETE request to ```http://localhost:3000/api/v1/products/26```
+    * You should see a 200 response which means the product was deleted successfully
+    * Save the request within the amazon-api collection
+* ./app/models/ability.rb
+  * Add:
+    * ``` alias_action :create, :update, :destroy, :read, to: :crud ```    
+  * Change:
+    * ``` can [:update, :delete], [Product, Review], user_id: user.id ```
+    * To:
+      * ``` can :crud, [Product, Review], user_id: user.id ```
+* ./app/controllers/api/v1/products_controller.rb
+  * Add: 
+    * ``` def authorize ``` to render 403 status code unless can? :cred check passes
+    * ``` before_action :authorize, only: [:update, :destroy] ``` 
+* Postman:
+  * Send session delete request to log out
+  * DELETE request to ```http://localhost:3000/api/v1/products/26```
+    * You should see a 403 response which means you are not authorized to delete the product
+    * Save the request within the amazon-api collection
+  * PATCH request to ```http://localhost:3000/api/v1/products/26```
+    * You should see a 403 response which means you are not authorized to update the product
+    * Save the request within the amazon-api collection
+* ./app/controllers/products_controller.rb
+  * Change can check to :crud in:
+    * ``` def update ```
+    * ``` def destroy ```
+* ./app/controllers/reviews_controller.rb
+  * Change can check to :crud in:
+    * ``` def destroy ```
+* ./app/views/products/show.html.erb
+  * Change can check to :crud in all instances of:
+    * ``` <% if can? :update, @product %> ```
+    * ``` <% if can? :delete, @product %> ```
+    * ``` <% if can? :delete, @review %> ```
+* [localhost:3000/session/new](http://localhost:3000/session/new)
+  * Sign in
+* [localhost:3000/products/new](http://localhost:3000/products/new)
+  * Create a product
+* [localhost:3000/products/27](http://localhost:3000/products/27)
+  * You should see the product and reviews edit and delete buttons/links
+* Sign out 
+* [localhost:3000/session/new](http://localhost:3000/session/new)
+  * Sign in as a different user
+* [localhost:3000/products/27](http://localhost:3000/products/27)
+  * You should not see the product and reviews edit and delete buttons/links
 
 
 ---
@@ -188,7 +263,7 @@
 ## <u style="color:lightgreen;">Labs & Exercises:</u>
 
 ### [Lab] Amazon API: Product Index
-([Back to Steps](#rails-http-api-api-product-index))
+([Back to Steps](#rails-http-api-api---product-index))
 * Begin building a JSON Web API for Amazon.
   1. Firstly, create an api versioned controller of the regular ProductsController (i.e. Api::V1::ProductsController.)
   2. Add an index action and serve all products as JSON.
@@ -231,3 +306,7 @@
 ([Back to Steps](#rails-http-api-api---product-create--authentication))
 * Add support for creating Products in the Api::V1::ProductsController. Creating products requires a current_user. Require authorization to access JSON routes. You will need to create a version of authenticated_user! in the Api::ApplicationController for all Api controllers.
 
+
+### [Lab] Amazon API: Destroy & Update
+([Back to Steps](#rails-http-api-api---destroy--update))
+* Add support for destroying and updating Products through the Api::V1::ApplicationController.

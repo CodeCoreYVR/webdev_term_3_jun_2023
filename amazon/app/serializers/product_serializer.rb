@@ -3,7 +3,7 @@ class ProductSerializer < ActiveModel::Serializer
 
   # All of the following is a serializer used to serialize a single product
 
-  attributes :id, :title, :description, :price, :created_at, :updated_at
+  attributes :id, :title, :description, :price, :tag_names, :created_at, :updated_at
 
   ## Seller is nested under products
   # If you create a seperate user serializer, you can use it like this:

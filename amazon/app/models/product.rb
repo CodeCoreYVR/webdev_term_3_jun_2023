@@ -26,26 +26,14 @@ class Product < ApplicationRecord
 
   # Accepts comma-separated tag names, ensures tags exist, and assigns them to the product. Handles potential duplicate creation.
   def tag_names=(names)
-    self.tags = names.split(",").map do |n|
-      name = n.strip
-      tag = Tag.find_by(name: name)
-      if tag.nil?
-        begin
-          tag = Tag.create!(name: name)
-        rescue ActiveRecord::RecordNotUnique
-          tag = Tag.find_by(name: name)
-        end
-      end
-      tag
+    # this next line wasn't working because it seems in model(even though it works in controller) you can't overwrite self.tags but you can use self.update
+    # self.tags = names.split(",").map do |n|
+    temp_tags = names.split(",").map do |n|
+      name = n.strip.downcase
+      tag = Tag.where("LOWER(name) = ?", name).first || Tag.create(name: name.titleize)
     end.compact
+    self.update(tags: temp_tags)
   end
-  # # This is the original setter method for tag_names, only using the above due to seeding issues
-  # def tag_names=(names)
-  #   self.tags = names.split(",").map do |n|
-  #     Tag.where(name: n.strip).first_or_create!
-  #   end
-  # end
-
 
   # Getter method to return a comma separated list of tag names
   def tag_names
