@@ -155,6 +155,144 @@ Also, remember to change the scripts in /views/partials/header.ejs if you are ad
       }).join('')
     ```
 
+### Filtering and Sorting
+([Back to Lab](#lab-chatr-filtering-and-sorting))
+* ./views/home/index.ejs
+  * Add a button to the top of the message list to filter by flagged messages:
+    ```html 
+    // Previous code...
+    <form id="new-message">
+      <textarea name="username" placeholder="Type your name..."></textarea>
+      <textarea name="body" placeholder="Type your message..."></textarea>
+      <input type="submit" value='Post Message' />
+    </form>
+
+    // Add this button
+    <button id="flag-filter">
+      Flagged Messages
+    </button>
+    // End of added code
+
+    <ul id="messages"></ul>
+    // ...rest of code
+    ```
+* ./public/scripts/main.js
+  * Add an isFilter flag and an event listener to the "flag-filter" button to trigger the filtering of messages:
+    ```javascript 
+    document.addEventListener('DOMContentLoaded', () => {
+      // existing code...
+      
+      // write the below code block at the very bottom of document.addEventListener
+      let isFilter = false;
+
+      const filterButton = document.getElementById("flag-filter");
+
+      filterButton.addEventListener("click", event => {
+        isFilter = !isFilter;  
+        refreshMessages();
+      });
+    })
+    // End of document
+    ```
+  * Add an isFilter check in the refreshMessages function to filter flagged messages:
+    ```javascript 
+    const refreshMessages = () => {
+    Message.index()
+    .then(messages => {
+      // Add the bellow lines 202 - 206
+      let filteredMessages = messages;
+
+      if (isFilter) {
+        filteredMessages = messages.filter((m) => m.flagged);
+      }
+      
+      // Change messages.map
+      // messageUI.innerHTML = messages.map(message => {
+      // To filteredMessages.map
+      messageUI.innerHTML = filteredMessages.map(message => {
+        return `<li>
+                  <li style="background:${message.flagged ? "lightblue" : "lightpink"}">
+                  
+                  <strong>${message.username}</strong> - ${message.body}
+                  
+                  <button>
+                    <i data-id=${message.id} data-flag=${message.flagged} class="flag-link">flag</i>
+                  </button>
+                  
+                  <button data-id="${message.id}" class="delete-button">
+                    Delete
+                  </button>
+                </li>`;
+        }
+      }).join('')
+    })
+    ```
+  * Stretch: Add a field to filter messages by user names.
+    * ./views/home/index.ejs
+      * Add a button to the top of the message list to filter by flagged messages:
+        ```html 
+        // Previous code...
+        <form id="new-message">
+          <textarea name="username" placeholder="Type your name..."></textarea>
+          <textarea name="body" placeholder="Type your message..."></textarea>
+          <input type="submit" value='Post Message' />
+        </form>
+
+        // Add this form
+        <form id="filter-form">
+          <input type="text" id="username-filter" placeholder="Enter username">
+          <button type="submit" id="apply-filter">Apply Filter</button>
+        </form>
+        // End of added code
+      
+        <button id="flag-filter">
+          Flagged Messages
+        </button>
+      
+        // ...rest of code
+        ```
+    * ./public/scripts/main.js
+      * Add an isFilter flag and an event listener to the "flag-filter" button to trigger the filtering of messages:
+        ```javascript 
+        document.addEventListener('DOMContentLoaded', () => {
+          // existing code...
+          
+          // write the below code block at the very bottom of document.addEventListener, right after the filterButton event listener
+          let usernameFilter = null
+          const filterForm = document.getElementById('filter-form');
+
+          filterForm.addEventListener('submit', event => {
+            event.preventDefault();            
+            const usernameInput = document.getElementById('username-filter');
+            usernameFilter = usernameInput.value.trim();
+            
+            refreshMessages();
+          });
+        })
+        // End of document 
+        ```
+      * Add a usernameFilter check in the refreshMessages function to filter messages by username:
+        ```javascript 
+        const refreshMessages = () => {
+          // Existing code...
+
+          if (isFilter) {
+            filteredMessages = messages.filter((m) => m.flagged);
+          }
+          
+          // Add the bellow if statement
+          if (usernameFilter) {
+            filteredMessages = filteredMessages.filter((m) => m.username === usernameFilter);
+          }
+          // End of added code
+
+          messageUI.innerHTML = filteredMessages.map(message => {
+            return `<li>
+                      <li style="background:${message.flagged ? "lightblue" : "lightpink"}">`
+          // ...rest of code           
+        })
+        ```
+
 
 ---
 # Labs for JS AJAX Basics:
@@ -183,3 +321,17 @@ Also, remember to change the scripts in /views/partials/header.ejs if you are ad
   * The flag icon should indicate that a message has been flagged by changing its colour or changing its icon
   * This requires changes to the routers, model & database in addition to the JS.
 
+
+### [Lab] Chatr: Filtering and Sorting
+([Back to Steps](#filtering-and-sorting))
+* Continue working on the Chatr application.
+
+* Add a button at the top of the message list to filter by flagged messages.
+  * Clicking it will toggle the message list to only show those that were flagged.
+  * Filter the messages being displayed only with your front-end JavaScript. It shouldn't require changes to the server.
+
+*Note: To make these work, you will need to update the Messages controller.*
+
+**Stretch**
+
+* Add a field to filter messages by user names.

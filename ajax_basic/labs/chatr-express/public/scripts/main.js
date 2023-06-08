@@ -2,6 +2,7 @@
 
 //--------Fetch API-----------------
 
+// 'Headers()' constructor returns a new Headers object
 const headers = new Headers({
   "Accept": "application/json, text/plain, */*",
   "Content-Type": "application/json"
@@ -24,6 +25,7 @@ const Message = {
     })
   },
 
+  // 'update()' method to update a request
   update(params, id) {
     return fetch(`/messages/${id}`, {
         method: "PATCH",
@@ -40,6 +42,7 @@ const Message = {
   }
 }
 
+
 // 'DOMContentLoaded' event is fired when the initial HTML document has been completely loaded and parsed
 document.addEventListener('DOMContentLoaded', () => {
   // 'querySelector()' method to get the element with the id 'messages'
@@ -51,28 +54,42 @@ document.addEventListener('DOMContentLoaded', () => {
   const refreshMessages = () => {
     // 'index()' method to get all the requests
     Message.index()
-    .then(messages => {
-      // 'map()' method to iterate over the array of messages
-      messageUI.innerHTML = messages.map(message => {
-        // data attribute is used to store data attributes on HTML
-        return `<li>
-                  <li style="background:${message.flagged ? "lightblue" : "lightpink"}">
-                  
-                  <strong>${message.username}</strong> - ${message.body}
-                  
-                  <button>
-                    <i data-id=${message.id} data-flag=${message.flagged} class="flag-link">flag</i>
-                  </button>
-                  
-                  <button data-id="${message.id}" class="delete-button">
-                    Delete
-                  </button>
-                </li>`
-      }).join('')
-    })
+      .then(messages => {
+        // filterMessages is given the value of messages
+        let filteredMessages = messages;
+
+        // If the filter button is clicked
+        if (isFilter) {
+          // filterMessages is given the value of all messages which are flagged
+          filteredMessages = messages.filter((m) => m.flagged);
+        }
+
+        // If the username filter is not null
+        if (usernameFilter) {
+          // filteredMessages is given the value of all existing filteredMessages which have the same username as the username filter
+          filteredMessages = filteredMessages.filter((m) => m.username === usernameFilter);
+        }
+
+        // 'map()' method to iterate over the array of messages
+        messageUI.innerHTML = filteredMessages.map(message => { // changed from messages to filteredMessages
+          return `<li>
+                    <li style="background:${message.flagged ? "lightblue" : "lightpink"}">
+                    
+                    <strong>${message.username}</strong> - ${message.body}
+                    
+                    <button>
+                      <i data-id=${message.id} data-flag=${message.flagged} class="flag-link">flag</i>
+                    </button>
+                    
+                    <button data-id="${message.id}" class="delete-button">
+                      Delete
+                    </button>
+                  </li>`;
+        }).join('')
+      })
   }
 
-  // 'setInterval()' method to call the 'refreshMessages()' function every 500 milliseconds
+  // 'setInterval()' method to call the 'refreshMessages()' function every 1000 milliseconds
   setInterval(refreshMessages, 1000)
   
   // 'submit' event is fired when a form is submitted
@@ -123,4 +140,32 @@ document.addEventListener('DOMContentLoaded', () => {
       })
     }
   })
+
+  // 'isFilter' is set to false by default
+  let isFilter = false;
+
+  // Create a filter button that will filter the messages by flagged or not flagged
+  const filterButton = document.getElementById("flag-filter");
+  // 'click' event is fired when flag filter button is clicked and flagged is set to true
+  filterButton.addEventListener("click", event => {
+    // Set 'isFilter' to the opposite of what it currently is aka using it as a flag
+    isFilter = !isFilter;  
+    refreshMessages();
+  });
+
+  // 'usernameFilter' is set to null by default
+  let usernameFilter = null;
+  
+  // Create a filter form that will filter the messages by username
+  const filterForm = document.getElementById('filter-form');
+  // 'submit' event is fired when a form is submitted
+  filterForm.addEventListener('submit', event => {
+    event.preventDefault();     
+    // 'getElementById()' method to get the element with the id 'username-filter'
+    const usernameInput = document.getElementById('username-filter');
+    // 'trim()' method to remove whitespace from both ends of a string and assign the value to usernameFilter
+    usernameFilter = usernameInput.value.trim();
+    
+    refreshMessages();
+  });
 })
