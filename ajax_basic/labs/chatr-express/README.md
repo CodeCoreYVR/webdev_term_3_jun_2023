@@ -39,7 +39,7 @@ Also, remember to change the scripts in /views/partials/header.ejs if you are ad
   * Modify the Message.create function to include the username parameter when creating a new message.
     ```javascript 
     const Message = {
-      existing code...
+      // existing code...
       create(params) {
         return fetch('/messages', { 
           method: 'POST',
@@ -49,12 +49,12 @@ Also, remember to change the scripts in /views/partials/header.ejs if you are ad
           body: JSON.stringify(params)
         })
       },
-      ...existing code
+      // ...existing code
     }
     ```
   * Update the rendering of messages in the refreshMessages function to include the username:
     ```javascript    
-    existing code...
+    // existing code...
       const refreshMessages = () => {
         Message.index()
         .then(messages => { 
@@ -70,18 +70,90 @@ Also, remember to change the scripts in /views/partials/header.ejs if you are ad
           }).join('')
         })
       }
-    ...existing code
+    // ...existing code
     ```
   * Make sure you prevent default form submission:
     ```javascript    
-    existing code...
-      messageForm.addEventListener('submit', event => {
-        event.preventDefault(); // add this line   
-        const { currentTarget } = event 
-    ...existing code
+    // existing code...
+    messageForm.addEventListener('submit', event => {
+      event.preventDefault(); // add this line   
+      const { currentTarget } = event 
+    // ...existing code
     ```
 
 
+### Enable Flagging
+([Back to Lab](#lab-chatr-enable-flagging))
+* ./public/scripts/main.js
+  * Create a header for content type in the Message model:
+    ```javascript 
+    // Above Messages...
+    const headers = new Headers({
+      "Accept": "application/json, text/plain, */*",
+      "Content-Type": "application/json"
+    });
+    // ...rest of code
+    ```
+  * Change content-type to header in create function and create an update function:
+    ```javascript 
+    const Message = {
+      // above code...
+      create(params) {
+        return fetch('/messages', { 
+          method: 'POST',
+          headers: headers, // change this line
+          body: JSON.stringify(params)
+        })
+      },
+
+      // Add this function
+      update(params, id) {
+        return fetch(`/messages/${id}`, {
+            method: "PATCH",
+            headers: headers,
+            body: JSON.stringify(params)
+        })
+      },
+      // ...rest of code
+    }
+    ```
+  * In the JavaScript file, update the event listener for the flag button in the messagesUI.addEventListener function:
+    ```javascript 
+    messagesUI.addEventListener("click", event => {
+      const { target } = event;
+      // Above Messages...
+
+      // Add this code
+      if (target.matches('.flag-link')) {
+        Message.update({ flagged: target.dataset.flag === "false" ? true : false }, target.dataset.id)
+        .then(() => {
+          refreshMessages();
+        })
+      }
+      // ...rest of code
+    });
+    ```
+  * Update the rendering of messages in the refreshMessages function to reflect the flagged status by changing the background color and include a flag button:
+    ```javascript 
+    messageUI.innerHTML = messages.map(message => {
+      return `<li>
+                // Add this next line
+                <li style="background:${message.flagged ? "lightblue" : "lightpink"}">
+                
+                <strong>${message.username}</strong> - ${message.body}
+                
+                // Add this next button(next 3 lines)
+                <button>
+                  <i data-id=${message.id} data-flag=${message.flagged} class="flag-link">flag</i>
+                </button>
+                // End of added code
+
+                <button data-id="${message.id}" class="delete-button">
+                  Delete
+                </button>
+              </li>`
+      }).join('')
+    ```
 
 
 ---
@@ -104,4 +176,10 @@ Also, remember to change the scripts in /views/partials/header.ejs if you are ad
 * If you're interested to learn more about Sequelize migrations, follow [**these instructions**](https://sequelize.org/v3/docs/migrations/#addcolumntablenameoroptions-attributename-datatypeoroptions-options). This is not necessary for the labs, as the project is already set up.
 
 
+### [Lab] Chatr: Enable Flagging
+([Back to Steps](#enable-flagging))
+* Add "Flag" feature for messages on the Chatr application.
+  * Clicking a link "flag" (or icon) should mark the message as flagged
+  * The flag icon should indicate that a message has been flagged by changing its colour or changing its icon
+  * This requires changes to the routers, model & database in addition to the JS.
 

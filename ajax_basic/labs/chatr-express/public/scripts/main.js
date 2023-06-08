@@ -2,6 +2,11 @@
 
 //--------Fetch API-----------------
 
+const headers = new Headers({
+  "Accept": "application/json, text/plain, */*",
+  "Content-Type": "application/json"
+});
+
 //All our request to messages
 const Message = {
   // 'index()' method to get all the requests
@@ -14,10 +19,16 @@ const Message = {
   create(params) {
     return fetch('/messages', { // We can omit the domain because '/' is on the same domain as the server
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: headers,
       body: JSON.stringify(params)
+    })
+  },
+
+  update(params, id) {
+    return fetch(`/messages/${id}`, {
+        method: "PATCH",
+        headers: headers,
+        body: JSON.stringify(params)
     })
   },
 
@@ -45,8 +56,14 @@ document.addEventListener('DOMContentLoaded', () => {
       messageUI.innerHTML = messages.map(message => {
         // data attribute is used to store data attributes on HTML
         return `<li>
-                  <strong>${message.username}</strong> - 
-                  ${message.body}
+                  <li style="background:${message.flagged ? "lightblue" : "lightpink"}">
+                  
+                  <strong>${message.username}</strong> - ${message.body}
+                  
+                  <button>
+                    <i data-id=${message.id} data-flag=${message.flagged} class="flag-link">flag</i>
+                  </button>
+                  
                   <button data-id="${message.id}" class="delete-button">
                     Delete
                   </button>
@@ -93,6 +110,16 @@ document.addEventListener('DOMContentLoaded', () => {
       Message.delete(target.dataset.id).then(() => {
         console.log("Message deleted!")
         refreshMessages()
+      })
+    }
+
+    // If the element that was clicked on has the class 'flag-link'
+    if (target.matches('.flag-link')) {
+      // Change the value of the 'flagged' attribute to the opposite of what it currently is
+      Message.update({ flagged: target.dataset.flag === "false" ? true : false }, target.dataset.id)
+      .then(() => {
+        // Then refresh the messages
+        refreshMessages();
       })
     }
   })
