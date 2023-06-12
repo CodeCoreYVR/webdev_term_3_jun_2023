@@ -35,5 +35,16 @@ module AwesomeAnswer
     config.generators.system_tests = nil
     config.active_job.queue_adapter = :delayed_job
     config.autoload_paths  << Rails.root.join("app", "jobs")
+
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '127.0.0.1:8081'
+
+        resource '/api/v1/*', 
+          headers: :any, 
+          methods: [:get, :post, :options], 
+          credentials: true
+      end
+    end
   end
 end
