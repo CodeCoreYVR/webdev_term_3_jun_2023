@@ -24,6 +24,9 @@ function showPage(e, pageId) {
     if (pageName === "questions") {
         loadQuestionList();
     }
+    else if(pageName === "question") {
+        //loadQuestion()
+    }
     else if (pageName === "login") {
         //
     }
