@@ -40,9 +40,9 @@ class Api::V1::QuestionsController < Api::ApplicationController
 
     def destroy
         if @question.destroy
-            head :ok
+            render json: @question
         else
-            head :bad_request
+            render json: @question.errors, status: :unprocessable_entity
         end
     end
 
