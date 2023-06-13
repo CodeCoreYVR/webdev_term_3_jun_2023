@@ -60,6 +60,8 @@
       <ul id="question-list">
       </ul>
     </div>
+    <div class="page" id="show-question">
+    </div>
     <div class="page" id="new-question">
       <h1>New Question</h1>
       <div class="mb-3">
@@ -70,7 +72,19 @@
         <label for="body" class="form-label">Body</label>
         <textarea class="form-control" id="body" rows="3"></textarea>
       </div>
-      <button type="button" class="btn btn-primary" id="new-question-btn">Submit</button>
+      <button type="button" class="btn btn-primary" id="new-question-btn">Create</button>
+    </div>
+    <div class="page" id="update-question">
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" placeholder="Title of the question">
+      </div>
+      <div class="mb-3">
+        <label for="body" class="form-label">Body</label>
+        <textarea class="form-control" id="body" rows="3"></textarea>
+      </div>
+      <input type="hidden" value="" name="id">
+      <button type="button" class="btn btn-primary" id="update-question-btn">Update</button>
     </div>
     <div class="page" id="login">
       <h1>Login</h1>

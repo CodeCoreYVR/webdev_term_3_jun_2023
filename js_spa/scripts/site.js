@@ -7,6 +7,9 @@ navLinks.forEach(element => {
 });
 
 document.querySelector("#new-question-btn").addEventListener("click", createQuestion, false);
+document.querySelector("#question-list").addEventListener("click", showQuestion, false);
+document.querySelector("#show-question").addEventListener("click", editDeleteQuestion, false);
+document.querySelector("#update-question-btn").addEventListener("click", updateQuestion, false);
 
 function showPage(e, pageId) {
     let pageName;
@@ -39,7 +42,9 @@ const loadQuestionList = () => {
     webApi.get("questions")
     .then(data => {
         document.querySelector("#question-list").innerHTML = data.map(q => {
-            return `<li>${q.id} - ${q.title}</li>`
+            return `<li>
+                <a class="question-link" data-id="${q.id}" href="#"> ${q.id} - ${q.title}</a>
+            </li>`
         }).join("");
     
         // let listHtml = "";
@@ -63,8 +68,8 @@ let sampleQueston = {
 }
 
 function createQuestion() {
-    let titleNode = document.querySelector("#title");
-    let bodyNode = document.querySelector("#body");
+    let titleNode = document.querySelector("#new-question input[id=title]");
+    let bodyNode = document.querySelector("#new-question textarea[id=body]");
     let title = titleNode.value;
     let body = bodyNode.value;
     webApi.request("questions", {title, body})
@@ -72,5 +77,60 @@ function createQuestion() {
         titleNode.value = "";
         bodyNode.value = "";
         showPage(null,"questions");
+    })
+}
+
+function renderQuestion(data){
+    document.querySelector("#show-question").innerHTML = `
+        <h2>${data.title}</h2>
+            <p>${data.body}</p>
+            <small>Like count: ${data.like_count}</small>
+            <div>
+                <button data-action="edit" data-id="${data.id}" href="#">Edit</button>
+                <button data-action="delete" data-id="${data.id}" href="#">Delete</button>
+            </div>
+        `;
+        showPage(null, "show-question");
+}
+
+function showQuestion(event) {
+    event.preventDefault();
+    if(event.target.matches("a.question-link")){
+        webApi.get(`questions/${event.target.dataset.id}`)
+            .then(data => {
+                renderQuestion(data);
+            })
+    }
+}
+
+function editDeleteQuestion(event) {
+    event.preventDefault();
+    if(event.target.dataset.action === "edit"){
+        webApi.get(`questions/${event.target.dataset.id}`)
+        .then(data => {
+            document.querySelector("#update-question input[id=title]").value = data.title;
+            document.querySelector("#update-question textarea[id=body]").value = data.body;
+            document.querySelector("#update-question input[name=id]").value = data.id;
+            showPage(null, "update-question");
+        })
+    } 
+
+    if(event.target.dataset.action === "delete"){
+        webApi.request(`questions/${event.target.dataset.id}`, {}, "DELETE")
+        .then(() => {
+            showPage(null,"questions");
+        })
+    }
+}
+
+function updateQuestion(event) {
+    event.preventDefault()
+    let title = document.querySelector("#update-question input[id=title]").value;
+    let body = document.querySelector("#update-question textarea[id=body]").value;
+    let id = document.querySelector("#update-question input[name=id]").value;
+
+    webApi.request(`questions/${id}`, {title, body}, "PATCH")
+    .then(data => {
+        renderQuestion(data);
     })
 }
