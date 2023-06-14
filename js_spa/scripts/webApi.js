@@ -29,15 +29,17 @@ async function request(path, requestBody, method) {
         }
 
         const response = await fetch(baseUrl + path, options);
-        return response.json();
 
-        // fetch(resource)
-        // .then(response => {
-        //     console.log(response)
-        // })
+        if(response.ok) {
+            return response.json();
+        }
+        else {
+            return Promise.reject(response)
+        }
     }
     catch(error) {
-        console.error(error);
+        console.log(error);
+        return Promise.reject(error);
     }
 }
 

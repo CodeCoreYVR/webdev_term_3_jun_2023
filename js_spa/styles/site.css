@@ -5,3 +5,7 @@
 .page.active {
     display: block;
 }
+
+#logged-in-user {
+    padding: 0.5rem 1rem;
+}
