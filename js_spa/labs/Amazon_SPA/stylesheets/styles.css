@@ -1,0 +1,24 @@
+body {
+  background-color: black;
+  color: white;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
+.content-container {
+	max-width: 500px;
+	margin: 0 auto;
+}
+
+.black-text {
+  color: black;
+}
+
+li.list-group-item::marker {
+  content: none;
+}
+
