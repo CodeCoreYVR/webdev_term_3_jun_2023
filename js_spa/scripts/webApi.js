@@ -29,7 +29,13 @@ async function request(path, requestBody, method) {
         }
 
         const response = await fetch(baseUrl + path, options);
-        return response.json();
+        if (response.ok) {
+            return response.json();   
+        }
+        else {
+            console.log(response);
+            return Promise.reject(response)
+        }
 
         // fetch(resource)
         // .then(response => {
@@ -37,7 +43,8 @@ async function request(path, requestBody, method) {
         // })
     }
     catch(error) {
-        console.error(error);
+        console.error(error)
+        return Promise.reject(error)
     }
 }
 
