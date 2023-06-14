@@ -39,6 +39,17 @@ const createElement = (tagName, attributes = {}) => {
 	return element;
 }
 
+// --Toggle display none helper--
+const toggleDisplayNone = (element) => {
+  let elements = qSA('.page')
+
+  elements.forEach(el => {
+    el.style.display = 'none';
+  });
+
+  element.style.display = 'block';
+};
+
 // --RENDERING FUNCTIONS--
 // Render all products
 const renderProducts = (products = []) => {
@@ -63,6 +74,7 @@ const renderProducts = (products = []) => {
           const productListItem = createElement('li', { class: 'list-group-item' });
               const titleLink = createElement('a', {
                 ['data-id']: product.id,
+                class: 'no-underline',
                 href: '',
                 title: product.description
               });
@@ -74,16 +86,13 @@ const renderProducts = (products = []) => {
     productOrderedListDiv.append(productOrderedList);
 
   productIndexDiv.append(productH1Div, productOrderedListDiv);
-  // productIndexDiv.append(productOrderedListDiv);
 
+  // Below is removed as now that we have a nav bar, we don't need a back button
   // Add event listener for back button
-  qS("#back-button").addEventListener('click', (event) => {
-    // document.querySelector('#product-details-section').style.display = 'block';
-    qS('#product-show').style.display = 'none';
-    // document.querySelector('#product-index').style.display = 'block';
-    productIndexDiv.style.display = 'block';
-  });
-
+  // qS("#back-button").addEventListener('click', (event) => {
+    
+    // toggleDisplayNone(qS('#product-index'));
+  // });
 }
 
 // Refresher function to refresh products
@@ -146,13 +155,9 @@ const renderProduct = (product = {}) => {
       ReviewH3.innerText = 'Reviews:';
     reviewsHeaderDiv.append(ReviewH3);
 
-  productShow.append(productH1, productDiv, reviewsHeaderDiv);
-
-  // Hide product-index and unhide product-show
-  qS('#product-index').style.display = 'none';
-  productShow.style.display = 'block';
+  productShow.append(productH1, productDiv, reviewsHeaderDiv, renderReviews(product.reviews));
   
-  productShow.append(renderReviews(product.reviews));
+  toggleDisplayNone(productShow);
 }
 
 // ----- Stretch -----
@@ -190,6 +195,15 @@ document.addEventListener('DOMContentLoaded', function() {
 			Product.show(target.dataset.id).then(product => renderProduct(product));
 		}
 	});
+
+  qS("nav").addEventListener('click', (event) => {
+    event.preventDefault();
+    const { target } = event;
+
+    if (target.dataset.page) {
+      toggleDisplayNone(byId(target.dataset.page));
+    }
+  });
 });
 
 

@@ -9,9 +9,19 @@ body {
   min-height: 100vh;
 }
 
+nav {
+  border-bottom: 2px solid #868585;
+}
+
 .content-container {
 	max-width: 500px;
 	margin: 0 auto;
+  margin-bottom: 50px;
+}
+
+.no-underline {
+  text-decoration: none;
+  color: black;
 }
 
 .black-text {

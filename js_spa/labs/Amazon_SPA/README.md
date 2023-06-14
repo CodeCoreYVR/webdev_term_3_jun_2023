@@ -162,6 +162,23 @@
   * Product show should be displayed
   * Click on back button
   * Product index should be displayed
+### JS SPA: Amazon SPA Navigation Bar
+([Back to Labs](#lab-amazon-spa-navigation-bar))
+* ./javascripts/main.js
+  * Add toggleDisplayNone function to toggle display none on and off which is more versatile as we scale up the app.
+    * This will set all pages to display none and then set the page we want to display to display block.
+* Check if everything is still working in the browser
+* ./index.html
+  * Add navigation bar
+    * data-page attribute to each nav link
+    * Make sure each page has a unique id
+* ./javascripts/main.js
+  * Add: 
+    * Event listener for nav links
+      * Prevent default
+      * If target.dataset.page exists then call toggleDisplayNone function
+* Check if everything is still working in the browser
+
 
 
 #  <p> </p>
@@ -186,3 +203,14 @@
 
 [ Stretch ]
 * Also, display all reviews for that product.
+
+
+### [Lab] Amazon SPA: Navigation Bar
+([Back to Steps/Commands](#js-spa-amazon-spa-navigation-bar))
+* Create a navigation bar at the top of your SPA.
+
+* Use it to swap between the question index page, question show page and the soon to be created question new page.
+
+* Only one of the pages should be listed pages above should be displayed at any one time.
+
+
