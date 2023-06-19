@@ -25,6 +25,10 @@ function InputEmail(props) {
         let value = e.target.value;
         if (value.includes("admin")) {
             console.log("Can not register with admin");
+            hasError = true;
+        }
+        else {
+            hasError = false
         }
     }
 
@@ -66,8 +70,15 @@ function Header(props) {
 }
 
 const root = ReactDOM.createRoot(document.querySelector("#root"))
+let hasError = false
 root.render(<div>
-    <form>
+    <form onSubmit={(e) => {
+                if (hasError) {
+                    e.preventDefault();
+                    alert("Error!")
+                    return false;
+                }
+            }}>
         <Header
             content="Registration"
             htmlAttributes={
@@ -108,7 +119,9 @@ root.render(<div>
                 }
             }
         />
-        <button type="submit" className="btn btn-primary">Submit</button>
+        <button type="submit"
+            className="btn btn-primary"
+        >Submit</button>
     </form>
 
 </div>)
