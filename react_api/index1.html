@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React API</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+</head>
+
+<body>
+    <div id="root">
+    </div>
+    <script>
+        function HelloWorld(props) {
+            //The first parameter is the tag name or a react element
+            //document.createElement
+            // return <p>The content here...</p>
+            return React.createElement("p",
+                // tag attributes passed as properties of the object. This should be camelcased, e.g. onclick -> onClick, onfocus -> onFocus
+             { 
+                className: "heading", 
+                title: "It is a paragraph",
+                style: {
+                    color: "#f00"
+                } 
+            }, 
+            //Content of the tag
+            `Hello ${props.name || "World"}`);
+        }
+
+        function Input(props) {
+            return React.createElement("input",
+            {
+                type: "email",
+                placeHolder: "Type your email",
+                value: props.value || ""
+            })
+        }
+
+        //1st argument is the react element, 2nd argument is the dom where it will be rendered.
+        // ReactDOM.render(
+        //     React.createElement(HelloWorld, {name: "Codecore"}),
+        //     document.getElementById("root")
+        // )
+        ReactDOM.render(
+            React.createElement(Input, {value: "codecore@email.com"}),
+            document.getElementById("root")
+        )
+    </script>
+</body>
+
+</html>
