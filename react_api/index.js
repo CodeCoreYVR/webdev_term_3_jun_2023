@@ -21,6 +21,13 @@ function Input(props) {
 }
 
 function InputEmail(props) {
+    const checkEmail = (e) => {
+        let value = e.target.value;
+        if (value.includes("admin")) {
+            console.log("Can not register with admin");
+        }
+    }
+
     return <div className="form-floating mb-3">
         <input
             type="email"
@@ -28,7 +35,10 @@ function InputEmail(props) {
             id={props.id}
             maxLength={props.maxLength || "50"}
             minLength="3"
-            {...props.htmlAttributes} />
+            //React does not work with onFocusIn or onFocusOut. Instead, we will need to use onFocus and onBlur
+            onBlur={checkEmail}
+            {...props.htmlAttributes}
+        />
         <label
             htmlFor={props.id}>
             {props.label}</label>
@@ -50,7 +60,7 @@ function InputPassword(props) {
 
 function Header(props) {
     return <h1
-        class="display-6"
+        className="display-6"
         {...props.htmlAttributes}
     >{props.content}</h1>
 }
@@ -69,12 +79,13 @@ root.render(<div>
         <InputEmail
             id="username"
             label="Email"
-            maxLength="20"
+            // maxLength="20"
             htmlAttributes={
                 {
                     placeholder: "Enter your email address",
                     style: {
-                        color: "#f00"
+                        color: "#fff",
+                        backgroundColor: "#000"
                     }
                 }
             }
