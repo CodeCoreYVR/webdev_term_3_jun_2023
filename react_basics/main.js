@@ -29,8 +29,25 @@ const ourFirstElement = React.createElement(
 //         document.getElementById("app"))
 // })
 
+const Name = (props) => {
+    const {name, bgColor} =  props
+
+    return React.createElement(
+        'div',
+        {
+            // we are still writting JS here, but React can interpret it as CSS
+            style: { backgroundColor: bgColor}
+        },
+        `${name}`
+    )
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById("app")
     const root = ReactDOM.createRoot(container)
-    root.render(ourFirstElement)
+    root.render(
+        //ourFirstElement
+        Name({name: "Taif", bgColor: "pink"}) // now we can add an object to the funtion args as props
+        // instead of rendering out the React element, we now render out a React Component.
+    )
 })
