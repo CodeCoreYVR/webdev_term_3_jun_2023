@@ -3,6 +3,8 @@ const DOMAIN = 'localhost:3000';
 const API_PREFIX = '/api/v1';
 const BASE_URL = `http://${DOMAIN}${API_PREFIX}`;
 
+
+
 // AJAX helpers related to Products
 const Product = {
   // GET /api/v1/products
@@ -16,8 +18,52 @@ const Product = {
 		return fetch(`${BASE_URL}/products/${id}`)
 			.then(res => res.json())
 			.catch(console.error);
-	}
+	},
+  // POST /api/v1/products
+  create(params) {
+    const productParams = {};
+    for (let [key, value] of params.entries()) {
+      productParams[key] = value;
+    }
+    // const token = window.localStorage.getItem('userToken');
+    return fetch(`${BASE_URL}/products`, {
+      method: 'POST',
+      credentials: 'include', // Include cookies in the request
+      headers: {
+        'Content-Type': 'application/json',
+      }, 
+      body: JSON.stringify({ product: productParams }),
+    })
+    .then(res => res.json())
+    .catch(console.error);
+  }
 };
+
+// Session helper
+const Session = {
+  create() {
+    const email = 'admin@user.ca';
+    const password = 'password';
+    return fetch (`${BASE_URL}/session`, {
+      method: 'POST',
+      credentials: 'include', // Include cookies in the request
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return res.json();
+    })
+  }
+}
+
 
 // --UTILITY FUNCTIONS--
 const qS = (selector, node = document) => {
@@ -48,6 +94,7 @@ const toggleDisplayNone = (element) => {
   });
 
   element.style.display = 'block';
+
 };
 
 // --RENDERING FUNCTIONS--
@@ -180,9 +227,75 @@ const renderReviews = (reviews = []) => {
   return reviewsUL;
 }
 
+// Create a product
+const renderProductCreate = () => {
+  // console.log("start of renderProductCreate")
+  const productNew = byId('product-new');
+  productNew.innerHTML = '';
+  productNew.style.display = 'none';
+
+    // I have tabbed the code below to make it easier to read as if it were in HTML.
+    // So the first line is the parent div, the second line is the child div, the third line is the child h1, etc.
+    // For the record this is NOT proper tabbing convention for JS or even specifically querySelector.
+    const productDiv = createElement('div', { class: 'card border-light mx-auto' });
+      const productHeaderDiv = createElement('div', { class: 'card-header bg-secondary text-white' });
+        const productHeaderH1 = createElement('h1', { class: 'card-title text-center' });
+        productHeaderH1.innerText = 'Create a Product';
+      productHeaderDiv.append(productHeaderH1);
+
+      const productBodyDiv = createElement('div', { class: 'card-body' });
+        const productForm = createElement('form');
+          const productTitleDiv = createElement('div', { class: 'form-group' });
+            const productTitleLabel = createElement('label', { for: 'title' });
+            productTitleLabel.innerText = 'Title:';
+            const productTitleInput = createElement('input', { type: 'text', class: 'form-control', id: 'title', name: 'title' });
+            productTitleInput.setAttribute('placeholder', 'Enter title');
+          productTitleDiv.append(productTitleLabel, productTitleInput);
+
+          const productDescriptionDiv = createElement('div', { class: 'form-group' });
+            const productDescriptionLabel = createElement('label', { for: 'description' });
+            productDescriptionLabel.innerText = 'Description:';
+            const productDescriptionInput = createElement('input', { type: 'text', class: 'form-control', id: 'description', name: 'description' });
+            productDescriptionInput.setAttribute('placeholder', 'Enter description');
+          productDescriptionDiv.append(productDescriptionLabel, productDescriptionInput);
+
+          const productPriceDiv = createElement('div', { class: 'form-group' });
+            const productPriceLabel = createElement('label', { for: 'price' });
+            productPriceLabel.innerText = 'Price:';
+            const productPriceInput = createElement('input', { type: 'number', class: 'form-control', id: 'price', name: 'price' });
+          productPriceDiv.append(productPriceLabel, productPriceInput);
+
+          const productSubmitDiv = createElement('div', { class: 'card-footer text-center' });
+            const productSubmitButton = createElement('button', { type: 'submit', class: 'btn btn-secondary' });
+            productSubmitButton.innerText = 'Submit';
+          productSubmitDiv.append(productSubmitButton);
+
+        productForm.append(productTitleDiv, productDescriptionDiv, productPriceDiv, productSubmitDiv);
+      productBodyDiv.append(productForm);
+    productDiv.append(productHeaderDiv, productBodyDiv);
+  productNew.append(productDiv);
+
+  // console.log("productNew: ", productNew)
+  // toggleDisplayNone(productNew);
+};
+
 // Upon loading the DOM, refresh the products
 document.addEventListener('DOMContentLoaded', function() {
-	refreshProducts();
+  refreshProducts();
+
+  // Creating a session automatically upon loading the DOM, obviously this is not secure and not normal, however,
+  // I am doing this to make it easier to test the app and the lab does does not mention anything about creating sessions
+  Session.create().then(data => {
+    if (data && data.status) {
+      // If sign-in was successful, save the token to local storage
+      console.log("User signed in successfully.");
+    } else {
+      console.error('Failed to sign in automatically.');
+    }
+  })
+  .catch(error => {
+    console.error('There has been a problem with the sign-in operation:', error);
+  });
 
   // Add event listener for product index
 	byId('product-index').addEventListener('click', event => {
@@ -196,13 +309,37 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 
+  // Add event listener for nav bar
   qS("nav").addEventListener('click', (event) => {
     event.preventDefault();
     const { target } = event;
 
+    // console.log("target.dataset.page: ", target.dataset.page)
     if (target.dataset.page) {
       toggleDisplayNone(byId(target.dataset.page));
     }
+  });
+
+  // Add event listener for new product form
+  renderProductCreate(); // render the form on page load so it is ready to go when the user clicks the nav bar
+  const newProductForm = qS("form", byId('product-new'));
+  newProductForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    Product.create(formData)
+      .then(product => {
+        if (product.title) {
+          refreshProducts(); // Refresh the products list
+          renderProduct(product); // Render the product if creation was successful
+        } else {
+          toggleDisplayNone(byId('product-new')); // Render the form again if there was an error during creation
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        toggleDisplayNone(byId('product-new')); // Render the form again if there was an error during creation
+      });
   });
 });
 

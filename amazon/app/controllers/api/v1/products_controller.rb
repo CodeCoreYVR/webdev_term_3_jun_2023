@@ -2,7 +2,7 @@ class Api::V1::ProductsController < Api::ApplicationController
   # created with:
   # $ rails g controller api/v1/products
 
-  before_action :require_login, only: [:create, :update, :destroy]
+  # before_action :require_login, only: [:create, :update, :destroy]
   before_action :find_product, only: [:show, :update, :destroy]
   before_action :authorize!, only: [:update, :destroy]
 
@@ -62,10 +62,13 @@ class Api::V1::ProductsController < Api::ApplicationController
     product = Product.new product_params
     product.user = current_user
 
+    p "product:", product
+    
     if product.save
-      render json: { id: product.id } 
-      # or # render json: product
+      render json: product
+      # or # render json: { id: product.id } 
     else
+      p "product.errors:", product.errors
       render(
         json: { errors: product.errors },
         status: 422 # Unprocessable Entity

@@ -178,6 +178,55 @@
       * Prevent default
       * If target.dataset.page exists then call toggleDisplayNone function
 * Check if everything is still working in the browser
+### JS SPA: Amazon SPA Product New & Create
+([Back to Labs](#lab-amazon-spa-product-new--create))
+* ./index.html
+  * Add:
+    * Make sure each page has a unique id
+    * data-page attribute to 'product-new' nav link
+* ./app/controllers/api/application_controller.rb
+  * Comment out:
+    * skip_before_action :verify_authenticity_token
+* ./config/initializers/cors.rb
+  * ```ruby
+    # existing code...
+    resource( 
+          '/api/*', 
+          headers: :any, 
+          methods: [:get, :post, :put, :patch, :delete, :options, :head],
+          credentials: true, # Add this line
+        )
+    # existing code...
+    ```
+* ./config/environments/development.rb
+  * ```ruby
+    # existing code...
+    # Allow forgery protection to be turned off in development
+    config.action_controller.allow_forgery_protection = false
+    config.action_controller.default_protect_from_forgery = false
+    # existing code...
+    ```
+* ./app/controllers/api/v1/sessions_controller.rb
+  * Add: status: 'Logged in' to json response if save successful
+* ./app/controllers/api/v1/products_controller.rb
+  * Change if safe successful render from rendering just product.id to rendering the entire product
+* ./javascripts/main.js
+  * Add:
+    * Session helper for creating new session
+      * I'm signing in automatically on page load as creating login/sessions were not mentioned in the lab.
+      * Make sure to add ```credentials: 'include'``` to fetch request otherwise cookies will not be sent in the request.
+    * Call Session.create on page load // again, this is not normal, however the lab did not mention creating a login/session but we need to be logged in to create a product.
+    * Event listener for product-new nav link
+      * Prevent default
+      * If target.dataset.page exists then call toggleDisplayNone function
+    * Product create helper
+      * ```credentials: 'include'``` to fetch request otherwise cookies will not be sent in the request.
+    * Function for creating new product
+      * Prevent default
+      * Get form data
+      * Create new product
+      * If successful then call renderProduct function else toggleDisplayNone function to display product-new page again
+* Check if everything is still working in the browser
 
 
 
@@ -214,3 +263,8 @@
 * Only one of the pages should be listed pages above should be displayed at any one time.
 
 
+### [Lab] Amazon SPA: Product New & Create
+([Back to Steps/Commands](#js-spa-amazon-spa-product-new--create))
+* Create a function using fetch to create new products with Amazon's Web API. Test it out in the console.
+
+* Add a Product New "page" with a form for creating new products. When the form is submitted, use the function above to create a new product with the form's data. Once the product is successfully created, show its Product show page. Make sure to refresh the Product Index.

@@ -63,6 +63,10 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
+ # Allow forgery protection to be turned off in development
+  config.action_controller.allow_forgery_protection = false
+  config.action_controller.default_protect_from_forgery = false
+
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
