@@ -1,8 +1,12 @@
 class QuestionSerializer < ActiveModel::Serializer
-  attributes :id, :title, :body, :view_count, :created_at, :updated_at, :like_count
+  attributes :id, :title, :body, :view_count, :created_at, :updated_at, :like_count, :author_name
 
   def like_count
     object.likes.count
+  end
+
+  def author_name
+    object.user&.full_name
   end
 
   belongs_to :user, key: :author
