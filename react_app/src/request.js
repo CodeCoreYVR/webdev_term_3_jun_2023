@@ -45,7 +45,7 @@ async function request(path, requestBody, method) {
 const webApi = { get, request }
 
 
-const Question = {
+export const Question = {
     index(){
         return webApi.get("questions")
     },

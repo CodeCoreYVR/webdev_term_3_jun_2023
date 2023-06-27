@@ -1,18 +1,25 @@
 import React, { Component } from "react"
-import questionsData from "../data/questionsData"
 import QuestionDeleteBtn from "./QuestionDeleteBtn";
 import NewQuestion from "./NewQuestion";
+import { Question } from "../request";
 
 class QuestionIndexPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            questionsData: questionsData
+            questionsData: []
         };
     }
 
     componentDidMount() {
-        //Rendering first time
+        Question.index()
+        .then((questions) => {
+            this.setState((state) => {
+                return(
+                    {questionsData: questions}
+                )
+            })
+        })
     }
 
     deleteQuestionFromIndex = (id) => { // 23
