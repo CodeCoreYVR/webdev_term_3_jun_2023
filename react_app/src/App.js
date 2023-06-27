@@ -3,6 +3,7 @@ import './App.css';
 import QuestionShowPage from './components/QuestionShowPage';
 import QuestionIndexPage from './components/QuestionIndexPage';
 import WelcomePage from './components/WelcomePage';
+import NavBar from './components/NavBar';
 import { Session } from './request';
 import { Route, Routes } from 'react-router-dom';
 
@@ -31,11 +32,14 @@ class App extends Component {
 
   render(){
     return(
-      <Routes>
-        <Route exact path='/' element={<WelcomePage/>}/>
-        <Route exact path='/questions' element={<QuestionIndexPage/>}/>
-        <Route path='/questions/:id' element={<QuestionShowPage/>}/>
-      </Routes>
+      <>
+        <NavBar/>
+        <Routes>
+          <Route exact path='/' element={<WelcomePage/>}/>
+          <Route exact path='/questions' element={<QuestionIndexPage/>}/>
+          <Route path='/questions/:id' element={<QuestionShowPage/>}/>
+        </Routes>
+      </>
     )
   }
 }

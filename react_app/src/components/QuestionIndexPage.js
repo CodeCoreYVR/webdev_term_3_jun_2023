@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import QuestionDeleteBtn from "./QuestionDeleteBtn";
 import NewQuestion from "./NewQuestion";
 import { Question } from "../request";
+import { Link } from "react-router-dom";
 
 class QuestionIndexPage extends Component {
     constructor(props) {
@@ -54,8 +55,7 @@ class QuestionIndexPage extends Component {
                 />
                 {this.state.questionsData.map((question, index) => {
                     return <div key={index}>
-                        {question.id + "--" + question.title}
-                        
+                        <Link to={`/questions/${question.id}`}>{question.id + "--" + question.title}</Link>
                         {/* We can write delete button like this that take effects in the same component */}
                         {/* 
                         <button
