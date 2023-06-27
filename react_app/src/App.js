@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import './App.css';
-// import QuestionShowPage from './components/QuestionShowPage';
-import QuestionIndexPage from './components/QuestionIndexPage';
+import QuestionShowPage from './components/QuestionShowPage';
+// import QuestionIndexPage from './components/QuestionIndexPage';
 import { Session } from './request';
 
 class App extends Component {
@@ -28,7 +28,7 @@ class App extends Component {
 
   render(){
     return(
-      <QuestionIndexPage/>
+      <QuestionShowPage/>
     )
   }
 }

@@ -1,16 +1,24 @@
 import React, { Component } from "react"
 import QuestionDetails from "./QuestionDetails"
 import AnswerList from "./AnswerList"
-import questionData from "../data/questionData"
+import { Question } from "../request"
 
 class QuestionShowPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            questionData: questionData
+            questionData: {}
         };
     }
 
+    componentDidMount() {
+        Question.show(83)
+        .then((fetchedQuestion) => {
+            this.setState((state) => {
+               return  {questionData: fetchedQuestion}
+            })
+        })
+    }
     deleteAnswerById = (answerId) => {
         const filteredAnswers = this.state.questionData.answers.filter(x => x.id !== answerId);
         let questionData = {
@@ -23,14 +31,14 @@ class QuestionShowPage extends Component {
     }
 
     render() {
-        const { id, title, body, author, view_count, created_at, updated_at, answers } = this.state.questionData;
+        const { id, title, body, author_name, view_count, created_at, updated_at, answers } = this.state.questionData;
         return (
             <main>
                 <QuestionDetails
                     id={id}
                     title={title}
                     body={body}
-                    author={author}
+                    author_name={author_name}
                     view_count={view_count}
                     created_at={created_at}
                     updated_at={updated_at}

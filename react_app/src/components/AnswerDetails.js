@@ -5,7 +5,7 @@ const AnswerDetails = ({id, body, author_name, created_at, deleteAnswer}) => {
         <p>By {author_name}</p>
         <p>
           <small>Created at:</small>
-          <small>{created_at.toLocaleString}</small>
+          <small>{created_at}</small>
         </p>
         <button onClick={() => deleteAnswer(id)}>Delete answer</button>
       </div>
