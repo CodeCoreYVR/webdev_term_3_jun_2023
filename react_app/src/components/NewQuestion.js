@@ -24,9 +24,6 @@ class NewQuestion extends Component {
         })
     }
 
-    componentDidMount() {
-        //Rendering first time
-    }
 
     render() {
         const { title, body } = this.state;

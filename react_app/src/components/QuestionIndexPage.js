@@ -35,24 +35,11 @@ class QuestionIndexPage extends Component {
         //this.state.questionData = filteredQuestions
     }
 
-    addQuestion = (title, body) => {
-        let questionsData = this.state.questionsData;
-        questionsData.push({
-            title: title,
-            body: body,
-            id: Date.now()
-        })
-        this.setState({
-            questionsData: questionsData
-        })
-    }
+    
 
     render() {
         return (
             <main>
-                <NewQuestion
-                    addQuestion={this.addQuestion}
-                />
                 {this.state.questionsData.map((question, index) => {
                     return <div key={index}>
                         <Link to={`/questions/${question.id}`}>{question.id + "--" + question.title}</Link>
