@@ -32,8 +32,8 @@ class App extends Component {
   render(){
     return(
       <Routes>
-        <Route path='/' element={<WelcomePage/>}/>
-        <Route path='/questions' element={<QuestionIndexPage/>}/>
+        <Route exact path='/' element={<WelcomePage/>}/>
+        <Route exact path='/questions' element={<QuestionIndexPage/>}/>
         <Route path='/questions/:id' element={<QuestionShowPage/>}/>
       </Routes>
     )

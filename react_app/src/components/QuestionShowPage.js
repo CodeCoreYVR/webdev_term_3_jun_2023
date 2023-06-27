@@ -2,6 +2,14 @@ import React, { Component } from "react"
 import QuestionDetails from "./QuestionDetails"
 import AnswerList from "./AnswerList"
 import { Question } from "../request"
+import { useParams } from "react-router-dom"
+
+export function withRouter(Childern) {
+    return((props) => {
+        const match = {params: useParams()}
+        return <Childern {...props} match={match} />
+    })
+}
 
 class QuestionShowPage extends Component {
     constructor(props) {
@@ -12,7 +20,7 @@ class QuestionShowPage extends Component {
     }
 
     componentDidMount() {
-        Question.show(83)
+        Question.show(this.props.match.params.id)
         .then((fetchedQuestion) => {
             this.setState((state) => {
                return  {questionData: fetchedQuestion}
@@ -54,4 +62,4 @@ class QuestionShowPage extends Component {
     }
 }
 
-export default QuestionShowPage
+export default withRouter(QuestionShowPage)
