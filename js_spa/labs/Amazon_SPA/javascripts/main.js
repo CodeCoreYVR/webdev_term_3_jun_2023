@@ -1,3 +1,5 @@
+// after delete created, but getting error where i'm getting back a data.id not a product. so i don't know how i was finding the product for product show before but not now.
+
 // Base URL for our API
 const DOMAIN = 'localhost:3000';
 const API_PREFIX = '/api/v1';
@@ -38,7 +40,6 @@ const Product = {
   },
   // PATCH /api/v1/products/:id
   update(id, params) {
-    console.log('inside update function');
     const productParams = {};
     for (let [key, value] of params.entries()) {
       productParams[key] = value;
@@ -54,6 +55,17 @@ const Product = {
     .then(res => res.json())
     .catch(console.error);
   },
+  destroy(id) {
+    return fetch(`${BASE_URL}/products/${id}`, {
+      method: 'DELETE',
+      credentials: 'include', // Include cookies in the request
+      headers: {
+        'Content-Type': 'application/json',
+      }, 
+    })
+    .then(res => res.json())
+    .catch(console.error);
+  }
 };
 
 // Session helper
@@ -213,14 +225,30 @@ const renderProduct = (product = {}) => {
       productBodyDiv.append(productDescriptionDiv, productHR, productPriceDiv);
 
       const productEditDiv = createElement('div', { class: "card-footer d-flex justify-content-around" });
-        const productEditButton = createElement('button', { class: "btn btn-secondary" });
+        const productEditButton = createElement('button', { class: "btn btn-secondary", ['data-action']: 'edit' });
         productEditButton.innerText = "Edit";
-        productEditButton.addEventListener('click', () => {
-          console.log("product within showpage edit button event listener", product)
+        const productDeleteButton = createElement('button', { class: "btn btn-secondary", ['data-action']: 'delete'});
+        productDeleteButton.innerText = "Delete";
+        productEditDiv.addEventListener('click', (event) => {
           event.preventDefault();
-          renderProductEdit(product);
+          const action = event.target.dataset.action;
+
+          if (action === 'edit') {
+            renderProductEdit(product);
+          } else if (action === 'delete') {
+            Product.destroy(product.id)
+              .then(() => {
+                console.log("Product deleted successfully.");
+                refreshProducts();
+                toggleDisplayNone(byId('product-index'));
+              })
+              .catch(error => {
+                console.log("There was an error deleting the product.")
+                console.error(error);
+              });
+          }
         });
-      productEditDiv.append(productEditButton);
+      productEditDiv.append(productEditButton, productDeleteButton);
 
     productDiv.append(productTitleDiv, productBodyDiv, productEditDiv);
 
@@ -256,7 +284,6 @@ const renderReviews = (reviews = []) => {
 
 // Create a product
 const renderProductCreate = () => {
-  // console.log("start of renderProductCreate")
   const productNew = byId('product-new');
   productNew.innerHTML = '';
   productNew.style.display = 'none';
@@ -302,14 +329,11 @@ const renderProductCreate = () => {
     productDiv.append(productHeaderDiv, productBodyDiv);
   productNew.append(productDiv);
 
-  // console.log("productNew: ", productNew)
   // toggleDisplayNone(productNew);
 };
 
 // Edit a product
 const renderProductEdit = (product = {}) => {
-  console.log("start of renderProductEdit")
-
   const productEdit = byId('product-edit');
   productEdit.innerHTML = '';
   productEdit.style.display = 'none';
@@ -350,20 +374,18 @@ const renderProductEdit = (product = {}) => {
           const productSubmitDiv = createElement('div', { class: 'card-footer text-center' });
             const productSubmitButton = createElement('button', { type: 'submit', class: 'btn btn-secondary' });
             productSubmitButton.innerText = 'Submit';
-            productSubmitButton.addEventListener('click', (event) => {
+           productSubmitButton.addEventListener('click', (event) => {
                 event.preventDefault();
-                console.log('inside edit product form event listener')
             
                 const formElement = event.currentTarget.closest('form');
                 const formData = new FormData(formElement);
-                console.log("formData: ", formData)
 
-                // Update the product with the form data and then render the product
                 Product.update(product.id, formData)
-                  .then(product => {
-                    if (product.title) {
+                  .then(data => {
+
+                    if (data.id === product.id) {
                       refreshProducts(); // Refresh the products list
-                      renderProduct(product); // Render the product if creation was successful
+                			Product.show(data.id).then(product => renderProduct(product));
                     } else {
                       toggleDisplayNone(byId('product-edit')); // Render the form again if there was an error during creation
                     }
@@ -432,7 +454,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const formData = new FormData(event.currentTarget);
     Product.create(formData)
       .then(product => {
-        console.log("currentUserID: ", currentUserID)
         if (product.title) {
           refreshProducts(); // Refresh the products list
           renderProduct(product); // Render the product if creation was successful

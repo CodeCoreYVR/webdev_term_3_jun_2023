@@ -270,6 +270,18 @@
         - Prevent default
         - If successful then call renderProduct function else toggleDisplayNone function to display product-edit page again
 - Check if everything is still working in the browser
+### JS SPA: Amazon SPA Product Delete
+([Back to Labs](#lab-amazon-spa-product-delete))
+* ./javascripts/main.js
+  - Add:
+    - Product destroy helper
+      - `credentials: 'include'` to fetch request otherwise cookies will not be sent in the request.
+    - Delete button to show page
+      - Change event listener for edit button to work for edit and delete
+        - Prevent default
+        - Call Product.destroy
+        - If successful then call renderProduct function else toggleDisplayNone function to display product-show page again
+
 
 # <p> </p>
 
@@ -315,10 +327,19 @@
 
 - Create a function using fetch to create new products with Amazon's Web API. Test it out in the console.
 
-- Add a Product New "page" with a form for creating new products. When the form is submitted, use the function above to create a new product with the form's data. Once the product is successfully created, show its Product show page. Make sure to refresh the Product Index.
-
-### [Lab] Amazon SPA: Product Edit
+- Add a Product New "page" with a form for creating new products. When the form is submitted, use the function above to create a new product with the form's data. Once the product is successfully created, show its Product show page. Make sure to refresh the Product Index.  Assignment
+    Settings
+    Advanced grading
+    More
 
 ([Back to Steps/Commands](#js-spa-amazon-spa-product-edit))
 
 - Create a function using fetch to edit products with Amazon's Web API. Test it out in the console.
+
+### [Lab] Amazon SPA: Product Delete
+([Back to Steps/Commands](#js-spa-amazon-spa-product-delete))
+  
+* Create a function using fetch to delete products with Amazon's Web API. Test it out in the console.
+
+
+
