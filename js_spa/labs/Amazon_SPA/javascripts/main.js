@@ -25,7 +25,6 @@ const Product = {
     for (let [key, value] of params.entries()) {
       productParams[key] = value;
     }
-    // const token = window.localStorage.getItem('userToken');
     return fetch(`${BASE_URL}/products`, {
       method: 'POST',
       credentials: 'include', // Include cookies in the request
@@ -36,7 +35,25 @@ const Product = {
     })
     .then(res => res.json())
     .catch(console.error);
-  }
+  },
+  // PATCH /api/v1/products/:id
+  update(id, params) {
+    console.log('inside update function');
+    const productParams = {};
+    for (let [key, value] of params.entries()) {
+      productParams[key] = value;
+    }
+    return fetch(`${BASE_URL}/products/${id}`, {
+      method: 'PATCH',
+      credentials: 'include', // Include cookies in the request
+      headers: {
+        'Content-Type': 'application/json',
+      }, 
+      body: JSON.stringify({ product: productParams }),
+    })
+    .then(res => res.json())
+    .catch(console.error);
+  },
 };
 
 // Session helper
@@ -195,7 +212,17 @@ const renderProduct = (product = {}) => {
 
       productBodyDiv.append(productDescriptionDiv, productHR, productPriceDiv);
 
-    productDiv.append(productTitleDiv, productBodyDiv);
+      const productEditDiv = createElement('div', { class: "card-footer d-flex justify-content-around" });
+        const productEditButton = createElement('button', { class: "btn btn-secondary" });
+        productEditButton.innerText = "Edit";
+        productEditButton.addEventListener('click', () => {
+          console.log("product within showpage edit button event listener", product)
+          event.preventDefault();
+          renderProductEdit(product);
+        });
+      productEditDiv.append(productEditButton);
+
+    productDiv.append(productTitleDiv, productBodyDiv, productEditDiv);
 
     const reviewsHeaderDiv = createElement('div', { class: 'card-header bg-secondary text-white' });
       const ReviewH3 = createElement('h3', { class: 'card-title' });
@@ -279,6 +306,83 @@ const renderProductCreate = () => {
   // toggleDisplayNone(productNew);
 };
 
+// Edit a product
+const renderProductEdit = (product = {}) => {
+  console.log("start of renderProductEdit")
+
+  const productEdit = byId('product-edit');
+  productEdit.innerHTML = '';
+  productEdit.style.display = 'none';
+
+    // I have tabbed the code below to make it easier to read as if it were in HTML.
+    // So the first line is the parent div, the second line is the child div, the third line is the child h1, etc.
+    // For the record this is NOT proper tabbing convention for JS or even specifically querySelector.
+    const productH1 = createElement('h1', { class: 'text-center' });
+    productH1.innerText = 'Product Edit';    
+    const productDiv = createElement('div', { class: 'card border-light mx-auto' });
+      const productHeaderDiv = createElement('div', { class: 'card-header bg-secondary text-white' });
+        const productHeaderH1 = createElement('h1', { class: 'card-title text-center' });
+        productHeaderH1.innerText = `${product.title}`;
+      productHeaderDiv.append(productHeaderH1);
+
+      const productBodyDiv = createElement('div', { class: 'card-body' });
+        const productForm = createElement('form');
+          const productTitleDiv = createElement('div', { class: 'form-group' });
+            const productTitleLabel = createElement('label', { for: 'title' });
+            productTitleLabel.innerText = 'Title:';
+            const productTitleInput = createElement('input', { type: 'text', class: 'form-control', id: 'title', name: 'title', value: `${product.title}` });
+            // productTitleInput.setAttribute('placeholder', 'Enter title');
+          productTitleDiv.append(productTitleLabel, productTitleInput);
+
+          const productDescriptionDiv = createElement('div', { class: 'form-group' });
+            const productDescriptionLabel = createElement('label', { for: 'description' });
+            productDescriptionLabel.innerText = 'Description:';
+            const productDescriptionInput = createElement('input', { type: 'text', class: 'form-control', id: 'description', name: 'description', value: `${product.description}` });
+            // productDescriptionInput.setAttribute('placeholder', 'Enter description');
+          productDescriptionDiv.append(productDescriptionLabel, productDescriptionInput);
+
+          const productPriceDiv = createElement('div', { class: 'form-group' });
+            const productPriceLabel = createElement('label', { for: 'price' });
+            productPriceLabel.innerText = 'Price:';
+            const productPriceInput = createElement('input', { type: 'number', class: 'form-control', id: 'price', name: 'price', value: `${product.price}` });
+          productPriceDiv.append(productPriceLabel, productPriceInput);
+
+          const productSubmitDiv = createElement('div', { class: 'card-footer text-center' });
+            const productSubmitButton = createElement('button', { type: 'submit', class: 'btn btn-secondary' });
+            productSubmitButton.innerText = 'Submit';
+            productSubmitButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                console.log('inside edit product form event listener')
+            
+                const formElement = event.currentTarget.closest('form');
+                const formData = new FormData(formElement);
+                console.log("formData: ", formData)
+
+                // Update the product with the form data and then render the product
+                Product.update(product.id, formData)
+                  .then(product => {
+                    if (product.title) {
+                      refreshProducts(); // Refresh the products list
+                      renderProduct(product); // Render the product if creation was successful
+                    } else {
+                      toggleDisplayNone(byId('product-edit')); // Render the form again if there was an error during creation
+                    }
+                  })
+                  .catch(error => {
+                    console.error(error);
+                    toggleDisplayNone(byId('product-edit')); // Render the form again if there was an error during creation
+                  });
+            });
+          productSubmitDiv.append(productSubmitButton);
+
+        productForm.append(productTitleDiv, productDescriptionDiv, productPriceDiv, productSubmitDiv);
+      productBodyDiv.append(productForm);
+    productDiv.append(productHeaderDiv, productBodyDiv);
+  productEdit.append(productDiv);
+
+  toggleDisplayNone(productEdit);
+};
+
 // Upon loading the DOM, refresh the products
 document.addEventListener('DOMContentLoaded', function() {
   refreshProducts();
@@ -286,8 +390,8 @@ document.addEventListener('DOMContentLoaded', function() {
   // Creating a session automatically upon loading the DOM, obviously this is not secure and not normal, however,
   // I am doing this to make it easier to test the app and the lab does does not mention anything about creating sessions
   Session.create().then(data => {
+    
     if (data && data.status) {
-      // If sign-in was successful, save the token to local storage
       console.log("User signed in successfully.");
     } else {
       console.error('Failed to sign in automatically.');
@@ -314,7 +418,6 @@ document.addEventListener('DOMContentLoaded', function() {
     event.preventDefault();
     const { target } = event;
 
-    // console.log("target.dataset.page: ", target.dataset.page)
     if (target.dataset.page) {
       toggleDisplayNone(byId(target.dataset.page));
     }
@@ -329,6 +432,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const formData = new FormData(event.currentTarget);
     Product.create(formData)
       .then(product => {
+        console.log("currentUserID: ", currentUserID)
         if (product.title) {
           refreshProducts(); // Refresh the products list
           renderProduct(product); // Render the product if creation was successful
