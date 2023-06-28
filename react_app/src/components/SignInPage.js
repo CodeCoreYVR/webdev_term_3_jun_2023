@@ -14,7 +14,7 @@ function SignInPage(props) {
 
         Session.create(request)
             .then((data) => {
-                if(data.id) {
+                if(data?.id) {
                     props.onSignIn();
                 }
             })

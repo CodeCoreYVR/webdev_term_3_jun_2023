@@ -72,6 +72,9 @@ export const Question = {
 export const Session = {
     create(requestBody) {
         return webApi.request("session", requestBody)
+    },
+    destroy() {
+        return webApi.request("session", {}, "DELETE")
     }
 }
 
