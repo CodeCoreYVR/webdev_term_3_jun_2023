@@ -38,7 +38,7 @@ module AwesomeAnswer
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins '127.0.0.1:8081', '127.0.0.1:5500'
+        origins '127.0.0.1:8081', '127.0.0.1:5500','127.0.0.1:8080'
         
         resource '/api/v1/*', 
           headers: :any, 

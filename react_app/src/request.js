@@ -2,7 +2,9 @@ const baseUrl = "http://127.0.0.1:3000/api/v1/";
 
 async function get(path) {
     try {
-        const response = await fetch(baseUrl + path);
+        const response = await fetch(baseUrl + path, {
+            credentials: "include",
+        });
         return response.json();
 
         // fetch(resource)
@@ -10,7 +12,7 @@ async function get(path) {
         //     console.log(response)
         // })
     }
-    catch(error) {
+    catch (error) {
         console.error(error);
     }
 }
@@ -29,14 +31,14 @@ async function request(path, requestBody, method) {
 
         const response = await fetch(baseUrl + path, options);
 
-        if(response.ok) {
+        if (response.ok) {
             return response.json();
         }
         else {
             return Promise.reject(response)
         }
     }
-    catch(error) {
+    catch (error) {
         console.log(error);
         return Promise.reject(error);
     }
@@ -46,29 +48,41 @@ const webApi = { get, request }
 
 
 export const Question = {
-    index(){
+    index() {
         return webApi.get("questions")
     },
 
-    create(params){
-        return  webApi.request("questions", params)
+    create(requestBody) {
+        return webApi.request("questions", requestBody)
     },
 
     show(id) {
         return webApi.get(`questions/${id}`)
     },
 
-    update(id, params){
-        return webApi.request(`questions/${id}`, params, "PATCH")
+    update(id, requestBody) {
+        return webApi.request(`questions/${id}`, requestBody, "PATCH")
     },
 
-    destroy(id){
+    destroy(id) {
         return webApi.request(`questions/${id}`, {}, "DELETE")
     }
 }
 
 export const Session = {
-    create(params) {
-        return  webApi.request("session", params)
+    create(requestBody) {
+        return webApi.request("session", requestBody)
+    },
+    destroy() {
+        return webApi.request("session", {}, 'DELETE')
+    }
+}
+
+export const User = {
+    create(requestBody) {
+        return webApi.request("", requestBody)
+    },
+    current() {
+        return webApi.get("users/current")
     }
 }
