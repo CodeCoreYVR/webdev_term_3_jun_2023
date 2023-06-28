@@ -42,7 +42,7 @@ class QuestionIndexPage extends Component {
             <main>
                 {this.state.questionsData.map((question, index) => {
                     return <div key={index}>
-                        <Link to={`/questions/${question.id}`}>{question.id + "--" + question.title}</Link>
+                        <Link to={`/questions/${question.id}`}>{question.title}</Link>
                         {/* We can write delete button like this that take effects in the same component */}
                         {/* 
                         <button
@@ -51,10 +51,10 @@ class QuestionIndexPage extends Component {
                         >Delete</button> */}
                         
                         {/* If we want another compoment to make changes to this compoment, we will need to send the method as property */}
-                        <QuestionDeleteBtn
+                        {/* <QuestionDeleteBtn
                             id={question.id}
                             deleteQuestion={this.deleteQuestionFromIndex}
-                        />
+                        /> */}
                     </div>
                 })}
             </main>
