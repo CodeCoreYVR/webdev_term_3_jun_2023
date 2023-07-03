@@ -62,8 +62,8 @@ class App extends Component {
         <NavBar currentUser={this.state.user} onSignOut={this.signOut} />
         <div className="container mt-4">
           <Routes>
-            <Route exact path='/sign-in' element={<SignInPage onSignIn={this.getCurrentUser} />} />
-            <Route exact path='/sign-up' element={<SignUpPage/>} />
+            {!this.state.user && <Route exact path='/sign-in' element={<SignInPage onSignIn={this.getCurrentUser} />} />}
+            {!this.state.user && <Route exact path='/sign-up' element={<SignUpPage onSignUp={this.getCurrentUser}/>} />}
             <Route exact path='/' element={<WelcomePage />} />
             <Route exact path='/' element={<WelcomePage />} />
             <Route exact path='/questions' element={<QuestionIndexPage />} />

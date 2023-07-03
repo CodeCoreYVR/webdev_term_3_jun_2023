@@ -1,8 +1,9 @@
 
 import { Session } from '../request'
+import { useNavigate } from "react-router-dom";
 
 function SignInPage(props) {
-
+    const navigate = useNavigate()
     function handleSubmit(event) {
         event.preventDefault();
         const { target } = event;
@@ -16,6 +17,7 @@ function SignInPage(props) {
             .then((data) => {
                 if(data?.id) {
                     props.onSignIn();
+                    navigate("/");
                 }
             })
     }

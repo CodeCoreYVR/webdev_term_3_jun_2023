@@ -35,7 +35,7 @@ async function request(path, requestBody, method) {
             return response.json();
         }
         else {
-            return Promise.reject(response)
+            return response.text().then(text => { throw new Error(text) })
         }
     }
     catch (error) {

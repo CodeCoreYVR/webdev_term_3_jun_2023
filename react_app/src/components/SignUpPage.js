@@ -1,10 +1,13 @@
 import React, { Component } from "react"
 import { FloatingInput } from "./FloatingInput";
+import { User } from "../request";
+import { withRouter } from "./withRouter";
 
 class SignUpPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            error: null,
             user: {
                 first_name: "",
                 last_name: "",
@@ -18,6 +21,7 @@ class SignUpPage extends Component {
     handleChange = (e) => {
         let { name, value } = e.target;
         this.setState({
+            ...this.state,
             user: {
                 ...this.state.user,
                 [name]: value
@@ -26,30 +30,40 @@ class SignUpPage extends Component {
     }
 
     createUser = () => {
-        //todo
-    }
+        User.create({ user: this.state.user })
+            .then(res => {
+                this.props.onSignUp();
 
+                this.props.navigate("/") // for older version, we could write this.props.history.push("/"), in that we don't need to wrap our compoment 'withRouter'
+            })
+            .catch(err => {
+                this.setState({
+                    ...this.state,
+                    error: JSON.parse(err.message),
+                })
+            })
+    }
 
     render() {
         const { first_name, last_name, email, password, password_confirmation } = this.state.user;
-        console.log(first_name)
+        const { error } = this.state;
+
         return (
             <>
-                {/* <div className="form-floating mb-3">
-                    <input type="text" className="form-control" value={first_name} id="first_name" name="first_name"/>
-                    <label htmlFor="first_name">First Name</label>
-                </div> */}
+                <h1>Sign up</h1>
                 <FloatingInput
                     value={first_name}
                     id="first_name"
                     label="First Name"
                     handleInput={this.handleChange}
+                    err={error?.first_name}
                 />
                 <FloatingInput
                     value={last_name}
                     id="last_name"
                     label="Last Name"
                     handleInput={this.handleChange}
+                    err={error?.last_name}
                 />
                 <FloatingInput
                     value={email}
@@ -57,6 +71,7 @@ class SignUpPage extends Component {
                     id="email"
                     label="Email"
                     handleInput={this.handleChange}
+                    err={error?.email}
                 />
                 <FloatingInput
                     value={password}
@@ -64,6 +79,7 @@ class SignUpPage extends Component {
                     label="Password"
                     type="password"
                     handleInput={this.handleChange}
+                    err={error?.password}
                 />
                 <FloatingInput
                     value={password_confirmation}
@@ -71,11 +87,14 @@ class SignUpPage extends Component {
                     id="password_confirmation"
                     label="Confirm Password"
                     handleInput={this.handleChange}
+                    err={error?.password_confirmation}
+                //placeholder="Retype Password"
                 />
+                <button className="btn btn-lg btn-primary w-100 mb-5" onClick={this.createUser}>Sign up</button>
             </>
 
         )
     }
 }
 
-export default SignUpPage
+export default withRouter(SignUpPage)

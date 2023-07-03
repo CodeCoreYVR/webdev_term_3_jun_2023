@@ -1,12 +1,7 @@
 import { Component } from "react";
 import NewQuestion from "./NewQuestion";
 import { Question } from "../request";
-import { useNavigate } from "react-router-dom";
-
-const withRouter = WrapppedComponent => props => {
-    const navigate = useNavigate()
-    return( <WrapppedComponent {...props} navigate={navigate} />)
-}
+import { withRouter } from "./withRouter";
 
 class NewQuestionPage extends Component{
     constructor(props) {
