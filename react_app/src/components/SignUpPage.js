@@ -1,5 +1,7 @@
 import React, { Component } from "react"
 import { FloatingInput } from "./FloatingInput";
+import { User } from "../request";
+import { history } from "./history";
 
 class SignUpPage extends Component {
     constructor(props) {
@@ -26,19 +28,24 @@ class SignUpPage extends Component {
     }
 
     createUser = () => {
-        //todo
+        User.create({
+            user: this.state.user
+        })
+        .then(res => {
+            this.props.onSignUp();
+            this.props.navigate("/")
+        })
+        .catch(err => {
+            console.log(err)
+        })
     }
 
 
     render() {
         const { first_name, last_name, email, password, password_confirmation } = this.state.user;
-        console.log(first_name)
+
         return (
             <>
-                {/* <div className="form-floating mb-3">
-                    <input type="text" className="form-control" value={first_name} id="first_name" name="first_name"/>
-                    <label htmlFor="first_name">First Name</label>
-                </div> */}
                 <FloatingInput
                     value={first_name}
                     id="first_name"
@@ -72,10 +79,11 @@ class SignUpPage extends Component {
                     label="Confirm Password"
                     handleInput={this.handleChange}
                 />
+                <button className="btn btn-primary w-100 btn-lg" onClick={this.createUser}>Sign up</button>
             </>
 
         )
     }
 }
 
-export default SignUpPage
+export default history(SignUpPage)

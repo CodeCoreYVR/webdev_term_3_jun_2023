@@ -63,13 +63,12 @@ class App extends Component {
         <div className="container mt-4">
           <Routes>
             <Route exact path='/sign-in' element={<SignInPage onSignIn={this.getCurrentUser} />} />
-            <Route exact path='/sign-up' element={<SignUpPage/>} />
-            <Route exact path='/' element={<WelcomePage />} />
+            <Route exact path='/sign-up' element={<SignUpPage onSignUp={this.getCurrentUser} />} />
             <Route exact path='/' element={<WelcomePage />} />
             <Route exact path='/questions' element={<QuestionIndexPage />} />
-            <Route exact path='/questions/new'element={<AuthRoute
-                page={<NewQuestionPage />}
-                isLoggedIn={!!this.state.user} />} />
+            <Route exact path='/questions/new' element={<AuthRoute
+              page={<NewQuestionPage />}
+              isLoggedIn={!!this.state.user} />} />
             <Route path='/questions/:id' element={<QuestionShowPage />} />
           </Routes>
         </div>
