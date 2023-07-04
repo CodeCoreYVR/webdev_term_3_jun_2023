@@ -10,6 +10,7 @@ import { Route, Routes } from 'react-router-dom';
 import { User } from './request';
 import AuthRoute from './components/AuthRoute';
 import SignUpPage from './components/SignUpPage';
+import UseStateHook from './components/UseStateHook';
 
 
 class App extends Component {
@@ -71,6 +72,7 @@ class App extends Component {
                 page={<NewQuestionPage />}
                 isLoggedIn={!!this.state.user} />} />
             <Route path='/questions/:id' element={<QuestionShowPage />} />
+            <Route path='/use_state' element={<UseStateHook/>} />
           </Routes>
         </div>
 
