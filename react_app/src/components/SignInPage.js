@@ -1,9 +1,11 @@
 
 import { Session } from '../request'
+import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
 function SignInPage(props) {
     const navigate = useNavigate()
+    const [errors, setErrors] = useState([])
     function handleSubmit(event) {
         event.preventDefault();
         const { target } = event;
@@ -15,6 +17,10 @@ function SignInPage(props) {
 
         Session.create(request)
             .then((data) => {
+                console.log(data)
+                if (data.status === 401){
+                    setErrors([...errors, {message: data.message}])
+                }
                 if(data?.id) {
                     props.onSignIn();
                     navigate("/");
@@ -25,6 +31,15 @@ function SignInPage(props) {
     return (
         <main>
             <h1>Sign In</h1>
+            {
+                errors.length > 0 ? (
+                    <div>
+                        <h4>Failed to Sign</h4>
+                        <p>{errors.map((error) => error.message).join(", ")}</p>
+                    </div>
+                ) :
+                ("")
+            }
             <form onSubmit={handleSubmit}>
                 <div className="form-floating mb-3">
                     <input type="email" className="form-control" id="email" name="email" placeholder="name@example.com" />

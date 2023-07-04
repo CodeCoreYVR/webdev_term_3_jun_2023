@@ -6,7 +6,7 @@ class Api::V1::SessionsController < Api::ApplicationController
           session[:user_id] = @user.id
           render json: {id: @user.id, name: @user.full_name}
         else
-          render json: {message: "Invalid credentials"}, status: 401
+          render json: {message: "Invalid credentials", status: 401}, status: 401
         end
       end
 
