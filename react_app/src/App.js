@@ -11,6 +11,7 @@ import { User } from './request';
 import AuthRoute from './components/AuthRoute';
 import SignUpPage from './components/SignUpPage';
 import UseStateHook from './components/UseStateHook';
+import UseEffectHook from './components/UseEffectHook';
 
 
 class App extends Component {
@@ -73,6 +74,7 @@ class App extends Component {
                 isLoggedIn={!!this.state.user} />} />
             <Route path='/questions/:id' element={<QuestionShowPage />} />
             <Route path='/use_state' element={<UseStateHook/>} />
+            <Route path='/use_effect' element={<UseEffectHook/>} />
           </Routes>
         </div>
 
