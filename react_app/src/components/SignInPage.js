@@ -1,18 +1,20 @@
 
 import { Session } from '../request'
 import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { createRoutesFromChildren, useNavigate } from "react-router-dom";
 
 function SignInPage(props) {
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
     const navigate = useNavigate()
     const [errors, setErrors] = useState([])
     function handleSubmit(event) {
         event.preventDefault();
-        const { target } = event;
-        const formData = new FormData(target);
+
         const request = {
-            email: formData.get("email"),
-            password: formData.get("password")
+            email: email,
+            password: password
         }
 
         Session.create(request)
@@ -42,11 +44,15 @@ function SignInPage(props) {
             }
             <form onSubmit={handleSubmit}>
                 <div className="form-floating mb-3">
-                    <input type="email" className="form-control" id="email" name="email" placeholder="name@example.com" />
+                    <input type="email" className="form-control" id="email" name="email" placeholder="name@example.com" onChange={(event) => {
+                        setEmail(event.currentTarget.value)
+                    }} />
                     <label htmlFor="email">Email address</label>
                 </div>
                 <div className="form-floating">
-                    <input type="password" className="form-control" id="password" name="password" placeholder="Password" />
+                    <input type="password" className="form-control" id="password" name="password" placeholder="Password" onChange={(event) => {
+                        setPassword(event.currentTarget.value)
+                    }} />
                     <label htmlFor="password">Password</label>
                 </div>
                 <input type="submit" value="Sign In" />
