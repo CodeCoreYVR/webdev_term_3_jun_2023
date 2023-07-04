@@ -5,11 +5,13 @@ function ReviewDetails(props) {
 
 	return (
 		<div className="ReviewDetails">
-			<p>
-				<strong>{full_name}:</strong>
-			</p>
-			<p>{body}</p>
-			<p>Created at: {new Date(created_at).toLocaleDateString()}</p>
+			<li class="list-group-item">
+        <p>
+          <strong>{full_name}:</strong>
+        </p>
+        <p>{body}</p>
+        <p><i>~ {new Date(created_at).toLocaleDateString()} ~</i></p>  
+      </li>
 		</div>
 	);
 }

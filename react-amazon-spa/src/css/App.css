@@ -36,3 +36,22 @@
     transform: rotate(360deg);
   }
 }
+
+body {
+  background-color: black;
+  color: white;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+  background-color: black;
+  color: white;
+}
+
+.content-container {
+	max-width: 500px;
+	margin: 0 auto;
+  margin-bottom: 8vh;
+}
