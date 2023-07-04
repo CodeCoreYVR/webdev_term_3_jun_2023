@@ -55,3 +55,12 @@ body {
 	margin: 0 auto;
   margin-bottom: 8vh;
 }
+
+.review-header {
+  display: flex;
+  align-items: center;
+}
+
+.review-header i {
+  margin-left: 0.5rem;
+}

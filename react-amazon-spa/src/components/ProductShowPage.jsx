@@ -3,7 +3,7 @@ import productData from "../tempDB/productData";
 import ProductDetails from "./ProductDetails";
 import ReviewList from "./ReviewList";
 
-class ProductShowPage extends Component {
+export default class ProductShowPage extends Component {
 	product = productData();
 
 	render() {
@@ -30,4 +30,4 @@ class ProductShowPage extends Component {
 	}
 }
 
-export default ProductShowPage;
+// export default ProductShowPage;

@@ -4,7 +4,7 @@ import ProductShowPage from './ProductShowPage';
 import "../css/App.css";
 import 'bootstrap/dist/css/bootstrap.css';
 
-class App extends Component {
+export default class App extends Component {
   render() {
     return (
     <div className="grid-container">
@@ -18,4 +18,4 @@ class App extends Component {
   }
 }
 
-export default App;
+// export default App;

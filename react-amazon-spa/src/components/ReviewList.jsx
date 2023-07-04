@@ -3,7 +3,7 @@
 import React from "react";
 import ReviewDetails from "./ReviewDetails";
 
-function ReviewList(props) {
+export default function ReviewList(props) {
 	const { reviews } = props;
 	if (reviews.length <= 0)
 		return <li className="list-group-item">No reviews ...yet</li>;
@@ -13,4 +13,4 @@ function ReviewList(props) {
 	));
 }
 
-export default ReviewList;
+// export default ReviewList;

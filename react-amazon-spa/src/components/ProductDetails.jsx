@@ -1,6 +1,6 @@
 import React from "react";
 
-function ProductDetails(props) {
+export default function ProductDetails(props) {
 	const {
 		title,
 		description,
@@ -37,4 +37,4 @@ function ProductDetails(props) {
 	);
 }
 
-export default ProductDetails;
+// export default ProductDetails;
