@@ -9,6 +9,8 @@ export default function ProductDetails(props) {
 		seller = {},
 	} = props;
 	const { full_name } = seller;
+
+  
 	return (
 		<div className="ProductDetails">
 			<div className="card-header bg-secondary text-white">
@@ -38,6 +40,9 @@ export default function ProductDetails(props) {
         <div>
           <h3>Price:</h3>
           <p className="card-text">${price}</p>
+        </div>
+        <div>
+          <button onClick={props.handleDelete}>Delete</button>
         </div>
       </div>
 		</div>
