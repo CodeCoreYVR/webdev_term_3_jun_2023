@@ -40,7 +40,17 @@ export default class ProductIndexPage extends Component {
 				</div>
 			</div>
 		) : (
-			<div>Loading Products Index Page...</div>
+      <div className="container mt-5">
+        <NewProductForm submitForm={ params =>  this.handleCreate(params) } />
+				<h1 className="text-center">Product Index</h1>
+				<div className="card border-light mx-auto ">
+          <div className="ProductDetails">
+            <div className="card-header bg-secondary text-white">
+              <h3 className="card-title">'No products ...yet!'</h3>
+            </div>
+          </div>
+        </div>
+			</div>
 		);
 	}
 }

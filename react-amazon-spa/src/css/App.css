@@ -69,3 +69,15 @@ body {
 .border-light {
   margin-bottom: 3rem;
 }
+
+nav {
+  border-bottom: 2px solid #868585;
+}
+
+.navbar-brand {
+  margin-left: 15px;
+}
+
+.navbar-nav {
+  margin-left: 15px;
+}
