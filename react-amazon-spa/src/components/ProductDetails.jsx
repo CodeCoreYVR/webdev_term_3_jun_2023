@@ -15,9 +15,16 @@ export default function ProductDetails(props) {
         <h3 className="card-title">{title}</h3>
       </div>
       <div className="card-body">
-        <div>
+        {created_at ? (
+          <div>
+            <p className="card-text"><i>~ {new Date(created_at).toLocaleDateString()} ~</i></p>
+          </div>
+        ) : (
+          null
+        )}
+        {/* <div>
           <p className="card-text"><i>~ {new Date(created_at).toLocaleDateString()} ~</i></p>
-        </div>
+        </div> */}
         <div>
           <h3>Created By:</h3>
           <p className="card-text">{full_name}</p>
