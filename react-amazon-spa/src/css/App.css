@@ -59,8 +59,13 @@ body {
 .review-header {
   display: flex;
   align-items: center;
+  margin-bottom: 1rem;
 }
 
 .review-header i {
   margin-left: 0.5rem;
+}
+
+.border-light {
+  margin-bottom: 3rem;
 }

@@ -2,22 +2,22 @@ import React from "react";
 import { StarRating } from './StarRating';
 
 export default function ReviewDetails(props) {
-	const { body, created_at, full_name, rating } = props;
-
-	return (
+	const { body, reviewer = {}, rating } = props;
+  const { full_name } = reviewer;
+	
+  return (
 		<div className="ReviewDetails">
-			<li class="list-group-item">
-        <p className="review-header">
-          <StarRating rating={rating} max={5} />
-          <i>~ {new Date(created_at).toLocaleDateString()} ~</i>
-        </p>
-        <div>
-          <strong>{full_name}:</strong>
+			<li className="list-group-item">
+        <div className="review-header">
+          <StarRating rating={ rating } max={5} />
+          <i>~ <strong>{ full_name }</strong> ~</i>
         </div>
-        <div>{body}</div>
+        <div>{ body }</div>
+        <div>
+          <button onClick={ props.handleDelete }>Delete Review</button>
+        </div>
       </li>
 		</div>
 	);
 }
 
-// export default ReviewDetails;
