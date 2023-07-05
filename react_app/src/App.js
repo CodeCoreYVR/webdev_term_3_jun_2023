@@ -46,7 +46,6 @@ export default function App(){
           {!user && <Route exact path='/sign-in' element={<SignInPage onSignIn={getCurrentUser} />} />}
           {!user && <Route exact path='/sign-up' element={<SignUpPage onSignUp={getCurrentUser}/>} />}
           <Route exact path='/' element={<WelcomePage />} />
-          <Route exact path='/' element={<WelcomePage />} />
           <Route exact path='/questions' element={<QuestionIndexPage />} />
           <Route exact path='/questions/new'element={<AuthRoute
               page={<NewQuestionPage />}

@@ -13,6 +13,7 @@ export const FloatingInput = (props) => {
                 id={props.id}
                 name={props.name || props.id}
                 onChange={props.handleInput}
+                onBlur={props.onBlur}
                 placeholder={props.placeholder || props.label}
                 {...props.inputAttributes}
             />

@@ -7,7 +7,7 @@ class SignUpPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            error: null,
+            error: {},
             user: {
                 first_name: "",
                 last_name: "",
@@ -18,13 +18,58 @@ class SignUpPage extends Component {
         };
     }
 
+    validateEmail = (email) => {
+        return String(email)
+          .toLowerCase()
+          .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          );
+      };
+
     handleChange = (e) => {
         let { name, value } = e.target;
+        let { error } = this.state;
+
+        if (["first_name", "last_name"].includes(name) && value.length > 50) {
+            error[name] = "is too long"
+        }
+        else {
+            error[name] = null
+        }
+
+        if (["first_name", "last_name"].includes(name)) {
+            if (!/^[a-zA-Z]*$/.test(value)) {
+                error[name] = "accepts only alphabets"
+                value = this.state.user[name]
+            }
+        }
+
         this.setState({
-            ...this.state,
+            error: {
+                ...this.state.error,
+                error
+            },
             user: {
                 ...this.state.user,
                 [name]: value
+            }
+        })
+    }
+
+    onBlur = (e) => {
+        let { name, value } = e.target;
+        let { error } = this.state;
+
+        if(name === "email") {
+            if(!this.validateEmail(value)) {
+                error[name] = "is not in correct format"
+            }
+        }
+        this.setState({
+            ...this.state,
+            error: {
+                ...this.state.error,
+                error
             }
         })
     }
@@ -72,6 +117,7 @@ class SignUpPage extends Component {
                     label="Email"
                     handleInput={this.handleChange}
                     err={error?.email}
+                    onBlur={this.onBlur}
                 />
                 <FloatingInput
                     value={password}
