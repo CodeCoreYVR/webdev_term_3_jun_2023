@@ -24,9 +24,6 @@ export default function ProductDetails(props) {
         ) : (
           null
         )}
-        {/* <div>
-          <p className="card-text"><i>~ {new Date(created_at).toLocaleDateString()} ~</i></p>
-        </div> */}
         <div>
           <h3>Created By:</h3>
           <p className="card-text">{full_name}</p>
@@ -48,5 +45,3 @@ export default function ProductDetails(props) {
 		</div>
 	);
 }
-
-// export default ProductDetails;

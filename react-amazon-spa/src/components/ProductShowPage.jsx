@@ -13,11 +13,18 @@ export default class ProductShowPage extends Component {
     };
   }
 
-	render() {
-	// 	// let product = this.product;
+  handleDeleteReview(reviewId) {
+    this.setState((prevState) => ({
+      product: {
+        ...prevState.product,
+        reviews: prevState.product.reviews.filter((review) => review.id !== reviewId),
+      },
+    }));
+  }
 
-	// 	if (!product) return <p>Loading...</p>;
-    let product = this.state.product;
+
+	render() {
+	  let product = this.state.product;
 
 		return product.id ? (
 			<div className="container mt-5">
@@ -29,7 +36,7 @@ export default class ProductShowPage extends Component {
 					</div>
 					<ul className="list-group">
 						{product.reviews.length > 0 ? (
-							<ReviewList reviews={product.reviews} />
+							<ReviewList reviews={product.reviews} handleDelete={(reviewId) => this.handleDeleteReview(reviewId)} />
 						) : (
               <li className="list-group-item">No reviews ...yet!</li>
             )}
