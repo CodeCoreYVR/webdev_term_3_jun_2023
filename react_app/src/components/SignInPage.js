@@ -8,7 +8,7 @@ function SignInPage(props) {
     const [password, setPassword] = useState('')
 
     const navigate = useNavigate()
-    const [errors, setErrors] = useState([])
+    const [errors, setErrors] = useState(null)
     function handleSubmit(event) {
         event.preventDefault();
 
@@ -19,14 +19,13 @@ function SignInPage(props) {
 
         Session.create(request)
             .then((data) => {
-                console.log(data)
-                if (data.status === 401){
-                    setErrors([...errors, {message: data.message}])
-                }
-                if(data?.id) {
+                if (data?.id) {
                     props.onSignIn();
                     navigate("/");
                 }
+            })
+            .catch(err => {
+                setErrors(JSON.parse(err.message))
             })
     }
 
@@ -34,13 +33,10 @@ function SignInPage(props) {
         <main>
             <h1>Sign In</h1>
             {
-                errors.length > 0 ? (
-                    <div>
-                        <h4>Failed to Sign</h4>
-                        <p>{errors.map((error) => error.message).join(", ")}</p>
-                    </div>
-                ) :
-                ("")
+                errors && <div>
+                    <h4>Failed to Sign</h4>
+                    <p>{errors.message}</p>
+                </div>
             }
             <form onSubmit={handleSubmit}>
                 <div className="form-floating mb-3">

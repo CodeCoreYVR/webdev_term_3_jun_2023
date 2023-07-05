@@ -30,9 +30,13 @@ async function request(path, requestBody, method) {
         }
 
         const response = await fetch(baseUrl + path, options);
-
-
-        return response.json();
+        
+        if (response.ok) {
+            return response.json();
+        }
+        else {
+            return response.text().then(text => { throw new Error(text) })
+        }
        
     }
     catch (error) {
