@@ -1,10 +1,10 @@
+import { Alert } from "./Alert"
 
 export const FloatingInput = (props) => {
     
     return <>
-        {props.err && <div className="alert alert-danger" role="alert" style={{padding: ".3rem .3rem"}}>
-            {`${props.label} ${props.err.toString()}`}
-        </div>}
+        {props.err && <Alert message={`${props.label} ${props.err.toString()}`}/>
+        }
         <div className="form-floating mb-3">
             <input
                 type={props.type || "text"}

@@ -2,13 +2,14 @@
 import { Session } from '../request'
 import { useState } from 'react';
 import { createRoutesFromChildren, useNavigate } from "react-router-dom";
+import { Alert } from './Alert';
 
 function SignInPage(props) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const navigate = useNavigate()
-    const [errors, setErrors] = useState([])
+    const [errors, setErrors] = useState(null)
     function handleSubmit(event) {
         event.preventDefault();
 
@@ -28,19 +29,16 @@ function SignInPage(props) {
                     navigate("/");
                 }
             })
+            .catch(err => {
+                setErrors(JSON.parse(err.message))
+            })
     }
 
     return (
         <main>
             <h1>Sign In</h1>
             {
-                errors.length > 0 ? (
-                    <div>
-                        <h4>Failed to Sign</h4>
-                        <p>{errors.map((error) => error.message).join(", ")}</p>
-                    </div>
-                ) :
-                ("")
+                errors && <Alert message={errors.message} />
             }
             <form onSubmit={handleSubmit}>
                 <div className="form-floating mb-3">
