@@ -1,10 +1,9 @@
-// import logo from './logo.svg';
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import "./css/App.css";
 import ProductIndexPage from './components/ProductIndexPage';
 import ProductShowPage from './components/ProductShowPage';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 
 
@@ -23,10 +22,10 @@ export default class App extends Component {
               <NavBar />
               <div className="container mt-2">
                 <div className="content-container">
-                  <Routes>
-                    <Route path="/products" element={ <ProductIndexPage /> } />
-                    <Route path="/products/:id" element={ <ProductShowPage /> } />
-                  </Routes>
+                  <Switch>
+                    <Route path="/products/:id" component={ ProductShowPage } />
+                    <Route path="/products" component={ ProductIndexPage } />
+                  </Switch>
                 </div>
               </div>
             </Router>

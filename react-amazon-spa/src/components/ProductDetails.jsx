@@ -32,7 +32,7 @@ export default function ProductDetails(props) {
           <p className="card-text">${ price }</p>
         </div>
         <div>
-          <button onClick={props.handleDelete}>Delete</button>
+          <button className="btn btn-secondary mt-2" onClick={props.handleDelete}>Delete</button>
         </div>
       </div>
 		</div>

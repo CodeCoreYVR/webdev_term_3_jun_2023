@@ -2,7 +2,7 @@ const NewProductForm = props => {
 	const handleSubmit = function (event) {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
-
+    
 		props.submitForm({
 			seller: { full_name: "John Doe" },
 			title: formData.get("title"),
@@ -14,11 +14,11 @@ const NewProductForm = props => {
 	};
 
 	return (
-    <div class="card border-light mx-auto">
-      <div class="card-header bg-secondary text-white">
-        <h1 class="card-title text-center">Product New</h1>
+    <div className="card border-light mx-auto">
+      <div className="card-header bg-secondary text-white">
+        <h1 className="card-title text-center">Product New</h1>
       </div>
-      <div class="card-body">
+      <div className="card-body">
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="title"><strong>Title: </strong></label>

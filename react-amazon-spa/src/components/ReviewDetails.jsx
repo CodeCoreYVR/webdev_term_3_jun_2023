@@ -14,7 +14,7 @@ export default function ReviewDetails(props) {
         </div>
         <div>{ body }</div>
         <div>
-          <button onClick={ props.handleDelete }>Delete Review</button>
+          <button className="btn btn-secondary my-1" onClick={ props.handleDelete }>Delete Review</button>
         </div>
       </li>
 		</div>
