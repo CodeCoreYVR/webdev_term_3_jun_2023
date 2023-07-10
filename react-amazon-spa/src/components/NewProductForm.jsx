@@ -2,7 +2,7 @@ const NewProductForm = props => {
 	const handleSubmit = function (event) {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
-    
+    console.log('formData: ', formData);
 		props.submitForm({
 			seller: { full_name: "John Doe" },
 			title: formData.get("title"),

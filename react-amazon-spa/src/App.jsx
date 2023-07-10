@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { Session } from './api/v1/sessionsApi';
 import 'bootstrap/dist/css/bootstrap.css';
 import "./css/App.css";
 import ProductIndexPage from './components/ProductIndexPage';
 import ProductShowPage from './components/ProductShowPage';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
+import NewProductPage from './components/NewProductPage';
 
 
 export default class App extends Component {
@@ -15,6 +17,16 @@ export default class App extends Component {
     };
   }
 
+  componentDidMount() {
+    Session.create({
+      email: "admin@user.ca",
+      password: "password",
+    }).then((fetchedUser) => {
+      this.setState({ user: fetchedUser });
+    })
+  }
+
+
   render() {
     return (
       <div className="grid-container">
@@ -23,6 +35,7 @@ export default class App extends Component {
               <div className="container mt-2">
                 <div className="content-container">
                   <Switch>
+                    <Route path="/products/new" component={ NewProductPage } />
                     <Route path="/products/:id" component={ ProductShowPage } />
                     <Route path="/products" component={ ProductIndexPage } />
                   </Switch>
@@ -33,5 +46,3 @@ export default class App extends Component {
     );
   }
 }
-
-// export default App;
