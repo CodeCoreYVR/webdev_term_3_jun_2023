@@ -1,7 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function ProductDetails(props) {
-	const { title, description, price, created_at, seller = {} } = props;
+	const { id, title, description, price, created_at, seller = {} } = props;
 	const { full_name } = seller;
 
 	return (
@@ -31,8 +32,9 @@ export default function ProductDetails(props) {
           <h3>Price:</h3>
           <p className="card-text">${ price }</p>
         </div>
-        <div>
-          <button className="btn btn-secondary mt-2" onClick={props.handleDeleteProduct}>Delete</button>
+        <div className="d-flex justify-content-around align-items-center mb-1">
+          <button className="btn btn-secondary mt-2" onClick={ () => props.handleDeleteProduct(id) }>Delete</button>
+          <Link to={`/products/${ id }/edit`} className="btn btn-secondary mt-2">Edit Product</Link>
         </div>
       </div>
 		</div>

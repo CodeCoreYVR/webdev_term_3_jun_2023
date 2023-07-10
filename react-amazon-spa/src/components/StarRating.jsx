@@ -13,7 +13,7 @@ export function StarRating(props = {}) {
 	return (
 		<div>
 			{stars.map((bool, i) => {
-				return <Star key={i} style={style(bool)} />;
+				return <Star key={ i } style={ style(bool) } />;
 			})}
 		</div>
 	);

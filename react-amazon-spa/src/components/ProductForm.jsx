@@ -1,9 +1,11 @@
-const NewProductForm = props => {
+const ProductForm = props => {
+  const { initialData = {}, onSubmit, buttonLabel, title } = props;
+
 	const handleSubmit = function (event) {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
     console.log('formData: ', formData);
-		props.submitForm({
+		onSubmit({
 			seller: { full_name: "John Doe" },
 			title: formData.get("title"),
 			description: formData.get("description"),
@@ -16,24 +18,24 @@ const NewProductForm = props => {
 	return (
     <div className="card border-light mx-auto">
       <div className="card-header bg-secondary text-white">
-        <h1 className="card-title text-center">Product New</h1>
+        <h1 className="card-title text-center">{ title }</h1>
       </div>
       <div className="card-body">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={ handleSubmit }>
           <div className="form-group">
             <label htmlFor="title"><strong>Title: </strong></label>
-            <textarea name="title" id="title" type="text" className='form-control' />
+            <textarea defaultValue={ initialData.title } name="title" id="title" type="text" className='form-control' />
           </div>
           <div className="form-group">
             <label htmlFor="description"><strong>Description: </strong></label>
-            <textarea name="description" id="description" type="text" className='form-control' />
+            <textarea defaultValue={ initialData.description } name="description" id="description" type="text" className='form-control' />
           </div>
           <div className="form-group">
             <label htmlFor="price"><strong>Price: </strong></label>
-            <input type="number" name="price" id="price" className='form-control' />
+            <input defaultValue={ initialData.price } type="number" name="price" id="price" className='form-control' />
           </div>
           <div className="card-footer text-center">
-            <button type="submit" className='btn btn-secondary'>Create Product</button>
+            <button type="submit" className='btn btn-secondary mt-3'>{ buttonLabel }</button>
           </div>
         </form>
       </div>
@@ -41,4 +43,4 @@ const NewProductForm = props => {
 	);
 };
 
-export default NewProductForm;
+export default ProductForm;

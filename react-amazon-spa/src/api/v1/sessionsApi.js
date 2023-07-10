@@ -12,6 +12,6 @@ export const Session = {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(params),
-    }).then((res) => res.json());
+    }).then(res => res.json());
   },
 }

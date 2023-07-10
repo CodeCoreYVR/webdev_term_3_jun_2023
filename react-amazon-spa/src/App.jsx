@@ -7,21 +7,20 @@ import ProductShowPage from './components/ProductShowPage';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import NewProductPage from './components/NewProductPage';
+import UpdateProductPage from './components/UpdateProductPage';
 
 
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      user: null,
-    };
+    this.state = { user: null };
   }
 
   componentDidMount() {
     Session.create({
       email: "admin@user.ca",
       password: "password",
-    }).then((fetchedUser) => {
+    }).then(fetchedUser => {
       this.setState({ user: fetchedUser });
     })
   }
@@ -36,8 +35,9 @@ export default class App extends Component {
                 <div className="content-container">
                   <Switch>
                     <Route path="/products/new" component={ NewProductPage } />
+                    <Route path="/products/:id/edit" component={ UpdateProductPage } />
                     <Route path="/products/:id" component={ ProductShowPage } />
-                    <Route path="/products" component={ ProductIndexPage } />
+                    <Route exact path="/products" component={ ProductIndexPage } />
                   </Switch>
                 </div>
               </div>

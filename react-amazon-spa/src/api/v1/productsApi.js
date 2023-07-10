@@ -5,7 +5,6 @@ const baseUrl = `http://${ domain }${ apiPrefix }`;
 export const Product = {
 	index() {
 		return fetch(`${ baseUrl }/products`).then((response) => {
-			// console.log(response);
 			return response.json();
 		});
 	},
@@ -15,6 +14,16 @@ export const Product = {
   create(params) {
     return fetch(`${ baseUrl }/products`, {
       method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(params),
+    }).then(res => res.json());
+  },
+  update(id, params) {
+    return fetch(`${ baseUrl }/products/${ id }`, {
+      method: "PATCH",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",

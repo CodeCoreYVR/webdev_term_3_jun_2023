@@ -29,14 +29,13 @@ export default class ProductShowPage extends Component {
     this.setState((prevState) => ({
       product: {
         ...prevState.product,
-        reviewers: prevState.product.reviewers.filter((review) => review.id !== reviewId),
+        reviewers: prevState.product.reviewers.filter(review => review.id !== reviewId),
       },
     }));
   }
 
   handleDeleteProduct(productId) {
     Product.destroy(productId).then(response => {
-      console.log("response: ", response, "response.errors: ", response.errors)
       if (response.errors) {
         this.setState({ errors: response.errors });
       } else {
@@ -48,7 +47,6 @@ export default class ProductShowPage extends Component {
 
 	render() {
 	  let product = this.state.product;
-    // console.log("pShow didMount 'response': ", product.reviewer);
 
 		return product.id ? (
 			<div className="container mt-5">
@@ -58,13 +56,13 @@ export default class ProductShowPage extends Component {
             <div>Loading...</div>
           ) : (
             <>
-            <ProductDetails {...product} />
+            <ProductDetails { ...product } handleDeleteProduct={ productId => this.handleDeleteProduct(productId) } />
             <div className="card-header bg-secondary text-white">
               <h3 className="card-title">Reviews:</h3>
             </div>
             <ul className="list-group">
               {product.reviewers.length > 0 ? (
-                <ReviewList reviews={product.reviewers} handleDeleteReview={(reviewId) => this.handleDeleteReview(reviewId)} handleDeleteProduct={productId => this.handleDeleteProduct(productId)} />
+                <ReviewList reviews={ product.reviewers } handleDeleteReview={ reviewId => this.handleDeleteReview(reviewId) } />
               ) : (
                 <li className="list-group-item">No reviews ...yet!</li>
               )}

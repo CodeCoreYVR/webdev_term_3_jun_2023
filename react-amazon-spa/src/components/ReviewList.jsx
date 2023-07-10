@@ -7,7 +7,7 @@ export default function ReviewList(props) {
 		return <li className="list-group-item">No reviews ...yet</li>;
 
 	return reviews.map((review, index) => (
-		<ReviewDetails key={index} {...review} handleDeleteReview={() => handleDeleteReview(review.id)} />
+		<ReviewDetails key={ index } { ...review } handleDeleteReview={ () => handleDeleteReview(review.id) } />
 	));
 }
 
