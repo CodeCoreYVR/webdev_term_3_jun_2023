@@ -17,7 +17,6 @@ export default class ProductShowPage extends Component {
 
   componentDidMount() {
     Product.show(this.props.match.params.id).then(response => {
-      // console.log("pShow didMount 'response': ", response);
       this.setState({
         product: response,
         loading: false
