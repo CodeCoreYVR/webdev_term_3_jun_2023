@@ -2,7 +2,7 @@ import React from "react";
 import { StarRating } from './StarRating';
 
 export default function ReviewDetails(props) {
-	const { body, reviewer = {}, rating, handleDeleteReview } = props;
+	const { body, reviewer = {}, rating } = props;
   const { full_name } = reviewer;
 	
   return (
@@ -14,7 +14,7 @@ export default function ReviewDetails(props) {
         </div>
         <div>{ body }</div>
         <div>
-          <button className="btn btn-secondary my-1" onClick={ handleDeleteReview }>Delete Review</button>
+          <button onClick={ props.handleDelete }>Delete Review</button>
         </div>
       </li>
 		</div>

@@ -1,33 +1,78 @@
 import React, { Component } from "react";
-import productData from "../tempDB/productData";
+import { Product } from "../api/v1/productsApi";
 import ProductDetails from "./ProductDetails";
 import ReviewList from "./ReviewList";
 
+
+
 export default class ProductShowPage extends Component {
-	product = productData();
+	// // product = productData();
+  constructor(props) {
+    super(props);
+    this.state = {
+      product: {},
+      loading: true,
+    };
+  }
+
+  componentDidMount() {
+    Product.show(this.props.match.params.id).then(response => {
+      // console.log("pShow didMount 'response': ", response);
+      this.setState({
+        product: response,
+        loading: false
+      })
+    })
+  }
+
+  handleDeleteReview(reviewId) {
+    this.setState((prevState) => ({
+      product: {
+        ...prevState.product,
+        reviewers: prevState.product.reviewers.filter(review => review.id !== reviewId),
+      },
+    }));
+  }
+
+  handleDeleteProduct(productId) {
+    Product.destroy(productId).then(response => {
+      if (response.errors) {
+        this.setState({ errors: response.errors });
+      } else {
+        this.props.history.push("/products");
+      }
+    });
+  }
+
 
 	render() {
-		let product = this.product;
+	  let product = this.state.product;
 
-		if (!product) return <p>Loading...</p>;
-
-		return (
+		return product.id ? (
 			<div className="container mt-5">
 				<h1 className="text-center">Product Show</h1>
 				<div className="card border-light mx-auto ">
-					<ProductDetails {...product} />
-					<div class="card-header bg-secondary text-white">
-						<h3 class="card-title">Reviews:</h3>
-					</div>
-					<ul class="list-group">
-						{product.reviews.length > 0 && (
-							<ReviewList reviews={product.reviews} />
-						)}
-					</ul>
+          {this.state.loading ? (
+            <div>Loading...</div>
+          ) : (
+            <>
+            <ProductDetails { ...product } handleDeleteProduct={ productId => this.handleDeleteProduct(productId) } />
+            <div className="card-header bg-secondary text-white">
+              <h3 className="card-title">Reviews:</h3>
+            </div>
+            <ul className="list-group">
+              {product.reviewers.length > 0 ? (
+                <ReviewList reviews={ product.reviewers } handleDeleteReview={ reviewId => this.handleDeleteReview(reviewId) } />
+              ) : (
+                <li className="list-group-item">No reviews ...yet!</li>
+              )}
+            </ul>
+            </>
+          )}
 				</div>
 			</div>
-		);
+		) : (
+      <div>Loading...</div>
+    );
 	}
 }
-
-// export default ProductShowPage;
