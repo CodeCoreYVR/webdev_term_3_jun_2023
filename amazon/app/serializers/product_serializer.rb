@@ -17,7 +17,7 @@ class ProductSerializer < ActiveModel::Serializer
 
   ## Reviews are nested under products
   # If you create a seperate review serializer, you can use it like this:
-  has_many :reviews, serializer: ReviewSerializer
+  has_many :reviews, serializer: ReviewSerializer, key: :reviewers
   # If you don't create a seperate review serializer, you can use it like this:
   # has_many :reviews
 
