@@ -52,5 +52,9 @@ Rails.application.routes.draw do
         get :current, on: :collection
       end
     end
+    # match "*unmatched_page" => * is a wildcard for unmatched routes
+    # to: controllerName#MethodName
+    # via: :all => via: [:get, post... and all the methods];
+    match "*unmatched_page", to: "application#not_found", via: :all
   end
 end

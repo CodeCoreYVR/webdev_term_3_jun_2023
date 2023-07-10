@@ -15,6 +15,8 @@ class Api::V1::QuestionsController < Api::ApplicationController
         @question = Question.new question_params
         @question.user = current_user
 
+        # @question.save!
+
         if @question.save
             if params[:tags] && params[:tags][:id] && params[:tags][:id].length
                 tag_ids = params[:tags][:id]
