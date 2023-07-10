@@ -12,9 +12,10 @@ import AuthRoute from './components/AuthRoute';
 import SignUpPage from './components/SignUpPage';
 import UseStateHook from './components/UseStateHook';
 import UseEffectHook from './components/UseEffectHook';
+import NotFoundPage from './components/NotFoundPage';
 
-export default function App(){
-  const [user, setUser] = useState(null) 
+export default function App() {
+  const [user, setUser] = useState(null)
 
 
   const getCurrentUser = () => {
@@ -44,15 +45,16 @@ export default function App(){
       <div className="container mt-4">
         <Routes>
           {!user && <Route exact path='/sign-in' element={<SignInPage onSignIn={getCurrentUser} />} />}
-          {!user && <Route exact path='/sign-up' element={<SignUpPage onSignUp={getCurrentUser}/>} />}
+          {!user && <Route exact path='/sign-up' element={<SignUpPage onSignUp={getCurrentUser} />} />}
           <Route exact path='/' element={<WelcomePage />} />
           <Route exact path='/questions' element={<QuestionIndexPage />} />
-          <Route exact path='/questions/new'element={<AuthRoute
-              page={<NewQuestionPage />}
-              isLoggedIn={!!user} />} />
+          <Route exact path='/questions/new' element={<AuthRoute
+            page={<NewQuestionPage />}
+            isLoggedIn={!!user} />} />
           <Route path='/questions/:id' element={<QuestionShowPage />} />
-          <Route path='/use_state' element={<UseStateHook/>} />
-          <Route path='/use_effect' element={<UseEffectHook/>} />
+          <Route path='/use_state' element={<UseStateHook />} />
+          <Route path='/use_effect' element={<UseEffectHook />} />
+          <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </div>
 

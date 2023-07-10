@@ -4,7 +4,6 @@ const CurrentDateTime = () => {
     const [dateTime, setDateTime] = useState(new Date())
 
     useEffect(()=>{
-        console.log('like ComponentDidMount')
         const intervalId = setInterval(() => {
             setDateTime(new Date())
         }, 1000)
