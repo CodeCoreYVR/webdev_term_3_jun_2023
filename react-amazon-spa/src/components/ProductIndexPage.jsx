@@ -21,10 +21,19 @@ export default class ProductIndexPage extends Component {
   }
 
   handleDelete(productId) {
-    this.setState((prevState) => ({
-      products: prevState.products.filter((product) => product.id !== productId),
-    }));
+    Product.destroy(productId).then(() => { // new line
+      this.setState((prevState) => ({
+        products: prevState.products.filter((product) => product.id !== productId),
+      }));
+    });
   }
+
+  // handleDeleteProduct(productId) {
+  //   Product.destroy(productId).then(() => {
+  //     this.setState((prevState) => ({
+  //       products: prevState.products.filter((product) => product.id !== productId),
+  //     }));
+  //   });
 
   handleCreate(params) {
     console.log('createProduct invoked', params);

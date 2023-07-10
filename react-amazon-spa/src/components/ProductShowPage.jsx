@@ -34,6 +34,17 @@ export default class ProductShowPage extends Component {
     }));
   }
 
+  handleDeleteProduct(productId) {
+    Product.destroy(productId).then(response => {
+      console.log("response: ", response, "response.errors: ", response.errors)
+      if (response.errors) {
+        this.setState({ errors: response.errors });
+      } else {
+        this.props.history.push("/products");
+      }
+    });
+  }
+
 
 	render() {
 	  let product = this.state.product;
@@ -53,7 +64,7 @@ export default class ProductShowPage extends Component {
             </div>
             <ul className="list-group">
               {product.reviewers.length > 0 ? (
-                <ReviewList reviews={product.reviewers} handleDelete={(reviewId) => this.handleDeleteReview(reviewId)} />
+                <ReviewList reviews={product.reviewers} handleDeleteReview={(reviewId) => this.handleDeleteReview(reviewId)} handleDeleteProduct={productId => this.handleDeleteProduct(productId)} />
               ) : (
                 <li className="list-group-item">No reviews ...yet!</li>
               )}

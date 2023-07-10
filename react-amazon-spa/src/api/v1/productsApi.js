@@ -10,7 +10,7 @@ export const Product = {
 		});
 	},
 	show(id) {
-		return fetch(`${ baseUrl }/products/${ id }`).then((res) => res.json());
+		return fetch(`${ baseUrl }/products/${ id }`).then(res => res.json());
 	},
   create(params) {
     return fetch(`${ baseUrl }/products`, {
@@ -20,6 +20,12 @@ export const Product = {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(params),
-    }).then((res) => res.json());
-  }
+    }).then(res => res.json());
+  },
+  destroy(id) {
+    return fetch(`${ baseUrl }/products/${ id }`, {
+      method: "DELETE",
+      credentials: "include",
+    }).then(res => res.json());
+  },
 };
