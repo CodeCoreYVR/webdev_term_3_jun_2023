@@ -1,5 +1,6 @@
 import "./a.js"
 import nature from "./images/nature.jpg"
+import "./styles/main.css"
 
 console.log("Hello World")
 
