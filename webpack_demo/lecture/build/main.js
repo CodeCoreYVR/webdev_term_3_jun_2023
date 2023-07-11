@@ -9,6 +9,17 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/images/nature.jpg":
+/*!*******************************!*\
+  !*** ./src/images/nature.jpg ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + \"outputImages/src/images/nature.jpg\");\n\n//# sourceURL=webpack://lecture/./src/images/nature.jpg?");
+
+/***/ }),
+
 /***/ "./src/a.js":
 /*!******************!*\
   !*** ./src/a.js ***!
@@ -26,7 +37,7 @@ eval("console.log(\"this is a.js\")\n\n//# sourceURL=webpack://lecture/./src/a.j
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _a_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./a.js */ \"./src/a.js\");\n/* harmony import */ var _a_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_a_js__WEBPACK_IMPORTED_MODULE_0__);\n\n\nconsole.log(\"Hello World\")\n\nfunction add(a, b){\n    return a + b\n}\n\nadd(1, 2)\n\nconst arr = [1, 2, 3, 4]\n\nadd(arr[0], arr[1])\n\nconsole.log(\"This is the index.js entry point\")\n\nconsole.log(\"Goodbye World\")\n\nconsole.log(\"This does not run atuomatically if I don't have the --watch running\")\n\nconsole.log(\"Added mode config to use development environment!\")\n\n//# sourceURL=webpack://lecture/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _a_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./a.js */ \"./src/a.js\");\n/* harmony import */ var _a_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_a_js__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _images_nature_jpg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./images/nature.jpg */ \"./src/images/nature.jpg\");\n\n\n\nconsole.log(\"Hello World\")\n\nfunction add(a, b){\n    return a + b\n}\n\nadd(1, 2)\n\nconst arr = [1, 2, 3, 4]\n\nadd(arr[0], arr[1])\n\nconsole.log(\"This is the index.js entry point\")\n\nconsole.log(\"Goodbye World\")\n\nconsole.log(\"This does not run atuomatically if I don't have the --watch running\")\n\nconsole.log(\"Added mode config to use development environment!\")\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n    const img = document.createElement(\"img\")\n    img.src = _images_nature_jpg__WEBPACK_IMPORTED_MODULE_1__[\"default\"]\n    document.querySelector(\"body\").append(img)\n})\n\n//# sourceURL=webpack://lecture/./src/index.js?");
 
 /***/ })
 
@@ -81,6 +92,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _a_j
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
@@ -95,6 +118,29 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _a_j
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript)
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && !scriptUrl) scriptUrl = scripts[i--].src;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
 /******/ 	})();
 /******/ 	
 /************************************************************************/

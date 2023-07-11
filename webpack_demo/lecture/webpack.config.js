@@ -19,5 +19,18 @@ module.exports = {
     output: {
         // Output requires the use of "path" to specify the location where our bundle files are created
         path: path.join(__dirname, "build")
+    },
+    module : {
+        // this where we will have the configuration for the loaders
+        rules: [
+            {
+                loader: "file-loader",
+                test: /\.(png|jpg|gif|webp|svg)$/,
+                options: {
+                    name: '[path][name].[ext]',
+                    outputPath: "outputImages/"
+                  },
+            }
+        ]
     }
 }
