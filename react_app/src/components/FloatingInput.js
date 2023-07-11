@@ -1,9 +1,9 @@
-import { Alert } from "./Alert"
+import { FormError } from "./FormError"
 
 export const FloatingInput = (props) => {
     
     return <>
-        {props.err && <Alert message={`${props.label} ${props.err.toString()}`}/>
+        {props.err && <FormError field={props.label} error={props.err}/>
         }
         <div className="form-floating mb-3">
             <input

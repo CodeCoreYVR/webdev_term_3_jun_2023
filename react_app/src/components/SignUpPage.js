@@ -82,9 +82,10 @@ class SignUpPage extends Component {
                 this.props.navigate("/") // for older version, we could write this.props.history.push("/"), in that we don't need to wrap our compoment 'withRouter'
             })
             .catch(err => {
+                let errJson = JSON.parse(err.message)
                 this.setState({
                     ...this.state,
-                    error: JSON.parse(err.message),
+                    error: errJson,
                 })
             })
     }

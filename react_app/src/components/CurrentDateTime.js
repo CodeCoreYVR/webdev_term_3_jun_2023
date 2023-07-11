@@ -4,12 +4,12 @@ const CurrentDateTime = () => {
     const [dateTime, setDateTime] = useState(new Date())
 
     useEffect(()=>{
-        console.log('like ComponentDidMount')
+        // console.log('like ComponentDidMount')
         const intervalId = setInterval(() => {
             setDateTime(new Date())
         }, 1000)
         return (() => {
-            console.log('like ComponentWillUnmount ')
+            // console.log('like ComponentWillUnmount ')
             clearInterval(intervalId)
         })
     })

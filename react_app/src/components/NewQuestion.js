@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import { FloatingInput } from "./FloatingInput";
 
 class NewQuestion extends Component {
     constructor(props) {
@@ -10,7 +11,7 @@ class NewQuestion extends Component {
     }
 
     handleChange = (e) => {
-        let {name, value} = e.target;
+        let { name, value } = e.target;
         this.setState({
             [name]: value
         })
@@ -27,10 +28,25 @@ class NewQuestion extends Component {
 
     render() {
         const { title, body } = this.state;
+        console.log(this.props.formError)
         return (
             <>
-                <input name="title" placeholder="Enter title" value={title} onChange={this.handleChange} />
-                <input name="body" placeholder="Enter body" value={body} onChange={this.handleChange} />
+                <FloatingInput
+                    value={title}
+                    id="title"
+                    label="Title"
+                    handleInput={this.handleChange}
+                    err={this.props.formError?.title}
+                />
+                <FloatingInput
+                    value={body}
+                    id="body"
+                    label="body"
+                    handleInput={this.handleChange}
+                    err={this.props.formError?.body}
+                />
+                {/* <input name="title" placeholder="Enter title" value={title} onChange={this.handleChange} />
+                <input name="body" placeholder="Enter body" value={body} onChange={this.handleChange} /> */}
                 <button onClick={this.addQuestion}>Add Question</button>
             </>
 

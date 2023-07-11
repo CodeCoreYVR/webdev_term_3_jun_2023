@@ -15,6 +15,9 @@ class Api::V1::QuestionsController < Api::ApplicationController
         @question = Question.new question_params
         @question.user = current_user
 
+        # ActiveRecord.save! will return the expection 'ActiveRecord::RecordInvalid', if validation fails. If it's successful, it returns true
+        # ActiveRecord.save will return false, if validation fails. If it's successful, it returns true.
+        # rescue_from ActiveRecord::RecordInvalid is used
         # @question.save!
 
         if @question.save

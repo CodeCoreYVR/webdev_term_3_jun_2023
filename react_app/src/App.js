@@ -12,6 +12,7 @@ import AuthRoute from './components/AuthRoute';
 import SignUpPage from './components/SignUpPage';
 import UseStateHook from './components/UseStateHook';
 import UseEffectHook from './components/UseEffectHook';
+import { NotFoundPage } from './components/NotFoundPage';
 
 export default function App(){
   const [user, setUser] = useState(null) 
@@ -53,6 +54,7 @@ export default function App(){
           <Route path='/questions/:id' element={<QuestionShowPage />} />
           <Route path='/use_state' element={<UseStateHook/>} />
           <Route path='/use_effect' element={<UseEffectHook/>} />
+          <Route path="*" element={<NotFoundPage/>} />
         </Routes>
       </div>
 

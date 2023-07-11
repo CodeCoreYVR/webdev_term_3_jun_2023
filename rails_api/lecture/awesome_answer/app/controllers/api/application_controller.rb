@@ -12,6 +12,7 @@ class Api::ApplicationController < ApplicationController
   # rescue_from <NameOfTheExceptionClass>, with: :<NameOfTheMethodForException>
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
+  # Raised for ActiveRecord.create! and ActiveRecord.save!
   rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
 
   def not_found

@@ -2,7 +2,7 @@
 import { Session } from '../request'
 import { useState } from 'react';
 import { createRoutesFromChildren, useNavigate } from "react-router-dom";
-import { Alert } from './Alert';
+import { FormError } from './FormError';
 
 function SignInPage(props) {
     const [email, setEmail] = useState('')
@@ -38,7 +38,7 @@ function SignInPage(props) {
         <main>
             <h1>Sign In</h1>
             {
-                errors && <Alert message={errors.message} />
+                errors && <FormError message={errors.message} />
             }
             <form onSubmit={handleSubmit}>
                 <div className="form-floating mb-3">
