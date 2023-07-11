@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 // import { Session } from './api/v1/sessionsApi';
+import { User } from './api/v1/usersApi';
 import 'bootstrap/dist/css/bootstrap.css';
 import "./css/App.css";
 import ProductIndexPage from './components/ProductIndexPage';
@@ -14,7 +15,7 @@ import SignInPage from './components/SignInPage';
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { user: null };
+    this.state = { currentUser: null };
   }
 
   // componentDidMount() {
@@ -26,20 +27,55 @@ export default class App extends Component {
   //   })
   // }
 
+  getCurrentUser = () => {
+    return User.current().then(user => {
+      console.log("currentUser before setState: ", this.state.currentUser)
+      if (user) {
+        this.setState({ currentUser: user }, () => {
+          console.log("currentUser after setState: ", this.state.currentUser);
+        });
+      }
+    });
+  }
 
   render() {
+    const { currentUser } = this.state;
     return (
       <div className="grid-container">
             <Router>
-              <NavBar />
+              <NavBar currentUser={ currentUser } />
               <div className="container mt-2">
                 <div className="content-container">
                   <Switch>
-                    <Route path="/products/new" component={ NewProductPage } />
-                    <Route path="/products/:id/edit" component={ UpdateProductPage } />
-                    <Route path="/products/:id" component={ ProductShowPage } />
-                    <Route exact path="/products" component={ ProductIndexPage } />
-                    <Route exact path="/session/new" component={ SignInPage } />
+                    <Route 
+                      exact
+                      path="/products/new" 
+                      component={ NewProductPage } 
+                    />
+                    
+                    <Route 
+                      path="/products/:id/edit" 
+                      component={ UpdateProductPage } 
+                    />
+                    
+                    <Route 
+                      path="/products/:id" 
+                      component={ ProductShowPage } 
+                    />
+                    
+                    <Route 
+                      exact 
+                      path="/products" 
+                      component={ ProductIndexPage }
+                    />
+
+                    <Route 
+                      exact 
+                      path="/session/new" 
+                      render={ (routeProps) => (
+                        <SignInPage { ...routeProps } onSignIn={ this.getCurrentUser } />
+                      )}
+                    />
                   </Switch>
                 </div>
               </div>

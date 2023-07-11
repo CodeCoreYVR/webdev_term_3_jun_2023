@@ -1,11 +1,15 @@
 import { Session } from '../api/v1/sessionsApi';
+import { useHistory } from "react-router-dom";
 
 function SignInPage(props) {
+  const history = useHistory();
+  const { onSignIn } = props;
 
   function handleSubmit(event) {
     event.preventDefault();
     const { currentTarget } = event;
     const formData = new FormData(currentTarget);
+
     const params = {
       email: formData.get('email'),
       password: formData.get('password')
@@ -15,7 +19,8 @@ function SignInPage(props) {
       console.log('Session create response: ', response);
       if (response.id) {
         console.log("Sign In Successful!")
-        props.history.push('/');
+        onSignIn();
+        history.push('/');
       }
     });
   }
