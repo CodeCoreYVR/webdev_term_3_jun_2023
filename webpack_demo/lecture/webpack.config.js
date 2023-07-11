@@ -38,6 +38,11 @@ module.exports = {
                     {loader: "css-loader"}
                 ],
                 test: /\.css$/
+            },
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                loader: "babel-loader"
             }
         ]
     },
