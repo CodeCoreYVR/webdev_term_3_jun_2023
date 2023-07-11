@@ -29,21 +29,24 @@ export default class App extends Component {
 
   getCurrentUser = () => {
     return User.current().then(user => {
-      console.log("currentUser before setState: ", this.state.currentUser)
-      if (user) {
+      if (user?.id) {
         this.setState({ currentUser: user }, () => {
-          console.log("currentUser after setState: ", this.state.currentUser);
         });
       }
     });
   }
+
+  onSignOut = () => {
+    this.setState({ currentUser: null });
+  };
+
 
   render() {
     const { currentUser } = this.state;
     return (
       <div className="grid-container">
             <Router>
-              <NavBar currentUser={ currentUser } />
+              <NavBar currentUser={ currentUser } onSignOut={ this.onSignOut } />
               <div className="container mt-2">
                 <div className="content-container">
                   <Switch>
