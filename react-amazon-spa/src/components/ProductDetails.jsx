@@ -6,7 +6,7 @@ export default function ProductDetails(props) {
 	const { full_name } = seller;
 
 	return (
-		<div className="ProductDetails">
+		<>
 			<div className="card-header bg-secondary text-white">
         <h3 className="card-title">{ title }</h3>
       </div>
@@ -37,6 +37,6 @@ export default function ProductDetails(props) {
           <Link to={`/products/${ id }/edit`} className="btn btn-secondary mt-2">Edit Product</Link>
         </div>
       </div>
-		</div>
+		</>
 	);
 }

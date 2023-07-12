@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Product } from "../api/v1/productsApi";
-import ProductForm from "./ProductForm"; // Assume you have a form component for products
+import ProductForm from "./ProductForm";
 
 export default class UpdateProductPage extends Component {
 	constructor(props) {

@@ -2,7 +2,7 @@ class Api::V1::ProductsController < Api::ApplicationController
   # created with:
   # $ rails g controller api/v1/products
 
-  # before_action :require_login, only: [:create, :update, :destroy]
+  before_action :require_login, only: [:create, :update, :destroy]
   before_action :find_product, only: [:show, :update, :destroy]
   before_action :authorize!, only: [:update, :destroy]
 

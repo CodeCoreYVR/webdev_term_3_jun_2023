@@ -82,7 +82,15 @@ nav {
   margin-left: 15px;
 }
 
+.welcome-message {
+  margin-right: 15px;
+}
+
 .no-underline {
   text-decoration: none;
   color: black;
+}
+
+.card-footer {
+  background-color: white;
 }

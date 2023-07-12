@@ -1,8 +1,5 @@
 import { Component } from "react";
-// import productsData from "../tempDB/productsData";
 import { Product } from "../api/v1/productsApi";
-// import ProductDetails from "./ProductDetails";
-// import ProductForm from "./ProductForm";
 import { Link } from "react-router-dom";
 
 export default class ProductIndexPage extends Component {
@@ -41,58 +38,56 @@ export default class ProductIndexPage extends Component {
 	render() {
 		let products = this.state.products;
 
-		return products && products.length > 0 ? (
+    return (
 			<div className="container mt-5">
-				{/* <NewProductForm submitForm={ params =>  this.handleCreate(params) } /> */}
-				<h1 className="text-center">Product Index</h1>
 				<div className="card border-light mx-auto ">
-					{this.state.loading ? (
-						<div>Loading...</div>
-					) : (
-						<>
-							{products.map((product) => {
-								// return <ProductDetails key={ product.id } { ...product } handleDelete={ () => this.handleDelete(product.id) } />;
-								return (
-									<li
-										className="list-group-item d-flex justify-content-between align-items-center mb-1"
-										key={ product.id }
-									>
-										<div>
-											{ product.id } -{" "}
-											<Link
-												to={ `/products/${ product.id }` }
-												className="no-underline"
-											>
-												{product.title}
-											</Link>{" "}
-										</div>
-										<div>
-											<button
-												className="btn btn-secondary btn-sm"
-												onClick={ () => this.handleDelete( product.id ) }
-											>
-												Delete
-											</button>{" "}
-										</div>
-									</li>
-								);
-							})}
-						</>
-					)}
+          <div className="card-header bg-secondary text-white">
+            <h1 className="text-center">Product Index</h1>
+          </div>
+          <div className="card-body">
+            <ol className="list-group list-group-flush">
+              {this.state.loading ? (
+                <li className="list-group-item">Loading...</li>
+              ) : (
+                <>              
+                  {products && products.length > 0 ? (
+                    <>
+                      {products.map((product) => {
+                        return (
+                          <li
+                            className="list-group-item d-flex justify-content-between align-items-center mb-1"
+                            key={ product.id }
+                          >
+                            <div>
+                              { product.id } -{" "}
+                              <Link
+                                to={ `/products/${ product.id }` }
+                                className="no-underline"
+                              >
+                                {product.title}
+                              </Link>{" "}
+                            </div>
+                            <div>
+                              <button
+                                className="btn btn-secondary btn-sm"
+                                onClick={ () => this.handleDelete( product.id ) }
+                              >
+                                Delete
+                              </button>{" "}
+                            </div>
+                          </li>
+                        );
+                      })}
+                    </>
+                  ) : (
+                    <li className="list-group-item">No products ...yet!</li>
+                  )}
+                </>
+              )}
+            </ol>
+          </div>
 				</div>
 			</div>
-		) : (
-			<div className="container mt-5">
-				{/* <ProductForm submitForm={(params) => this.handleCreate(params)} /> */}
-				<h1 className="text-center">Product Index</h1>
-				<div className="card border-light mx-auto ">
-					<div className="ProductDetails">
-						<div className="card-header bg-secondary text-white">
-							<h3 className="card-title">'No products ...yet!'</h3>
-						</div>
-					</div>
-				</div>
-			</div>
-		);
+		)
 	}
 }
