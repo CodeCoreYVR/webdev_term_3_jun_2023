@@ -1,77 +1,73 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { Product } from "../api/v1/productsApi";
 import ProductDetails from "./ProductDetails";
 import ReviewList from "./ReviewList";
 
 
 
-export default class ProductShowPage extends Component {
-	// // product = productData();
-  constructor(props) {
-    super(props);
-    this.state = {
-      product: {},
-      loading: true,
-    };
-  }
+const ProductShowPage = (props) => {
+  const [product, setProduct] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [errors, setErrors] = useState([]);
 
-  componentDidMount() {
-    Product.show(this.props.match.params.id).then(response => {
-      this.setState({
-        product: response,
-        loading: false
-      })
-    })
-  }
+  useEffect(() => {
+    Product.show(props.match.params.id).then((response) => {
+      setProduct(response);
+      setLoading(false);
+    });
+  }, [props.match.params.id]);
 
-  handleDeleteReview(reviewId) {
-    this.setState((prevState) => ({
-      product: {
-        ...prevState.product,
-        reviewers: prevState.product.reviewers.filter(review => review.id !== reviewId),
-      },
+  // componentDidMount() {
+  //   Product.show(this.props.match.params.id).then(response => {
+  //     this.setState({
+  //       product: response,
+  //       loading: false
+  //     })
+  //   })
+  // }
+
+  const handleDeleteReview = reviewId => {
+    setProduct(prevProduct => ({
+      ...prevProduct,
+      reviewers: prevProduct.reviewers.filter(review => review.id !== reviewId),
     }));
   }
 
-  handleDeleteProduct(productId) {
+  const handleDeleteProduct = productId => {
     Product.destroy(productId).then(response => {
       if (response.errors) {
-        this.setState({ errors: response.errors });
+        setErrors(response.errors);
       } else {
-        this.props.history.push("/products");
+        props.history.push("/products");
       }
     });
   }
 
 
-	render() {
-	  let product = this.state.product;
-
-		return product.id ? (
-			<div className="container mt-5">
-				<h1 className="text-center">Product Show</h1>
-				<div className="card border-light mx-auto ">
-          {this.state.loading ? (
-            <div>Loading...</div>
-          ) : (
-            <>
-            <ProductDetails { ...product } handleDeleteProduct={ productId => this.handleDeleteProduct(productId) } />
-            <div className="card-header bg-secondary text-white">
-              <h3 className="card-title">Reviews:</h3>
-            </div>
-            <ul className="list-group">
-              {product.reviewers.length > 0 ? (
-                <ReviewList reviews={ product.reviewers } handleDeleteReview={ reviewId => this.handleDeleteReview(reviewId) } />
-              ) : (
-                <li className="list-group-item">No reviews ...yet!</li>
-              )}
-            </ul>
-            </>
-          )}
-				</div>
-			</div>
-		) : (
-      <div>Loading...</div>
-    );
-	}
+  return (
+    <div className="container mt-5">
+      <h1 className="text-center">Product Show</h1>
+      <div className="card border-light mx-auto ">
+        {loading ? (
+          <div>Loading...</div>
+        ) : (
+          <>
+          <ProductDetails { ...product } handleDeleteProduct={ productId => handleDeleteProduct(productId) } />
+          <div className="card-header bg-secondary text-white">
+            <h3 className="card-title">Reviews:</h3>
+          </div>
+          <ul className="list-group">
+            {product.reviewers.length > 0 ? (
+              <ReviewList reviews={ product.reviewers } handleDeleteReview={ reviewId => handleDeleteReview(reviewId) } />
+            ) : (
+              <li className="list-group-item">No reviews ...yet!</li>
+            )}
+          </ul>
+          </>
+        )}
+      </div>
+    </div>
+  );
 }
+
+export default ProductShowPage;

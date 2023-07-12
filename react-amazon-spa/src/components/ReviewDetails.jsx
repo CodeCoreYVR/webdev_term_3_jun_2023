@@ -2,8 +2,7 @@ import React from "react";
 import { StarRating } from './StarRating';
 
 export default function ReviewDetails(props) {
-	const { body, reviewer = {}, rating, handleDeleteReview } = props;
-  const { full_name } = reviewer;
+	const { body, full_name, rating, handleDeleteReview } = props;
 	
   return (
 		<div className="ReviewDetails">
