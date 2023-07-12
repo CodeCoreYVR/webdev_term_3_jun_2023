@@ -10,6 +10,7 @@ import NavBar from "./components/NavBar";
 import NewProductPage from './components/NewProductPage';
 import UpdateProductPage from './components/UpdateProductPage';
 import SignInPage from './components/SignInPage';
+import AuthRoute from './components/AuthRoute';
 
 
 export default class App extends Component {
@@ -50,34 +51,41 @@ export default class App extends Component {
               <div className="container mt-2">
                 <div className="content-container">
                   <Switch>
-                    <Route 
-                      exact
-                      path="/products/new" 
-                      component={ NewProductPage } 
-                    />
-                    
-                    <Route 
-                      path="/products/:id/edit" 
-                      component={ UpdateProductPage } 
-                    />
-                    
-                    <Route 
-                      path="/products/:id" 
-                      component={ ProductShowPage } 
-                    />
-                    
-                    <Route 
-                      exact 
-                      path="/products" 
-                      component={ ProductIndexPage }
-                    />
-
+                    {/* Session Routes */}
                     <Route 
                       exact 
                       path="/session/new" 
                       render={ (routeProps) => (
                         <SignInPage { ...routeProps } onSignIn={ this.getCurrentUser } />
                       )}
+                    />
+
+
+                    {/* Products Routes */}
+                    <AuthRoute 
+                      isAuth={ currentUser }
+                      exact
+                      path="/products/new" 
+                      component={ NewProductPage } 
+                    />
+                    
+                    <AuthRoute
+                      isAuth={ currentUser }
+                      path="/products/:id/edit" 
+                      component={ UpdateProductPage } 
+                    />
+                    
+                    <AuthRoute
+                      isAuth={ currentUser }
+                      path="/products/:id" 
+                      component={ ProductShowPage } 
+                    />
+                    
+                    <AuthRoute
+                      isAuth={ currentUser }
+                      exact 
+                      path="/products" 
+                      component={ ProductIndexPage }
                     />
                   </Switch>
                 </div>
