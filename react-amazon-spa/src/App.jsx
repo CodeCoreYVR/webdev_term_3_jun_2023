@@ -14,13 +14,24 @@ import AuthRoute from './components/AuthRoute';
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const getCurrentUser = () => {
     return User.current().then(user => {
       if (user?.id) {
         setCurrentUser(user);
+      } else {
+        setCurrentUser(null);
       }
-    });
+    })
+    .catch(error => {
+      if (error.status === 401) {
+        setCurrentUser(null);
+      } else {
+        console.error(error);
+      }  
+    })
+    .finally(() => setLoading(false));
   }
 
   useEffect(() => {
@@ -34,51 +45,55 @@ const App = () => {
 
   return (
     <div className="grid-container">
-          <Router>
-            <NavBar currentUser={ currentUser } onSignOut={ onSignOut } />
-            <div className="container mt-2">
-              <div className="content-container">
-                <Switch>
-                  {/* Session Routes */}
-                  <Route 
-                    exact 
-                    path="/session/new" 
-                    render={ (routeProps) => (
-                      <SignInPage { ...routeProps } onSignIn={ getCurrentUser } />
-                    )}
-                  />
+      { loading ? (
+        <div>Loading...</div>
+      ) : (
+        <Router>
+          <NavBar currentUser={ currentUser } onSignOut={ onSignOut } />
+          <div className="container mt-2">
+            <div className="content-container">
+              <Switch>
+                {/* Session Routes */}
+                <Route 
+                  exact 
+                  path="/session/new" 
+                  render={ (routeProps) => (
+                    <SignInPage { ...routeProps } onSignIn={ getCurrentUser } />
+                  )}
+                />
 
 
-                  {/* Products Routes */}
-                  <AuthRoute 
-                    isAuth={ currentUser }
-                    exact
-                    path="/products/new" 
-                    component={ NewProductPage } 
-                  />
-                  
-                  <AuthRoute
-                    isAuth={ currentUser }
-                    path="/products/:id/edit" 
-                    component={ UpdateProductPage } 
-                  />
-                  
-                  <AuthRoute
-                    isAuth={ currentUser }
-                    path="/products/:id" 
-                    component={ ProductShowPage } 
-                  />
-                  
-                  <AuthRoute
-                    isAuth={ currentUser }
-                    exact 
-                    path="/products" 
-                    component={ ProductIndexPage }
-                  />
-                </Switch>
-              </div>
+                {/* Products Routes */}
+                <AuthRoute 
+                  isAuth={ currentUser }
+                  exact
+                  path="/products/new" 
+                  component={ NewProductPage } 
+                />
+                
+                <AuthRoute
+                  isAuth={ currentUser }
+                  path="/products/:id/edit" 
+                  component={ UpdateProductPage } 
+                />
+                
+                <AuthRoute
+                  isAuth={ currentUser }
+                  path="/products/:id" 
+                  component={ ProductShowPage } 
+                />
+                
+                <AuthRoute
+                  isAuth={ currentUser }
+                  exact 
+                  path="/products" 
+                  component={ ProductIndexPage }
+                />
+              </Switch>
             </div>
-          </Router>
+          </div>
+        </Router>
+      )}
     </div>
   );
 }

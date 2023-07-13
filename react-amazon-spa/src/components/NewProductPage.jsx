@@ -1,34 +1,52 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Product } from "../api/v1/productsApi";
 import ProductForm from "./ProductForm";
 
-export default class NewProductPage extends Component {
-	constructor(props) {
-		super(props);
-		this.state = { errors: [] };
-		this.handleCreate = this.handleCreate.bind(this);
-	}
+const NewProductPage = props => {
+	// constructor(props) {
+	// 	super(props);
+	// 	this.state = { errors: [] };
+	// 	this.handleCreate = this.handleCreate.bind(this);
+	// }
+  const history = useHistory();
+  const [product, setProduct] = useState({
+    title: "",
+    description: "",
+    price: "",
+  });
+  const [errors, setErrors] = useState([]);
 
-	handleCreate(params) {
-		Product.create(params).then((response) => {
-			if (response.errors) {
-				this.setState({ errors: response.errors });
+	const handleCreate = params => {
+		Product.create(params).then(newProduct => {
+			if (newProduct.errors) {
+				setErrors(newProduct.errors);
 			} else {
-				this.props.history.push(`/products/${ response.id }`);
+				history.push(`/products/${ newProduct.id }`);
 			}
 		});
 	}
 
-	render() {
-		return (
-			<div className="container mt-5">
-				<ProductForm
-					onSubmit={ params => this.handleCreate(params) }
-          buttonLabel="New Product"
-					title="New Product"
-					errors={ this.state.errors }
-				/>
-			</div>
-		);
-	}
+  const handleInputChange = event => {
+    setProduct({
+      ...product,
+      [event.currentTarget.name]: event.currentTarget.value
+    });
+  }
+
+
+  return (
+    <div className="container mt-5">
+      <ProductForm
+        onSubmit={ () => handleCreate(product) }
+        onChange={ handleInputChange }
+        product={ product }
+        buttonLabel="Create"
+        title="New Product"
+        errors={ errors }
+      />
+    </div>
+  );
 }
+
+export default NewProductPage;
