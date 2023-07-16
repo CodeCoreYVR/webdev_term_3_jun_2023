@@ -36,7 +36,7 @@ class Api::V1::SessionsController < Api::ApplicationController
   def create
     if @user&.authenticate(params[:password])
       session[:user_id] = @user.id
-      session[:expires_at] = Time.current + 2.minutes
+      session[:expires_at] = Time.current + 10.minutes
       render json:{ id: @user.id, status: 'Logged in' }
     else
       p "@user: ", @user

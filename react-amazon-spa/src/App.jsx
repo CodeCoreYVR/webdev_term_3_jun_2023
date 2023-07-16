@@ -6,8 +6,8 @@ import ProductIndexPage from './components/ProductIndexPage';
 import ProductShowPage from './components/ProductShowPage';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
-import NewProductPage from './components/NewProductPage';
-import UpdateProductPage from './components/UpdateProductPage';
+import ProductNewPage from './components/ProductNewPage';
+import ProductUpdatePage from './components/ProductUpdatePage';
 import SignInPage from './components/SignInPage';
 import AuthRoute from './components/AuthRoute';
 
@@ -68,13 +68,13 @@ const App = () => {
                   isAuth={ currentUser }
                   exact
                   path="/products/new" 
-                  component={ NewProductPage } 
+                  component={ ProductNewPage } 
                 />
                 
                 <AuthRoute
                   isAuth={ currentUser }
                   path="/products/:id/edit" 
-                  component={ UpdateProductPage } 
+                  component={ ProductUpdatePage } 
                 />
                 
                 <AuthRoute
