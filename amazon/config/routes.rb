@@ -87,9 +87,11 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do # we can set default response format of the block
     namespace :v1 do
-      resources :products
+      resources :products do
+        resources :reviews, only: [:create, :update, :destroy]
+      end
       resource :session, only:[:create, :destroy]
-      resources :users, only: [:create] do
+      resources :users, only: [:create, :show] do
         get :current, on: :collection
       end
     end

@@ -22,18 +22,17 @@ const NavBar = ({ currentUser, onSignOut }) => {
             </li>
           ) : null }
         </ul>
-        <ul className="navbar-nav ms-auto align-items-center">
-          { currentUser ? (
-            <>
-              <li className="nav-item welcome-message">Welcome { currentUser.full_name }!</li>
-              <li className="nav-item"><button className={ "nav-link" } onClick={ handleSignOut }>Sign Out</button></li>
-            </>
-          ) : (
-            <li className="nav-item">
-              <NavLink className={"nav-link"} to="/session/new">Sign In</NavLink>
-            </li>
-          )}
-        </ul>
+        { currentUser ? (
+          <ul className="navbar-nav ms-auto align-items-center">
+            <li className="nav-item welcome-message">Welcome { currentUser.full_name }!</li>
+            <li className="nav-item"><button className={ "nav-link" } onClick={ handleSignOut }>Sign Out</button></li>
+          </ul>
+        ) : (
+          <ul className="navbar-nav ms-auto align-items-center">
+            <li className="nav-item"><NavLink className={"nav-link"} to="/session/new">Sign In</NavLink></li>
+            <li className="nav-item"><NavLink className={"nav-link"} to="/users/new">Sign Up</NavLink></li>
+          </ul>
+        )}
       </div>
     </nav>
   );

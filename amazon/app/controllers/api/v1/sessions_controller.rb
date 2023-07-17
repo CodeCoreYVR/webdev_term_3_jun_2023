@@ -36,9 +36,12 @@ class Api::V1::SessionsController < Api::ApplicationController
   def create
     if @user&.authenticate(params[:password])
       session[:user_id] = @user.id
+      session[:expires_at] = Time.current + 10.minutes
       render json:{ id: @user.id, status: 'Logged in' }
     else
-      render json:{ status: 404 }, status: 404
+      p "@user: ", @user
+      error_message = @user ? 'Failed to authenticate. Check your password.' : 'User not found. Check your email.'
+      render json:{ status: 404, error: error_message }, status: 404
     end
   end
 

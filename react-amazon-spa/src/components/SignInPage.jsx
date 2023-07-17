@@ -1,9 +1,12 @@
+import React, { useState } from 'react';
 import { Session } from '../api/v1/sessionsApi';
 import { useHistory } from "react-router-dom";
 
 function SignInPage(props) {
   const history = useHistory();
   const { onSignIn } = props;
+
+  const [errors, setErrors] = useState([]);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -21,6 +24,14 @@ function SignInPage(props) {
         console.log("Sign In Successful!")
         onSignIn();
         history.push('/');
+      } else if (response.errors) {
+        setErrors(response.errors);
+        // or below code if you want to use and test the errors state
+        // setErrors(prevErrors => {
+        //   const newErrors = [...prevErrors, ...response.errors];
+        //   console.log("SignIn errors: ", newErrors);
+        //   return newErrors;
+        // });
       }
     });
   }

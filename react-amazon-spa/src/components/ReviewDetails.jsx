@@ -2,8 +2,7 @@ import React from "react";
 import { StarRating } from './StarRating';
 
 export default function ReviewDetails(props) {
-	const { body, reviewer = {}, rating, handleDeleteReview } = props;
-  const { full_name } = reviewer;
+	const { body, full_name, rating, handleDeleteReview, handleEditReview } = props;
 	
   return (
 		<div className="ReviewDetails">
@@ -13,8 +12,9 @@ export default function ReviewDetails(props) {
           <i>~ <strong>{ full_name }</strong> ~</i>
         </div>
         <div>{ body }</div>
-        <div>
-          <button className="btn btn-secondary my-1" onClick={ handleDeleteReview }>Delete Review</button>
+        <div className="d-flex gap-2 mt-3 mb-2">
+          <button className="btn btn-secondary btn-sm" onClick={ handleEditReview }>Edit</button>
+          <button className="btn btn-secondary btn-sm" onClick={ handleDeleteReview }>Delete</button>
         </div>
       </li>
 		</div>
