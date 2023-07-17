@@ -91,7 +91,7 @@ Rails.application.routes.draw do
         resources :reviews, only: [:create, :update, :destroy]
       end
       resource :session, only:[:create, :destroy]
-      resources :users, only: [:create] do
+      resources :users, only: [:create, :show] do
         get :current, on: :collection
       end
     end

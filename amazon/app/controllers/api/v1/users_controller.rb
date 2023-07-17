@@ -6,6 +6,7 @@ class Api::V1::UsersController < Api::ApplicationController
   end
 
   def create
+    p "params:", params
     user = User.new user_params
     
     if user.save
@@ -18,6 +19,7 @@ class Api::V1::UsersController < Api::ApplicationController
       )
     end
   end
+
 
   private
 

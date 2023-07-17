@@ -9,12 +9,14 @@ import NavBar from "./components/NavBar";
 import ProductNewPage from './components/ProductNewPage';
 import ProductUpdatePage from './components/ProductUpdatePage';
 import SignInPage from './components/SignInPage';
+import SignUpPage from './components/SignUpPage';
 import AuthRoute from './components/AuthRoute';
 
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
   const getCurrentUser = () => {
     return User.current().then(user => {
@@ -35,13 +37,23 @@ const App = () => {
   }
 
   useEffect(() => {
-    getCurrentUser();
-  }, []);
+    if (isSignedIn) {
+      getCurrentUser();
+    }
+  }, [isSignedIn]);
 
   const onSignOut = () => {
     setCurrentUser(null);
+    setIsSignedIn(false);
   };
 
+  const onSignIn = (newUser) => {
+    setIsSignedIn(true);
+  };
+
+  // const onSignUp = () => {
+  //   setCurrentUser
+  // };
 
   return (
     <div className="grid-container">
@@ -57,8 +69,15 @@ const App = () => {
                 <Route 
                   exact 
                   path="/session/new" 
-                  render={ (routeProps) => (
-                    <SignInPage { ...routeProps } onSignIn={ getCurrentUser } />
+                  render={ routeProps => (
+                    <SignInPage { ...routeProps } onSignIn={ onSignIn } />                  )}
+                />
+
+                <Route 
+                  exact 
+                  path="/users/new" 
+                  render={ routeProps => (
+                    <SignUpPage { ...routeProps } onSignUp={ onSignIn }  />
                   )}
                 />
 
