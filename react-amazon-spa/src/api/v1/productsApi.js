@@ -4,8 +4,8 @@ const baseUrl = `http://${ domain }${ apiPrefix }`;
 
 export const Product = {
 	index() {
-		return fetch(`${ baseUrl }/products`).then((response) => {
-			return response.json();
+		return fetch(`${ baseUrl }/products`).then(response => {
+      return response.json();
 		});
 	},
 	show(id) {

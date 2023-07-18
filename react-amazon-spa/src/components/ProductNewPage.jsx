@@ -24,7 +24,10 @@ const NewProductPage = props => {
 			} else {
 				history.push(`/products/${ newProduct.id }`);
 			}
-		});
+		})
+    .catch(error => {
+      console.error('Fetch Error:', error);
+    });;
 	}
 
   const handleInputChange = event => {

@@ -7,10 +7,10 @@ const ProductIndexPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Product.index().then((products) => {
+    Product.index().then(products => {
       setProducts(products);
       setLoading(false);
-    });
+    })
   }, []);
 
 	const handleDelete = productId => {

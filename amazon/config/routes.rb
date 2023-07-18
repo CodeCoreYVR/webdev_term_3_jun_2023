@@ -95,6 +95,7 @@ Rails.application.routes.draw do
         get :current, on: :collection
       end
     end
+    match '*path', to: 'errors#not_found', via: :all
   end
 
 

@@ -11,6 +11,7 @@ import ProductUpdatePage from './components/ProductUpdatePage';
 import SignInPage from './components/SignInPage';
 import SignUpPage from './components/SignUpPage';
 import AuthRoute from './components/AuthRoute';
+import WelcomePage from './components/WelcomePage';
 
 
 const App = () => {
@@ -108,6 +109,16 @@ const App = () => {
                   path="/products" 
                   component={ ProductIndexPage }
                 />
+
+                {/* Home Routes */}
+                <Route
+                  exact
+                  path="/"
+                  render={ routeProps => (
+                    <WelcomePage { ...routeProps } currentUser={ currentUser } />
+                  )}
+                />
+                
               </Switch>
             </div>
           </div>
