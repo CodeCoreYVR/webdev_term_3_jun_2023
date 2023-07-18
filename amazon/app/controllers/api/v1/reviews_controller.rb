@@ -8,7 +8,7 @@ class Api::V1::ReviewsController < Api::ApplicationController
     review = @product.reviews.new review_params
     review.user = current_user
     
-    if review.save
+    if review.save!
       render json: review 
     else
       render json: { errors: review.errors }, status: 422 # Unprocessable Entity

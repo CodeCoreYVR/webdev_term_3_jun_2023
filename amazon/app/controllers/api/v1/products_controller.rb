@@ -64,7 +64,7 @@ class Api::V1::ProductsController < Api::ApplicationController
 
     p "product:", product
     
-    if product.save
+    if product.save! # This will raise an ActiveRecord::RecordInvalid exception if the record is invalid
       render json: product
       # or # render json: { id: product.id } 
     else
