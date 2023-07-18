@@ -95,6 +95,8 @@ Rails.application.routes.draw do
         get :current, on: :collection
       end
     end
+    # get '/trigger_error', to: 'v1/products#trigger_error' # for testing error handling
+
     match '*path', to: 'errors#not_found', via: :all
   end
 

@@ -95,6 +95,10 @@ class Api::V1::ProductsController < Api::ApplicationController
     end
   end
 
+  # # for testing the global rescue_from StandardError, with: :handle_standard_error
+  # def trigger_error
+  #   raise StandardError, "This is a test error"
+  # end  
 
   private
 
