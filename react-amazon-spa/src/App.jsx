@@ -12,6 +12,7 @@ import SignInPage from './components/SignInPage';
 import SignUpPage from './components/SignUpPage';
 import AuthRoute from './components/AuthRoute';
 import WelcomePage from './components/WelcomePage';
+import NotFoundPage from './components/NotFoundPage';
 
 
 const App = () => {
@@ -117,6 +118,11 @@ const App = () => {
                   render={ routeProps => (
                     <WelcomePage { ...routeProps } currentUser={ currentUser } />
                   )}
+                />
+                
+                {/* Error Routes */}
+                <Route 
+                  component={ NotFoundPage } 
                 />
                 
               </Switch>
