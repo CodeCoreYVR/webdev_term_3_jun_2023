@@ -48,13 +48,11 @@ class Api::V1::ProductsController < Api::ApplicationController
 
   def index
     products = Product.order created_at: :desc 
-    # or # products = Product.order(created_at: :desc)
-    # render json: products    
-    render(json: products, each_serializer: ProductCollectionSerializer)    
+
+    render json: products, each_serializer: ProductCollectionSerializer    
   end
 
   def show
-    # each_serializer doesn't work because @product isn't an array.
     render json: @product
   end
 
@@ -62,17 +60,14 @@ class Api::V1::ProductsController < Api::ApplicationController
     product = Product.new product_params
     product.user = current_user
 
-    p "product:", product
-    
-    if product.save! # This will raise an ActiveRecord::RecordInvalid exception if the record is invalid
+    if product.save
       render json: product
-      # or # render json: { id: product.id } 
     else
-      p "product.errors:", product.errors
-      render(
-        json: { errors: product.errors },
-        status: 422 # Unprocessable Entity
-      )
+      # render(
+      #   json: { errors: product.errors },
+      #   status: 422 # Unprocessable Entity
+      # )
+      render_error(product)
     end
   end
 
@@ -80,10 +75,11 @@ class Api::V1::ProductsController < Api::ApplicationController
     if @product.update product_params
       render json: { id: @product.id }
     else
-      render(
-        json: { errors: @product.errors },
-        status: 422 # Unprocessable Entity
-      )
+      # render(
+      #   json: { errors: @product.errors },
+      #   status: 422 # Unprocessable Entity
+      # )
+      render_error(@product)
     end
   end
 
@@ -91,7 +87,8 @@ class Api::V1::ProductsController < Api::ApplicationController
     if @product.destroy
       render json: { status: 200 }, status: 200 # status 200 is ok aka success
     else
-      render json: { status: 422, errors: @product&.errors }, status: 422 # status 422 is unprocessable entity
+      # render json: { status: 422, errors: @product&.errors }, status: 422 # status 422 is unprocessable entity
+      render_error(@product)
     end
   end
 
@@ -111,6 +108,16 @@ class Api::V1::ProductsController < Api::ApplicationController
   end
 
   def authorize!
-    render(json: { status: 401 }, status: 401) unless can? :crud, @product
+    # render(json: { status: 401 }, status: 401) unless can? :crud, @product
+    unless can? :crud, @product
+      unauthorized_error = {
+        type: 'AuthorizationError',
+        record_type: 'Product',
+        field: 'base',
+        message: 'You are not authorized to perform this action'
+      }
+  
+      render json: { status: 401, errors: [unauthorized_error] }, status: :unauthorized
+    end
   end
 end

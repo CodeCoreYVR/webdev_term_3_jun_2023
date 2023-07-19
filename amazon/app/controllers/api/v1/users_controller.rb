@@ -6,17 +6,17 @@ class Api::V1::UsersController < Api::ApplicationController
   end
 
   def create
-    p "params:", params
     user = User.new user_params
     
-    if user.save!
+    if user.save
       session[:user_id] = user.id
       render json: { id: user.id }
     else
-      render(
-        json: { errors: user.errors },
-        status: 422 # Unprocessable Entity
-      )
+      # render(
+      #   json: { errors: user.errors },
+      #   status: 422 # Unprocessable Entity
+      # )
+      render_error(user)
     end
   end
 

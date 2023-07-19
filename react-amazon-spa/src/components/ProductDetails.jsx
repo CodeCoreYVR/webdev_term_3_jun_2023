@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default function ProductDetails(props) {
-	const { id, title, description, price, created_at, seller = {} } = props;
+	const { id, user_id, title, description, price, created_at, seller = {}, currentUser } = props;
 	const { full_name } = seller;
 
 	return (
@@ -32,10 +32,14 @@ export default function ProductDetails(props) {
           <h3>Price:</h3>
           <p className="card-text">${ price }</p>
         </div>
-        <div className="d-flex justify-content-around align-items-center mb-1">
-          <button className="btn btn-secondary mt-2" onClick={ () => props.handleDeleteProduct(id) }>Delete</button>
-          <Link to={`/products/${ id }/edit`} className="btn btn-secondary mt-2">Edit Product</Link>
-        </div>
+        {currentUser.id === user_id ? (
+          <div className="d-flex justify-content-around align-items-center mb-1">
+            <button className="btn btn-secondary mt-2" onClick={ () => props.handleDeleteProduct(id) }>Delete</button>
+            <Link to={`/products/${ id }/edit`} className="btn btn-secondary mt-2">Edit Product</Link>
+          </div>
+          ) : (
+            null
+        )}
       </div>
 		</>
 	);

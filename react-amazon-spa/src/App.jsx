@@ -102,6 +102,7 @@ const App = () => {
                   isAuth={ currentUser }
                   path="/products/:id" 
                   component={ ProductShowPage } 
+                  currentUser={ currentUser }
                 />
                 
                 <AuthRoute

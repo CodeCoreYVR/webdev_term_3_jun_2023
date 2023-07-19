@@ -8,10 +8,11 @@ class Api::V1::ReviewsController < Api::ApplicationController
     review = @product.reviews.new review_params
     review.user = current_user
     
-    if review.save!
+    if review.save
       render json: review 
     else
-      render json: { errors: review.errors }, status: 422 # Unprocessable Entity
+      # render json: { errors: review.errors }, status: 422 # Unprocessable Entity
+      render_error(review)
     end
   end
 
@@ -19,7 +20,8 @@ class Api::V1::ReviewsController < Api::ApplicationController
     if @review.update review_params
       render json: @review
     else
-      render json: { errors: @review.errors }, status: 422 # Unprocessable Entity)
+      # render json: { errors: @review.errors }, status: 422 # Unprocessable Entity)
+      render_error(@review)
     end
   end
 
@@ -27,7 +29,8 @@ class Api::V1::ReviewsController < Api::ApplicationController
     if @review.destroy
       render json: { status: 200 }, status: 200 # status 200 is ok aka success
     else
-      render json: { status: 422, errors: @review&.errors }, status: 422 # status 422 is unprocessable entity
+      # render json: { status: 422, errors: @review&.errors }, status: 422 # status 422 is unprocessable entity
+      render_error(@review)
     end
   end
 
@@ -46,6 +49,16 @@ class Api::V1::ReviewsController < Api::ApplicationController
   end
 
   def authorize!
-    render(json: { status: 401 }, status: 401) unless can? :crud, @review
+    # render(json: { status: 401 }, status: 401) unless can? :crud, @review
+    unless can? :crud, @review
+      unauthorized_error = {
+        type: 'AuthorizationError',
+        record_type: 'Review',
+        field: 'base',
+        message: 'You are not authorized to perform this action'
+      }
+  
+      render json: { status: 401, errors: [unauthorized_error] }, status: :unauthorized
+    end
   end
 end

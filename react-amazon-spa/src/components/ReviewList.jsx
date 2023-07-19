@@ -2,7 +2,8 @@ import React from "react";
 import ReviewDetails from "./ReviewDetails";
 
 export default function ReviewList(props) {
-	const { reviews, handleDeleteReview, handleEditReview } = props;
+	const { reviews, handleDeleteReview, handleEditReview, currentUser } = props;
+
 	if (reviews.length <= 0)
 		return <li className="list-group-item">No reviews ...yet</li>;
 
@@ -12,6 +13,7 @@ export default function ReviewList(props) {
       { ...review } 
       handleDeleteReview={ () => handleDeleteReview(review.id) } 
       handleEditReview={ () => handleEditReview(review) }  
+      currentUser={ currentUser }
     />
 	));
 }

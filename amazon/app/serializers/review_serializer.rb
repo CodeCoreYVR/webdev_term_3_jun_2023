@@ -6,5 +6,5 @@ class ReviewSerializer < ActiveModel::Serializer
     object.user&.full_name
   end
 
-  attributes :id, :body, :rating, :full_name, :created_at, :updated_at
+  attributes :id, :user_id, :body, :rating, :full_name, :created_at, :updated_at
 end
