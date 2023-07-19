@@ -17,10 +17,16 @@ const ProductShowPage = (props) => {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
 
+  const { currentUser } = props;
+
   useEffect(() => {
     Product.show(props.match.params.id).then((response) => {
-      setProduct(response);
-      setLoading(false);
+      if (response.errors) {
+        setErrors(response.errors);
+      } else {
+        setProduct(response);
+        setLoading(false);
+      }
     });
   }, [props.match.params.id]);
 
@@ -117,12 +123,17 @@ const ProductShowPage = (props) => {
           <div>Loading...</div>
         ) : (
           <>
-          <ProductDetails { ...product } handleDeleteProduct={ productId => handleDeleteProduct(productId) } />
+          <ProductDetails 
+            { ...product } 
+            handleDeleteProduct={ productId => handleDeleteProduct(productId) } 
+            currentUser={ currentUser }
+          />
           <ReviewForm 
             onSubmit={ handleReviewSubmit } 
             onChange={ handleInputChange } 
             review={ newReview }
             buttonLabel={ editReviewId !== null ? "Update" : "Create" } 
+            errors={ errors }
           />
           <div className="card-header bg-secondary text-white">
             <h3 className="card-title">Reviews:</h3>
@@ -133,6 +144,7 @@ const ProductShowPage = (props) => {
                 reviews={ product.reviewers } 
                 handleDeleteReview={ reviewId => handleDeleteReview(reviewId) } 
                 handleEditReview={ reviewId => handleEditReview(reviewId) }
+                currentUser={ currentUser }
               />
             ) : (
               <li className="list-group-item">No reviews ...yet!</li>

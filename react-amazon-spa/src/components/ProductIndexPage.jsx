@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Product } from "../api/v1/productsApi";
 import { Link } from "react-router-dom";
 
-const ProductIndexPage = () => {
+const ProductIndexPage = ({ currentUser }) => {
 	const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Product.index().then((products) => {
+    Product.index().then(products => {
       setProducts(products);
       setLoading(false);
-    });
+    })
   }, []);
 
 	const handleDelete = productId => {
@@ -51,14 +51,18 @@ const ProductIndexPage = () => {
                               { product.title }
                             </Link>{" "}
                           </div>
-                          <div>
-                            <button
-                              className="btn btn-secondary btn-sm"
-                              onClick={ () => handleDelete(product.id) }
-                            >
-                              Delete
-                            </button>{" "}
-                          </div>
+                          {currentUser.id === product.user_id ? (
+                            <div>
+                              <button
+                                className="btn btn-secondary btn-sm"
+                                onClick={ () => handleDelete(product.id) }
+                              >
+                                Delete
+                              </button>{" "}
+                            </div>
+                          ) : (
+                            null
+                          )}
                         </li>
                       );
                     })}

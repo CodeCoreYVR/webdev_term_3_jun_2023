@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Session } from '../api/v1/sessionsApi';
 import { useHistory } from "react-router-dom";
+import FormErrors from './FormErrors';
 
 function SignInPage(props) {
   const history = useHistory();
@@ -47,11 +48,13 @@ function SignInPage(props) {
             <div className="form-group">
               <label htmlFor="email"><strong>Email: </strong></label> <br />
               <input className="form-control" type="email" name="email" id="email" />
+              <FormErrors formField="email" errors={ errors } />
             </div>
             {/* <hr></hr> */}
             <div className="form-group mt-3">
               <label htmlFor="password"><strong>Password: </strong></label> <br />
               <input className="form-control" type="password" name="password" id="password" />
+              <FormErrors formField="password" errors={ errors } />
             </div>
             <div className="card-footer text-center">
               <input className="btn btn-secondary mt-3" type="submit" value="Sign In" />

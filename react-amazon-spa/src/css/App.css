@@ -94,3 +94,9 @@ nav {
 .card-footer {
   background-color: white;
 }
+
+.errors {
+  color: red;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}

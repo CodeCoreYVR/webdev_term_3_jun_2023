@@ -31,10 +31,9 @@ const UpdateProductPage = props => {
   }, [id]);
 
 	const handleSubmit = params => {
-		Product.update(id, params).then((updatedProduct) => {
-      if (updatedProduct.errors || updatedProduct.status === 401) {
+		Product.update(id, params).then(updatedProduct => {
+      if (updatedProduct.errors) {
         setErrors(updatedProduct.errors);
-        history.push(`/products/${ id }`);
       } else {
         history.push(`/products/${ updatedProduct.id }`);
       }
@@ -62,7 +61,7 @@ const UpdateProductPage = props => {
             title="Product Update"
             errors={ errors }
           />
-      )};
+      )}
     </div>
   );
 }
