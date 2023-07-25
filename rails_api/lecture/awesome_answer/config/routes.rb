@@ -38,7 +38,7 @@ Rails.application.routes.draw do
 
   resource :sessions # it will implement all routes for the methods/actions in the sessions controller
   
-  resources :users, only: [:new, :create]
+  resources :users, only: [:new, :create, :show]
 
   resources :tags, only: [:new, :create, :show, :index]
 

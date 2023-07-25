@@ -111,10 +111,11 @@ GEM
     faker (3.2.0)
       i18n (>= 1.8.11, < 2)
     ffi (1.15.5)
-    ffi (1.15.5-x64-mingw-ucrt)
     ffi (1.15.5-x64-unknown)
+    geocoder (1.8.2)
     globalid (1.1.0)
       activesupport (>= 5.0)
+    gmaps4rails (2.1.2)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     importmap-rails (1.1.5)
@@ -160,12 +161,9 @@ GEM
     nio4r (2.5.9)
     nokogiri (1.14.3-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.14.3-x64-mingw-ucrt)
-      racc (~> 1.4)
     nokogiri (1.14.3-x64-unknown)
       racc (~> 1.4)
     pg (1.4.6)
-    pg (1.4.6-x64-mingw-ucrt)
     pg (1.4.6-x64-unknown)
     popper_js (2.11.7)
     pry (0.14.2)
@@ -256,6 +254,7 @@ GEM
       concurrent-ruby (~> 1.0)
     tzinfo-data (1.2022.6)
       tzinfo (>= 1.0.0)
+    underscore-rails (1.8.3)
     web-console (4.2.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -268,7 +267,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-21
-  x64-mingw-ucrt
+  x64-unknown
   x64-unknown
 
 DEPENDENCIES
@@ -282,6 +281,8 @@ DEPENDENCIES
   delayed_job_active_record
   factory_bot_rails
   faker (~> 3.2)
+  geocoder
+  gmaps4rails
   importmap-rails
   jbuilder
   jquery-rails (~> 4.4)
@@ -296,6 +297,7 @@ DEPENDENCIES
   sprockets-rails
   stimulus-rails
   tzinfo-data
+  underscore-rails
   web-console
 
 RUBY VERSION

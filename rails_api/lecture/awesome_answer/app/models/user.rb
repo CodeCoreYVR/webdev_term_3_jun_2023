@@ -23,6 +23,12 @@ class User < ApplicationRecord
     validates :first_name, presence: true
     validates :last_name, presence: true
 
+    #gecoding
+    geocoded_by :address
+    # we are stating here that we are converting the address to geocode
+    # when a user saves an address, it will autometically convert it to longitude and latitude corodinates as well
+    after_validation :geocode
+
     def full_name
         first_name + " " + last_name
     end
