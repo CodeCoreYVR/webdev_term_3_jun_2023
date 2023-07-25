@@ -11,8 +11,8 @@
     handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
     markers = handler.addMarkers([
         {
-        "lat": 49.212280,
-        "lng": -122.921349,
+        "lat": <%= @user.latitude %>,
+        "lng": <%= @user.longitude %>,
         "picture": {
             "width":  32,
             "height": 32
