@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   get 'sessions/destroy'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
+  get "/auth/twitter", as: :sign_in_with_twitter
+  get "/auth/:provider/callback" => "callbacks#index"
+
   # Defines the root path route ("/")
   root "welcome#index"
 
