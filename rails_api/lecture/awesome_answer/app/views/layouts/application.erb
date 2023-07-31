@@ -12,7 +12,8 @@
     <script src="//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js"></script>
     <script src='//cdn.jsdelivr.net/gmaps4rails/2.1.2/gmaps4rails.js'>  </script>
     <script src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js'>  </script>
-
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <meta name="stripe-pk" content="<%= Rails.application.secrets.stripe_publishable_key %>">
   </head>
 
   <body>
@@ -35,6 +36,9 @@
           </li>
           <li class="nav-item">
             <%= link_to("Tags", tags_path, class:"nav-link") %>
+          </li>
+          <li class="nav-item">
+            <%= link_to("Donate", payment_path, class:"nav-link") %>
           </li>
         </ul>
         <div class="d-flex">

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_26_040903) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_26_040915) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -37,6 +37,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_26_040903) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
+  end
+
+  create_table "donations", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.float "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "stripe_txn_id"
+    t.index ["user_id"], name: "index_donations_on_user_id"
   end
 
   create_table "job_posts", force: :cascade do |t|
@@ -101,11 +110,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_26_040903) do
     t.string "address"
     t.float "latitude"
     t.float "longitude"
+    t.string "stripe_customer_id"
+    t.string "stripe_card_last4"
+    t.string "stripe_card_type"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
+  add_foreign_key "donations", "users"
   add_foreign_key "likes", "questions"
   add_foreign_key "likes", "users"
   add_foreign_key "questions", "users"

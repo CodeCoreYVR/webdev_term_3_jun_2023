@@ -15,4 +15,7 @@ class WelcomeController < ApplicationController
     def form_example
     end
 
+    def donate
+    end
+
 end

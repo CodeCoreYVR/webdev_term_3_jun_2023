@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   get "/auth/twitter", as: :sign_in_with_twitter
   get "/auth/:provider/callback" => "callbacks#index"
 
+  get "/donate" => "payment#donate", as: :payment
+  post "/donate" => "payment#create", as: :payment_create
+
   # Defines the root path route ("/")
   root "welcome#index"
 

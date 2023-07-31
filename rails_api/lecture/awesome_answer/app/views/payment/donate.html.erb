@@ -1,0 +1,27 @@
+<h1>Donate us!</h1>
+<h2>Make a stripe payment</h2>
+<%= form_tag payment_create_path, id: "submission-form" do %>
+  <label>Amount</label>
+    <input id="amount" name="amount">
+    <%= hidden_field_tag :stripe_token %>
+<% end %>
+<div id="stripe-error-message"></div>
+<%= form_tag "", id: "stripe-token-form" do %>
+  <div>
+    <label for="card-number">Card Number</label>
+    <input id="card-number">
+  </div>
+  <div>
+    <label>Expiry</label>
+    <%= select_month(Date.today, add_month_numbers: true) %>
+    <%= select_year(Date.today, start_year: Date.today.year,
+                                end_year: Date.today.year + 10) %>
+  </div>
+  <div>
+    <label for="cvc">CVC</label>
+    <input id="cvc">
+  </div>
+  <div>
+    <%= submit_tag "Submit" %>
+  </div>
+<% end %>

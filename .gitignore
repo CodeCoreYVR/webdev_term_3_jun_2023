@@ -27,3 +27,4 @@ node_modules
 
 # Ignore credentials for rails application
 /**/config/initializers/app_keys.rb
+/**/config/secrets.yml

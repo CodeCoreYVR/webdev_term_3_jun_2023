@@ -17,6 +17,7 @@ class User < ApplicationRecord
     has_many :likes, dependent: :destroy
     # The user liking the question:
     has_many :liked_questions, through: :likes, source: :question
+    has_many :donations, dependent: :destroy
 
     # case_sensitive: false indicates that 'TEST@TEST.COM' or, 'test@test.com' or, 'Test@test.com' won't be considered as unique.
     validates :email, 
