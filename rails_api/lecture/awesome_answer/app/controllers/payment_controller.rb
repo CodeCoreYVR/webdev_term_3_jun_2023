@@ -1,5 +1,7 @@
 class PaymentController < ApplicationController
     before_action :authenticate_user!
+
+    # Stripe crsf conflicts the crsf of rails
     protect_from_forgery with: :null_session
 
     def create
@@ -8,7 +10,7 @@ class PaymentController < ApplicationController
        p "===============--------------------"
         customer = Stripe::Customer.create(
           :description => " Customer for user id: #{current_user.id}",
-          :source => params[:stripe_token] # obtained with Stripe.js
+          :source => params[:stripe_token] # obtained with Stripe response based on the card details
         )
         # Saving Stripe customer information
         p "--------------------------------------------"
@@ -25,6 +27,8 @@ class PaymentController < ApplicationController
 
         amount = @donation.amount * 100
         amount = amount.round
+        
+        # Making a charge request to stripe service
         charge = Stripe::Charge.create(
             :amount => amount,
             :currency => "cad",
