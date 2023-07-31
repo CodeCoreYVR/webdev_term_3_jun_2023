@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StarRating } from './StarRating';
 
 export default function ReviewDetails(props) {
-	const { body, reviewer = {}, rating, handleDeleteReview } = props;
-  const { full_name } = reviewer;
-	
+	const { user_id, body, full_name, rating, handleDeleteReview, handleEditReview, currentUser } = props;
+
+  
   return (
 		<div className="ReviewDetails">
 			<li className="list-group-item">
@@ -13,9 +13,14 @@ export default function ReviewDetails(props) {
           <i>~ <strong>{ full_name }</strong> ~</i>
         </div>
         <div>{ body }</div>
-        <div>
-          <button className="btn btn-secondary my-1" onClick={ handleDeleteReview }>Delete Review</button>
-        </div>
+        {currentUser.id === user_id ? (
+          <div className="d-flex gap-2 mt-3 mb-2">
+            <button className="btn btn-secondary btn-sm" onClick={ handleEditReview }>Edit</button>
+            <button className="btn btn-secondary btn-sm" onClick={ handleDeleteReview }>Delete</button>
+          </div>
+        ) : (
+          null
+        )}
       </li>
 		</div>
 	);

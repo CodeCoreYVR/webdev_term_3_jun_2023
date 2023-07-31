@@ -57,6 +57,7 @@ super_user = User.create(
     email:"tony@stark.com", 
     password:"123abc",
     password_confirmation:"123abc", 
+    address: "628 6th Ave, New Westminster, BC, Canada",
     is_admin: true)
 
 10.times do
@@ -68,6 +69,8 @@ super_user = User.create(
     email: "#{first_name}@#{last_name}.com",
     password: PASSWORD,
     password_confirmation: PASSWORD, 
+    latitude: 49.3043,
+    longitude: -123.1443,
     is_admin: false
     )
 end

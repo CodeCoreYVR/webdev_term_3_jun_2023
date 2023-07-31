@@ -98,6 +98,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_26_040903) do
     t.string "oauth_token"
     t.string "oauth_secret"
     t.string "oauth_raw_data"
+    t.string "address"
+    t.float "latitude"
+    t.float "longitude"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

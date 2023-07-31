@@ -112,8 +112,10 @@ GEM
       i18n (>= 1.8.11, < 2)
     ffi (1.15.5)
     ffi (1.15.5-x64-mingw-ucrt)
+    geocoder (1.8.1)
     globalid (1.1.0)
       activesupport (>= 5.0)
+    gmaps4rails (2.1.2)
     hashie (5.0.0)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
@@ -277,6 +279,7 @@ GEM
       concurrent-ruby (~> 1.0)
     tzinfo-data (1.2023.3)
       tzinfo (>= 1.0.0)
+    underscore-rails (1.8.3)
     version_gem (1.1.3)
     web-console (4.2.0)
       actionview (>= 6.0.0)
@@ -304,6 +307,8 @@ DEPENDENCIES
   delayed_job_active_record
   factory_bot_rails
   faker (~> 3.2)
+  geocoder
+  gmaps4rails
   importmap-rails
   jbuilder
   jquery-rails (~> 4.4)
@@ -320,6 +325,7 @@ DEPENDENCIES
   sprockets-rails
   stimulus-rails
   tzinfo-data
+  underscore-rails
   web-console
 
 RUBY VERSION

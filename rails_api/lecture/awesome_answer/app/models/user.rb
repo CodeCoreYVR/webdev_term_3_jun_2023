@@ -29,6 +29,15 @@ class User < ApplicationRecord
     validates :last_name, presence: true
 
     serialize :twitter_raw_data
+    #gecoding
+    geocoded_by :address
+    # we are stating here that we are converting the address to geocode
+    # when a user saves an address, it will autometically convert it to longitude and latitude corodinates as well
+    after_validation :geocode
+
+    #change coordinate to address
+    reverse_geocoded_by :latitude, :longitude
+    after_validation :reverse_geocode
 
     def full_name
         first_name + " " + last_name

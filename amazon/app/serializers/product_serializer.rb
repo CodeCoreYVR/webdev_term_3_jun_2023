@@ -3,7 +3,7 @@ class ProductSerializer < ActiveModel::Serializer
 
   # All of the following is a serializer used to serialize a single product
 
-  attributes :id, :title, :description, :price, :tag_names, :created_at, :updated_at
+  attributes :id, :user_id, :title, :description, :price, :tag_names, :created_at, :updated_at
 
   ## Seller is nested under products
   # If you create a seperate user serializer, you can use it like this:
@@ -17,7 +17,9 @@ class ProductSerializer < ActiveModel::Serializer
 
   ## Reviews are nested under products
   # If you create a seperate review serializer, you can use it like this:
-  has_many :reviews, serializer: ReviewSerializer, key: :reviewers
+  has_many :reviews, serializer: ReviewSerializer, key: :reviewers do
+    object.reviews.order created_at: :desc
+  end
   # If you don't create a seperate review serializer, you can use it like this:
   # has_many :reviews
 

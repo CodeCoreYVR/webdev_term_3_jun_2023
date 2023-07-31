@@ -31,6 +31,18 @@ module.exports = {
                     name: '[path][name].[ext]',
                     outputPath: "outputImages/"
                   },
+            },
+            {
+                use: [
+                    {loader: "style-loader"},
+                    {loader: "css-loader"}
+                ],
+                test: /\.css$/
+            },
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                loader: "babel-loader"
             }
         ]
     },
