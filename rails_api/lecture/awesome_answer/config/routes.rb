@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   get 'sessions/destroy'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
+  # Warning: change the default localhost url so that it matches with ones mentioned in the twitter devloper app
+  # http://example2.localhost:3000/
   get "/auth/twitter", as: :sign_in_with_twitter
   get "/auth/:provider/callback" => "callbacks#index"
 
