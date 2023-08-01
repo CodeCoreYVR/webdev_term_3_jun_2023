@@ -3,6 +3,11 @@ import { StyleSheet, Text, View } from 'react-native';
 import Header from './components/Header';
 import { useEffect, useState } from 'react';
 import PokeList from './components/PokeList';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import PokeDetails from './components/PokeDetails';
+
+const Stack = createStackNavigator()
 
 const POKEMON_API_ENDPOINT =  'https://pokeapi.co/api/v2/pokemon?limit=100'
 export default function App() {
@@ -19,13 +24,21 @@ export default function App() {
   }, [])
 
   return (
-    <View style={styles.container}>
+    <NavigationContainer style={styles.container}>
       <Header/>
       <View style={styles.body}>
-        <PokeList list={pokeList}/>
+        <Stack.Navigator screenOptions={{headerShown: false}}>
+          <Stack.Screen name="Poke List" 
+          children={({navigation}) =>{
+            return(
+              <PokeList list={pokeList} navigation={navigation} />
+            )
+          }}/>
+          <Stack.Screen name="Poke Details" component={PokeDetails} />
+        </Stack.Navigator>
       </View>
       <StatusBar hidden />
-    </View>
+    </NavigationContainer>
   );
 }
 
@@ -37,7 +50,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   body : {
-    flex: 5
+    flex: 20
   },
 });
 
