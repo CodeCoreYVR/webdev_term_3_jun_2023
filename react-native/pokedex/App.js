@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import Header from './components/Header';
 import { useEffect, useState } from 'react';
+import PokeList from './components/PokeList';
 
 const POKEMON_API_ENDPOINT =  'https://pokeapi.co/api/v2/pokemon?limit=100'
 export default function App() {
@@ -13,6 +14,7 @@ export default function App() {
       .then(res => res.json())
       .then(payload => {
         console.log(payload)
+        setPokeList(payload.results)
       })
   }, [])
 
@@ -20,7 +22,7 @@ export default function App() {
     <View style={styles.container}>
       <Header/>
       <View style={styles.body}>
-        <Text>Hello World</Text>
+        <PokeList list={pokeList}/>
       </View>
       <StatusBar hidden />
     </View>
