@@ -12,7 +12,7 @@ class Api::ApplicationController < ApplicationController
     end
   end
 
-  
+
   protected
 
   def render_error(object)
@@ -29,7 +29,6 @@ class Api::ApplicationController < ApplicationController
 
     render json: { status: 422, errors: errors }, status: :unprocessable_entity
   end
-
   
   private
 

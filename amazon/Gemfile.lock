@@ -87,6 +87,13 @@ GEM
     cancancan (3.5.0)
     case_transform (0.2)
       activesupport
+    coffee-rails (5.0.0)
+      coffee-script (>= 2.2.0)
+      railties (>= 5.2.0)
+    coffee-script (2.4.1)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.12.2)
     concurrent-ruby (1.2.2)
     cowsay (0.3.0)
     crass (1.0.6)
@@ -116,8 +123,10 @@ GEM
     faker (2.18.0)
       i18n (>= 1.6, < 2)
     ffi (1.15.5)
+    geocoder (1.8.2)
     globalid (1.1.0)
       activesupport (>= 5.0)
+    gmaps4rails (2.1.2)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     importmap-rails (1.1.5)
@@ -270,6 +279,7 @@ GEM
       railties (>= 6.0.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    underscore-rails (1.8.3)
     web-console (4.2.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -289,6 +299,7 @@ DEPENDENCIES
   bootsnap
   bootstrap (~> 5.3.0.alpha3)
   cancancan
+  coffee-rails
   cowsay
   daemons
   debug
@@ -296,6 +307,8 @@ DEPENDENCIES
   delayed_job_web
   factory_bot_rails
   faker (~> 2.18.0)
+  geocoder
+  gmaps4rails
   importmap-rails
   jbuilder
   jquery-rails
@@ -313,6 +326,7 @@ DEPENDENCIES
   stimulus-rails
   turbo-rails
   tzinfo-data
+  underscore-rails (~> 1.8, >= 1.8.3)
   web-console
 
 RUBY VERSION

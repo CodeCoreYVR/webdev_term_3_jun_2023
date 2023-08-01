@@ -49,6 +49,18 @@ nav {
   color: black;
 }
 
+.errors {
+  color: red;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+#map {
+  width: 425px; 
+  height: 325px; 
+  border-radius: 2px
+}
+
 .grey-footer-text {
   color: #868585;
 }

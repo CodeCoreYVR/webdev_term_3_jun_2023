@@ -1,6 +1,19 @@
 class UsersController < ApplicationController
-  # This is a before_action, it will run the set_user method before any of the actions listed in the array
-  before_action :set_user, only: [:edit, :update]
+  # This is a rescue_from, it will run the code in the block if a CanCan::AccessDenied exception is raised
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to home_path, :alert => exception.message # This will redirect the user to the home page with the exception message
+  end
+
+  # This is a before_action, it will run the find_user method before any of the actions listed in the array
+  before_action :find_user, only: [:edit, :update, :show]
+  before_action :require_login, only: [:show, :edit, :update, :favorites]
+
+
+
+  def show
+    @locations = @user.locations.order(created_at: :desc)
+    authorize! :read, @user  # This will raise a CanCan::AccessDenied exception if the current user is not allowed to read the @user object
+  end
 
   def new
     @user = User.new
@@ -15,6 +28,7 @@ class UsersController < ApplicationController
     if @user.save
       # This is how we set a session variable
       session[:user_id] = @user.id
+      find_user_location # defined in app/controllers/application_controller.rb
       redirect_to home_path
     else
       render 'new'
@@ -47,7 +61,7 @@ class UsersController < ApplicationController
     params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
   end
 
-  def set_user
+  def find_user
     @user = User.find(params[:id])
   end
 end

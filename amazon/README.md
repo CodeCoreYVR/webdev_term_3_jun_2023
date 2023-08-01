@@ -18,6 +18,27 @@
         * $ ``` ps aux | grep delayed_job ```
           * This lists all processes with ```delayed_job``` in the name and their pids
         * $ ``` kill -9 <pid> <pid> <pid> ```
+* For google maps if you want to use user show page:
+  * This project requires a Google Maps API key from [**Google**](https://console.cloud.google.com/)
+  * Once you have your API key:
+    * If linex or I think mac use $ ```echo $SHELL``` to see what shell you are using
+      * If you are using ```zsh```:
+        * $ ``` nano ~/.zshrc ```
+      * If you are using ```bash```:
+        * $ ``` nano ~/.bashrc ```
+      * Add the following to the bottom of the file:
+        * ``` export GOOGLE_MAPS_API_KEY="name_of_your_api_key_here" ```
+        * Save and exit
+      * To apply changes to current shell:
+        * $ ``` source ~/.zshrc ``` or $ ``` source ~/.bashrc ```
+    * To check if it worked:
+      * $ ``` echo $GOOGLE_MAPS_API_KEY ```
+    * ```GOOGLE_MAPS_API_KEY``` is now available in your project or anywhere in your terminal shell. 
+    * *./app/views/users/show.html.erb*:
+      * ```javascript
+        <script src="//maps.google.com/maps/api/js?key=<%= ENV['GOOGLE_MAPS_API_KEY'] %>&callback=initMap" async defer></script>
+        ```
+
 * $ ``` rails s ```
   * or
   * $ ``` rails server ```
