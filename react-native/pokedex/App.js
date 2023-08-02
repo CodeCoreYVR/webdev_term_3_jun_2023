@@ -9,12 +9,12 @@ import PokeDetails from './components/PokeDetails';
 
 const Stack = createStackNavigator()
 
-const POKEMON_API_ENDPOINT =  'https://pokeapi.co/api/v2/pokemon?limit=50'
+const POKEMON_API_ENDPOINT = 'https://pokeapi.co/api/v2/pokemon?limit=50'
 export default function App() {
 
   const [pokeList, setPokeList] = useState([])
 
-  useEffect(()=> {
+  useEffect(() => {
     fetch(`${POKEMON_API_ENDPOINT}`)
       .then(res => res.json())
       .then(data => {
@@ -25,16 +25,23 @@ export default function App() {
 
   return (
     <NavigationContainer style={styles.container}>
-      <Header/>
+      <Header />
       <View style={styles.body}>
-        <Stack.Navigator screenOptions={{headerShown: false}}>
-          <Stack.Screen name="Poke List" 
-          children={({navigation}) =>{
-            return(
-              <PokeList list={pokeList} navigation={navigation} />
-            )
-          }}/>
-          <Stack.Screen name="Poke Details" component={PokeDetails} />
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Poke List"
+            children={({ navigation }) => {
+              return (
+                <PokeList list={pokeList} navigation={navigation} />
+              )
+            }} />
+          <Stack.Screen name="Poke Details"
+            children={({ navigation, route }) => {
+              return (
+                <PokeDetails navigation={navigation} route={route} />
+              )
+            }}
+            // component={PokeDetails} 
+            />
         </Stack.Navigator>
       </View>
       <StatusBar hidden />
@@ -49,7 +56,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  body : {
+  body: {
     flex: 20
   },
 });

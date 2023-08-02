@@ -1,10 +1,11 @@
 import { React, useState, useEffect } from "react"
-import { View, Text, StyleSheet, Image } from "react-native"
+import { View, Text, StyleSheet, Image,TouchableHighlight } from "react-native"
 
 function PokeDetails(props) {
 
     const { route } = props;
     const { params } = route;
+
 
     const [pokemon, setPokemon] = useState({})
 
@@ -15,7 +16,7 @@ function PokeDetails(props) {
                 setPokemon(data)
             })
             .catch(err => { console.error(err) })
-    }, [])
+    }, [pokemon])
 
     return (
         <View style={styles.container}>
@@ -24,6 +25,13 @@ function PokeDetails(props) {
                     <Image style={styles.image} source={{uri: pokemon.sprites.front_default}}/>
                     <Text style={styles.h1}>{pokemon.name}</Text>
                     <Text style={styles.text}>Weight: {pokemon.weight}</Text>
+                    <TouchableHighlight underlayColor='lightBlue' onPress={(event)=> {
+                            props.navigation.navigate("Poke Details", {pokemon: {"name": "ivysaur",
+                            "url": "https://pokeapi.co/api/v2/pokemon/2/"}})
+                            // console.log(navigation)
+                        }}>
+                            <Text>Go to pokemon with id 2</Text>
+                        </TouchableHighlight>
                 </>
                 :
                 <Text>Loading...</Text>

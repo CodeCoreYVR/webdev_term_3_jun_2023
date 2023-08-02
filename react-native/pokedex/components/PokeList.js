@@ -5,18 +5,26 @@ function PokeList({list, navigation}){
     return(
         <ScrollView>
             {
-                list.map((pokemon, index) => {
-                    return (
-                        <TouchableHighlight key={index} underlayColor='lightBlue' onPress={(event)=> {
-                            navigation.navigate("Poke Details", {pokemon})
-                            // console.log(navigation)
-                        }}>
-                            <View key={index} style= {styles.pokemon}>
-                                <Text>{pokemon.name}</Text>
-                            </View>
-                        </TouchableHighlight>
-                    )
-                })
+                list.length ?
+                <>
+                {
+                    
+                    list.map((pokemon, index) => {
+                        return (
+                            <TouchableHighlight key={index} underlayColor='lightBlue' onPress={(event)=> {
+                                navigation.navigate("Poke Details", {pokemon})
+                                // console.log(navigation)
+                            }}>
+                                <View key={index} style= {styles.pokemon}>
+                                    <Text>{pokemon.name}</Text>
+                                </View>
+                            </TouchableHighlight>
+                        )
+                    })
+                }
+                </>
+                :
+                <Text>Loading...</Text>
             }
         </ScrollView>
     )
