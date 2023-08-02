@@ -12,15 +12,15 @@ function Header() {
 const styles = StyleSheet.create({
     header : {
         flex: 1,
-        backgroundColor: 'red',
+        backgroundColor: '#3f3',
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
-        paddingTop: 45,
-        borderBottomWidth: 15
+        paddingTop: 15,
+        borderBottomWidth: 5
     },
     h1 : {
-        fontSize: 40
+        fontSize: 20
     }
 })
 
