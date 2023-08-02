@@ -9,7 +9,7 @@ import PokeDetails from './components/PokeDetails';
 
 const Stack = createStackNavigator()
 
-const POKEMON_API_ENDPOINT =  'https://pokeapi.co/api/v2/pokemon?limit=100'
+const POKEMON_API_ENDPOINT =  'https://pokeapi.co/api/v2/pokemon?limit=50'
 export default function App() {
 
   const [pokeList, setPokeList] = useState([])
@@ -17,9 +17,9 @@ export default function App() {
   useEffect(()=> {
     fetch(`${POKEMON_API_ENDPOINT}`)
       .then(res => res.json())
-      .then(payload => {
-        console.log(payload)
-        setPokeList(payload.results)
+      .then(data => {
+        console.log(data)
+        setPokeList(data.results)
       })
   }, [])
 
