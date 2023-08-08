@@ -22,22 +22,26 @@ export default function QuestionIndexPage(){
     return (
         <main>
             {questionsData.map((question, index) => {
-                return <div key={index}>
-                    <Link to={`/questions/${question.id}`}>{question.title}</Link>
-                    {/* We can write delete button like this that take effects in the same component */}
-                    
-                    <button
-                        className="btn btn-sm btn-danger"
-                        onClick={() => {deleteQuestionFromIndex(question.id)}}
-                    >
-                        Delete
-                    </button>
-                    
-                    {/* If we want another compoment to make changes to this compoment, we will need to send the method as property */}
-                    {/* <QuestionDeleteBtn
-                        id={question.id}
-                        deleteQuestion={this.deleteQuestionFromIndex}
-                    /> */}
+                return <div className="ui list" key={index}>
+                    <div className="ui teal clearing segment">
+                        <Link style={{ textDecoration: 'none' }} className="item" to={`/questions/${question.id}`}>
+                            <h3 className="ui header">{question.title}</h3>
+                        </Link>
+                        {/* We can write delete button like this that take effects in the same component */}
+                        
+                        <button
+                            className="circular ui right floated compact icon red button"
+                            onClick={() => {deleteQuestionFromIndex(question.id)}}
+                        >
+                            <i class="delete icon"></i>
+                        </button>
+                        
+                        {/* If we want another compoment to make changes to this compoment, we will need to send the method as property */}
+                        {/* <QuestionDeleteBtn
+                            id={question.id}
+                            deleteQuestion={this.deleteQuestionFromIndex}
+                        /> */}
+                    </div>
                 </div>
             })}
         </main>

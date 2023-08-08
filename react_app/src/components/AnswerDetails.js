@@ -7,19 +7,25 @@ const AnswerDetails = ({ id, body, author_name, created_at }) => {
   const deleteAnswer = useContext(QuestionShowContext)
   
   return (
-    <div>
-      <p>{body}</p>
-      <p>By {author_name}</p>
-      <p>
-        <small>Created at:</small>
-        <small>{created_at}</small>
-      </p>
+    <div className="ui clearing segment">
+      <div className="ui header">{body}</div>
+      <div>
+        <i class="user icon"></i> 
+        {author_name}
+        <button 
+          className="circular ui right floated compact icon red button" 
+          onClick={() => deleteAnswer(id)}
+        >
+          <i class="delete icon"></i>
+        </button>
+      </div>
+      <div><i class="paperclip icon"></i> {created_at}</div>
       {/* <QuestionShowContext.Consumer>
         {deleteAnswerById =>
           <button onClick={() => deleteAnswerById(id)}>Delete answer</button>
         }
       </QuestionShowContext.Consumer> */}
-      <button onClick={() => deleteAnswer(id)}>Delete answer</button>
+      
     </div>
   )
 }

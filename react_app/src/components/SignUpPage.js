@@ -96,7 +96,7 @@ class SignUpPage extends Component {
 
         return (
             <>
-                <h1>Sign up</h1>
+                <h1 className="ui horizontal divider header">Sign Up</h1>
                 <FloatingInput
                     value={first_name}
                     id="first_name"
@@ -137,7 +137,7 @@ class SignUpPage extends Component {
                     err={error?.password_confirmation}
                 //placeholder="Retype Password"
                 />
-                <button className="btn btn-lg btn-primary w-100 mb-5" onClick={this.createUser}>Sign up</button>
+                <button className="ui right floated large blue button" onClick={this.createUser}>Sign Up</button>
             </>
 
         )

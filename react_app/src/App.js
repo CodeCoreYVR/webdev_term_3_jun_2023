@@ -42,7 +42,7 @@ export default function App(){
   return (
     <>
       <NavBar currentUser={user} onSignOut={signOut} />
-      <div className="container mt-4">
+      <div className=" ui container">
         <Routes>
           {!user && <Route exact path='/sign-in' element={<SignInPage onSignIn={getCurrentUser} />} />}
           {!user && <Route exact path='/sign-up' element={<SignUpPage onSignUp={getCurrentUser}/>} />}

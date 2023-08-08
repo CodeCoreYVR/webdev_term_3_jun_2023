@@ -32,17 +32,19 @@ const QuestionShowPage = (props) => {
 
     return (
         <main>
-            <QuestionDetails
-                id={id}
-                title={title}
-                body={body}
-                author_name={author_name}
-                view_count={view_count}
-                created_at={created_at}
-                updated_at={updated_at}
-            // If we want to send everything of the object (i.e. this.state), we will use this.state as deserializer
-            // {...this.state}
-            />
+            <div className="ui teal clearing segment">
+                <QuestionDetails
+                    id={id}
+                    title={title}
+                    body={body}
+                    author_name={author_name}
+                    view_count={view_count}
+                    created_at={created_at}
+                    updated_at={updated_at}
+                // If we want to send everything of the object (i.e. this.state), we will use this.state as deserializer
+                // {...this.state}
+                />
+            </div>
             <QuestionShowContext.Provider value={deleteAnswerById}>
                 <AnswerList
                     answers={answers}

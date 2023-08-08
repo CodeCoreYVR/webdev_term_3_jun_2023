@@ -36,24 +36,25 @@ function SignInPage(props) {
 
     return (
         <main>
-            <h1>Sign In</h1>
+            <h1 className="ui horizontal divider header">Sign In</h1>
             {
                 errors && <FormError message={errors.message} />
             }
-            <form onSubmit={handleSubmit}>
-                <div className="form-floating mb-3">
+            <form className="ui form" onSubmit={handleSubmit}>
+                <div className="field">
+                    <label htmlFor="email">Email address</label>
                     <input type="email" className="form-control" id="email" name="email" placeholder="name@example.com" onChange={(event) => {
                         setEmail(event.currentTarget.value)
                     }} />
-                    <label htmlFor="email">Email address</label>
                 </div>
-                <div className="form-floating">
+                <div className="field">
+                    <label htmlFor="password">Password</label>
                     <input type="password" className="form-control" id="password" name="password" placeholder="Password" onChange={(event) => {
                         setPassword(event.currentTarget.value)
                     }} />
-                    <label htmlFor="password">Password</label>
+                   
                 </div>
-                <input type="submit" value="Sign In" />
+                <input className="ui right floated large blue button" type="submit" value="Sign In" />
             </form>
         </main>
     )

@@ -12,21 +12,26 @@ const NavBar = ({ currentUser, onSignOut }) => {
     }
     
     return (
-        <nav>
-            <NavLink to='/'>Home</NavLink> |
-            <NavLink to='/questions'>Questions</NavLink> |
-            {currentUser && <NavLink to='/questions/new'>New Question</NavLink>} | 
+        <nav className="ui secondary pointing menu">
+            <NavLink className="item" to='/'>Home</NavLink> 
+            <NavLink className="item" to='/questions'>Questions</NavLink> 
+            {currentUser && <NavLink className="item" to='/questions/new'>New Question</NavLink>} 
             {currentUser ?
-                <>
-                    <span>Welcome {currentUser.first_name}</span> |  
-                    <button onClick={handleSignOut}>Sign Out</button>| 
-                    <CurrentDateTime/>
-                </>
+                <div className="right menu">
+                    <div className="item">
+                        <div className="ui orange label">
+                            <CurrentDateTime/>
+                        </div>
+                    </div>
+                    <div className="item">Welcome {currentUser.first_name}</div>   
+                    <button className="ui primary blue button" onClick={handleSignOut}>Sign Out</button>
+                    
+                </div>
                 :
-                <>
-                    <NavLink to={"/sign-in"}>Sign In</NavLink> | 
-                    <NavLink to={"/sign-up"}>Sign Up</NavLink>
-                </>
+                <div className="right menu">
+                    <NavLink className="item" to={"/sign-in"}>Sign In</NavLink> 
+                    <NavLink className="item" to={"/sign-up"}>Sign Up</NavLink>
+                </div>
             }
         </nav>
     )

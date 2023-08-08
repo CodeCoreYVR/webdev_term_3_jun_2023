@@ -47,7 +47,7 @@ class NewQuestion extends Component {
                 />
                 {/* <input name="title" placeholder="Enter title" value={title} onChange={this.handleChange} />
                 <input name="body" placeholder="Enter body" value={body} onChange={this.handleChange} /> */}
-                <button onClick={this.addQuestion}>Add Question</button>
+                <button className="ui right floated large blue button" onClick={this.addQuestion}>Add Question</button>
             </>
 
         )

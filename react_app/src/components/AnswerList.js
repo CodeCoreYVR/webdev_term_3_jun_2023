@@ -6,7 +6,7 @@ const AnswerList = ({ answers }) => {
         <>
             {
                 answers?.length && <div>
-                    <h4>Answers:</h4>
+                    <h4 className="ui horizontal divider header">Answers:</h4>
                     {
                         answers.map((answer, index) => {
                             return <AnswerDetails
