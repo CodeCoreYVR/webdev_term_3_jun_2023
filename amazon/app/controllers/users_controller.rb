@@ -28,7 +28,7 @@ class UsersController < ApplicationController
     if @user.save
       # This is how we set a session variable
       session[:user_id] = @user.id
-      find_user_location # defined in app/controllers/application_controller.rb
+      set_user_location # defined in app/controllers/application_controller.rb
       redirect_to home_path
     else
       render 'new'

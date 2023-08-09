@@ -52,6 +52,27 @@
         <% end %>
       </div>
     </div>
+
+    <% if @product&.faqs&.length > 0 %>
+      <div class="card-header bg-secondary text-white">
+        <h3 class="card-title">FAQs</h3>
+      </div>
+      <ul>
+        <% @product.faqs.each do |faq| %>
+          <li class="faqs-show">
+            <div class="faqs-bottom-padding">
+              <h3>Question:</h3>
+              <p class="card-text qna-show"><%= faq.question %></p>
+            </div>
+            <div>
+              <h3>Answer:</h3>
+              <p class="card-text qna-show"><%= faq.answer %></p>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+
     <div class="card-header bg-secondary text-white">
       <h3 class="card-title">Create Review:</h3>
     </div>
