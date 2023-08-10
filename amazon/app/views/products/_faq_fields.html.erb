@@ -1,0 +1,17 @@
+<div class='nested-fields faqs-background'>
+  <div class="form-group faqs-bottom-padding">
+    <strong><%= f.label "question:" %></strong>
+    <%= f.text_field :question, class: "form-control" %>
+  </div>
+  <div class="form-group faqs-bottom-padding">
+    <strong><%= f.label "answer:" %></strong>
+    <%= f.text_field :answer, class: "form-control" %>
+  </div>
+  <div class="d-flex justify-content-around faqs-bottom-padding">
+    <% if @product&.user_id === current_user&.id %>
+      <% if f.object.persisted? %>
+          <%= link_to_remove_association "delete", f, class: 'btn btn-secondary' %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

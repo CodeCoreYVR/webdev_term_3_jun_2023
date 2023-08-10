@@ -32,7 +32,7 @@ class ProductsController < ApplicationController
     # If the product is successfully saved to the database
     if @product.save
       # Create a new tagging for each tag that was checked
-      handle_tags(@product)
+      # handle_tags(@product)
 
       ProductMailer.delay(run_at: 15.seconds.from_now).notify_product_owner(@product)
       # Redirect to the products index page
@@ -90,10 +90,10 @@ class ProductsController < ApplicationController
   end
 
   private
-  
+
   def product_params
     # Returns a sanitized hash of the params with nothing extra
-    params.require(:product).permit(:title, :description, :price, :tag_names)
+    params.require(:product).permit(:title, :description, :price, :tag_names, faqs_attributes: [:id, :question, :answer, :_destroy])
   end
 
   # Method to find the product with the given id. This is used as a before_action to avoid repeating code.

@@ -1,11 +1,11 @@
 <div class="container mt-5">
   <h1 class="text-center">Product Edit</h1>
-  <div class="card border-light mx-auto">
-    <div class="card-header bg-secondary text-white">
-      <h3 class="card-title"><%= @product.title %></h3>
-    </div>
-    <div class="card-body">
-      <%= form_for @product do |f| %>
+    <%= form_for @product do |f| %>
+    <div class="card border-light mx-auto">
+      <div class="card-header bg-secondary text-white">
+        <h3 class="card-title"><%= @product.title %></h3>
+      </div>
+      <div class="card-body">
         <div class="form-group">
           <strong><%= f.label "title:" %></strong>
           <%= f.text_field :title, class: 'form-control' %>
@@ -25,10 +25,28 @@
           <strong><%= f.label :tag_names, "Tags (separated by commas)" %>:</strong>
           <%= f.text_field :tag_names, value: @product.tags.map(&:name).join(', '), class: 'form-control' %>
         </div>
-        <div class="card-footer text-center">
-          <%= f.submit 'Update', class: 'btn btn-secondary' %>
-        </div>
-      <% end %>
+      </div>
+
+      <div class="card-header bg-secondary text-white">
+        <h3 class="card-title">FAQs</h3>
+      </div>
+      <div class="card-body">
+        <% if @product&.errors&.include?(:faqs) %>
+          <ul>
+            <li class="errors"><%= @product.errors[:faqs].join(', ') %></li>
+          </ul>
+        <% end %>
+        <div class="d-flex justify-content-around faqs-bottom-padding">
+          <%= link_to_add_association 'Add FAQ', f, :faqs, class: 'btn btn-secondary' %>
+        </div>   
+        <%= f.fields_for :faqs do |faq_form| %>
+          <%= render 'faq_fields', f: faq_form %>
+        <% end %>            
+      </div>
+
+      <div class="card-footer text-center">
+        <%= f.submit 'Update', class: 'btn btn-secondary' %>
+      </div>
     </div>
-  </div>
+  <% end %>
 </div>

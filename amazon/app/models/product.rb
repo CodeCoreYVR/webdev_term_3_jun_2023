@@ -8,6 +8,9 @@ class Product < ApplicationRecord
   
   has_many :taggings, dependent: :destroy
   has_many :tags, through: :taggings
+
+  has_many :faqs, dependent: :destroy
+  accepts_nested_attributes_for :faqs, reject_if: :all_blank, allow_destroy: true
   
   belongs_to :user
 
@@ -23,6 +26,8 @@ class Product < ApplicationRecord
   validates :title, presence: true, uniqueness: { case_sensitive: false }
   validates :price, numericality: { greater_than: 0 }
   validates :description, presence: true, length: { minimum: 10 }
+
+  validate :maximum_faqs
 
   # Accepts comma-separated tag names, ensures tags exist, and assigns them to the product. Handles potential duplicate creation.
   def tag_names=(names)
@@ -42,6 +47,10 @@ class Product < ApplicationRecord
 
   # Private methods
   private
+
+  def maximum_faqs
+    errors.add(:faqs, "Maximum 5 FAQs allowed") if faqs.size > 5
+  end
 
   # Method to round the price attribute to 2 decimal places before saving it
   def round_price_to_two_decimal_places

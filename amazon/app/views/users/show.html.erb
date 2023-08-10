@@ -1,0 +1,101 @@
+<div class="container mt-5">
+  <h1 class="text-center">Admin User Profile</h1>
+  <div class="card border-light mx-auto wide-container">
+    <% if current_user.admin %>
+      <div class="card-header bg-secondary text-white">
+        <h2 class="card-title">User</h2>
+      </div>
+      <div class="card-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><%= link_to @user.id, edit_user_path(@user) if can? :admin, User %></td>
+              <td><%= @user.first_name %></td>
+              <td><%= @user.last_name %></td>
+              <td><%= @user.email %></td>
+              <td><%= button_to 'Edit', edit_user_path(@user), method: :get, class: 'btn btn-secondary' %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card-header bg-secondary text-white">
+        <h2 class="card-title">Map</h2>
+      </div>
+      <div class="card-body">
+        <div id="map"></div>
+      </div>
+
+      <div class="card-header bg-secondary text-white">
+        <h2 class="card-title">Locations</h2>
+      </div>
+      <div class="card-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Coordinates</th>
+              <th>Country</th>
+              <th>Region</th>
+              <th>City</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @locations.each do |location| %>
+              <tr>
+                <td><%= location.id %></td>
+                <td>[<%= location.longitude %>, <%= location.latitude %>]</td>
+                <td><%= location.country %></td>
+                <td><%= location.region %></td>
+                <td><%= location.city %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <div class="card-header bg-secondary text-white">
+        <h2 class="card-title text-center">404 Page Not Found!</h2>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+<script>
+  function initMap() {
+    handler = Gmaps.build('Google');
+    handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+      var markers = [];
+      <% @locations.each do |location| %>
+        markers.push({
+          "lat": <%= location.latitude %>, // latitude
+          "lng": <%= location.longitude %>, // longitude
+          "picture": {
+            "url": "http://people.mozilla.com/~faaborg/files/shiretoko/firefoxIcon/firefox-32.png",
+            "width":  32,
+            "height": 32
+          },
+          "infowindow": "hello!"
+        });
+      <% end %>
+      markers = handler.addMarkers(markers);
+      handler.bounds.extendWith(markers);
+      handler.fitMapToBounds();
+    });
+  }
+</script>
+<script src="//maps.google.com/maps/api/js?key=<%= ENV['GOOGLE_MAPS_API_KEY'] %>&callback=initMap" async defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer.js"></script>
+<script src='//cdn.jsdelivr.net/gmaps4rails/2.1.2/gmaps4rails.js'> </script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js'> </script>
+

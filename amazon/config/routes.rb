@@ -29,7 +29,7 @@ Rails.application.routes.draw do
 
   # Routes for user authentication
   # Defines the "signup" and "login" routes
-  resources :users, only: [:new, :create, :edit, :update] do
+  resources :users, only: [:new, :create, :edit, :update, :show] do
     member do
       get 'favorites'
     end
